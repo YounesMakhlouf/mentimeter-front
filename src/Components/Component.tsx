@@ -170,7 +170,3 @@ export const Paragraph = styled.p`
     letter-spacing: 0.03125rem;
     margin: 20px 0 30px;
 `;
-
-export const errorStyle = {
-    color: 'red', listStyleType: 'none', padding: '0',
-}

@@ -1,7 +1,7 @@
 import {socket} from '../socket.js'
 import {useNavigate} from "react-router";
 import styled from "styled-components";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Navigate, useLocation} from "react-router-dom";
 
 export default function QuestionPage() {
@@ -9,6 +9,7 @@ export default function QuestionPage() {
     const [questionNumber, setQuestionNumber] = useState(0);
     const [answerState, setAnswerState] = useState("");
     const [isAnswering, setIsAnswering] = useState(false);
+    const isAnsweringRef = useRef(false);
 
     const navigate = useNavigate();
 
@@ -28,43 +29,48 @@ export default function QuestionPage() {
             questionNumber: questionNumber,
             playerPseudo: localStorage.getItem('name')
         });
+        isAnsweringRef.current = true;
+        setIsAnswering(true);
     }
 
     useEffect(() => {
-        socket.emit("sendQuestion", {
-            quizCode: code, questionNumber: 0
-        });
+        if (!code) return;
+        socket.emit("sendQuestion", {quizCode: code, questionNumber: 0});
 
-        socket.on("question", (question) => {
-            setIsAnswering(false)
-            setQuestions((prevQuestions) => [...prevQuestions, question]);
-            console.log("questions", questions)
+        let timer: ReturnType<typeof setTimeout> | undefined;
+
+        const onQuestion = (question) => {
+            isAnsweringRef.current = false;
+            setIsAnswering(false);
+            setQuestions((prev) => [...prev, question]);
             setQuestionNumber(question.questionNumber);
-            const questionTimer = setTimeout(() => {
-                if (!isAnswering) {
+
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (!isAnsweringRef.current) {
                     socket.emit("getAnswer", {
                         quizCode: code,
                         answer: "",
-                        questionNumber: questionNumber,
-                        playerPseudo: localStorage.getItem('name')
+                        questionNumber: question.questionNumber,
+                        playerPseudo: localStorage.getItem('name'),
                     });
                 }
             }, 10000);
-            return () => clearTimeout(questionTimer);
-        });
+        };
 
-        socket.on("endQuiz", (payload) => {
-            navigate('/leaderboard', {
-                state: {payload: payload}
-            });
-            // localStorage.removeItem('name');
-        });
+        const onEndQuiz = (payload) => {
+            navigate('/leaderboard', {state: {payload}});
+        };
+
+        socket.on("question", onQuestion);
+        socket.on("endQuiz", onEndQuiz);
 
         return () => {
-            socket.off("question");
-            socket.off("endQuiz");
+            if (timer) clearTimeout(timer);
+            socket.off("question", onQuestion);
+            socket.off("endQuiz", onEndQuiz);
         };
-    }, [navigate]);
+    }, [code, navigate]);
 
     if (!code) {
         return <Navigate to="/" replace />;

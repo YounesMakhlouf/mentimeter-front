@@ -1,5 +1,6 @@
 import {FC, useState} from 'react';
 import * as Components from './Component.tsx';
+import {errorStyle} from './component-styles.ts';
 import {Navigate, useNavigate} from "react-router";
 import {reauthSocket} from "../socket.js";
 import {API_URL, isTokenValid, setAuth} from "../api.ts";
@@ -60,7 +61,7 @@ const Authentification: FC<AuthentificationProps> = ({signIn, toggle}) => {
                                           onChange={handleInputChange}/>
                         <Components.Button>Sign Up</Components.Button>
                         {error && <Components.Paragraph>
-                            <ul style={Components.errorStyle}>
+                            <ul style={errorStyle}>
                                 {error[0]}
                             </ul>
                         </Components.Paragraph>}
@@ -78,7 +79,7 @@ const Authentification: FC<AuthentificationProps> = ({signIn, toggle}) => {
                         {/*<Components.Anchor href='#'>Forgot your password?</Components.Anchor>*/}
                         <Components.Button>Sign In</Components.Button>
                         {error && <Components.Paragraph>
-                            <ul style={Components.errorStyle}>
+                            <ul style={errorStyle}>
                                 {error[0]}
                             </ul>
                         </Components.Paragraph>}
