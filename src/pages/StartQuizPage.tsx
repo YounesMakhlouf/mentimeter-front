@@ -4,6 +4,8 @@ import {Button} from "../Components/Component.tsx";
 import {socket, Participant} from "../socket.ts";
 import {Link, Navigate, useLocation} from "react-router";
 
+const SESSION_KEY = 'startquiz:sessionCode';
+
 const Page = styled.div`
     text-align: center;
     margin-top: 1rem;
@@ -58,7 +60,11 @@ const ParticipantCircle = ({avatar, playerName}: Participant) => (
 export default function StartQuizPage() {
     const location = useLocation();
     const [participants, setParticipants] = useState<Participant[]>([]);
-    const sessionCode: string | undefined = location.state?.sessionCode;
+    const sessionCode: string | null = location.state?.sessionCode ?? sessionStorage.getItem(SESSION_KEY);
+
+    useEffect(() => {
+        if (sessionCode) sessionStorage.setItem(SESSION_KEY, sessionCode);
+    }, [sessionCode]);
 
     useEffect(() => {
         const onPlayerJoined = (newParticipant: Participant) => {

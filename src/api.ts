@@ -18,6 +18,9 @@ export const isTokenValid = () => {
 export const clearAuth = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('loginInfo');
+    sessionStorage.removeItem('startquiz:sessionCode');
+    sessionStorage.removeItem('qspage:quizCode');
+    sessionStorage.removeItem('leaderboard:payload');
 };
 
 export const setAuth = (loginInfo: { email: string; username: string; accessToken: string }) => {

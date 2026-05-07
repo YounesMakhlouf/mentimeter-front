@@ -3,6 +3,8 @@ import {Navigate, useLocation, useNavigate} from "react-router";
 import styled from "styled-components";
 import {ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState} from "react";
 
+const QUIZ_CODE_KEY = 'qspage:quizCode';
+
 function getRandomColor() {
     const min = 150;
     const max = 256;
@@ -81,7 +83,11 @@ export default function QuestionPage() {
     };
 
     const location = useLocation();
-    const code: string | undefined = location.state?.payload?.quizCode;
+    const code: string | null = location.state?.payload?.quizCode ?? sessionStorage.getItem(QUIZ_CODE_KEY);
+
+    useEffect(() => {
+        if (code) sessionStorage.setItem(QUIZ_CODE_KEY, code);
+    }, [code]);
 
     const sendAnswer = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
