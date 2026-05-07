@@ -23,12 +23,7 @@ export default function QuizBox(props) {
         justifyContent: "center"
     }
     const handleButtonClick = () => {
-        const userinfo = JSON.parse(localStorage.getItem('loginInfo'))
-        const payload = {
-            quizId: props.quiz.id, ownerId: userinfo.email
-        }
-        console.log(payload);
-        socket.emit('createQuizSession', payload)
+        socket.emit('createQuizSession', { quizId: props.quiz.id })
     }
 
 

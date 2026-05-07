@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {useNavigate} from "react-router";
 import {useLocation} from 'react-router-dom';
 import {FaTrash} from "react-icons/fa";
+import {authFetch} from "../api.ts";
 
 export const Topics = {
     ANIMALS: 'animals',
@@ -120,8 +121,6 @@ select.topic-dropdown {
 function BuildQuiz() {
     const location = useLocation();
     let quizName = location.state.quizName;
-    const userinfo = JSON.parse(localStorage.getItem('loginInfo'))
-    const email = userinfo['email']
     const navigate = useNavigate()
     const [topic, setTopic] = useState('');
     const [questions, setQuestions] = useState([{text: '', options: [''], validity: [false], correctAnswer: ''}]);
@@ -199,26 +198,21 @@ function BuildQuiz() {
             question.correctAnswer = question.options[question.validity.indexOf(true)];
         });
         const quizData = {
-            name: quizName, userEmail: email, code: null, topic: topic, questions: questions.map(question => ({
+            name: quizName, code: null, topic: topic, questions: questions.map(question => ({
                 question: question.text, options: question.options.map((option, index) => ({
                     label: option, isCorrect: question.validity[index]
                 })),correctAnswer: question.correctAnswer
             }))
         };
-        console.log(quizData);
 
-        fetch('http://localhost:3000/quizzes', {
-            method: 'POST', headers: {
-                'Content-Type': 'application/json',
-            }, body: JSON.stringify(quizData)
+        authFetch('/quizzes', {
+            method: 'POST',
+            body: JSON.stringify(quizData),
         })
-            .then(data => {
-                console.log(data);
-                navigate('/home');
-                console.log("la ileh ela lah");
-            })
-            .catch(error => {
+            .then(() => navigate('/home'))
+            .catch((error) => {
                 console.error('Error:', error);
+                setErrorMessage('Failed to save quiz. Please try again.');
             });
     };
 

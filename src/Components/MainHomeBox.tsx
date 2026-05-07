@@ -1,6 +1,7 @@
 import QuizBox from "./QuizBox.tsx";
 import CreateQuizPopup from "./CreateQuizPopup.tsx";
 import {useEffect, useState} from "react";
+import {authFetch} from "../api.ts";
 
 export default function MainHomeBox(props) {
     const [quizzes, setQuizzes] = useState([]);
@@ -9,14 +10,9 @@ export default function MainHomeBox(props) {
     const email = userinfo != null ? userinfo['email'] : "stranger@gmail.com"
 
     useEffect(() => {
-        fetch(`http://localhost:3000/users/${email}/quizzes`)
-            .then((response) => {
-                return response.json()
-            })
-            .then((data) => {
-                console.log("this user's quizzes are", data)
-                setQuizzes(data);
-            })
+        authFetch<{ id: string; name: string }[]>(`/users/${email}/quizzes`)
+            .then((data) => setQuizzes(data))
+            .catch((err) => console.error('Failed to load quizzes', err))
     }, [email])
 
     return (<div className="flow">

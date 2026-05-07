@@ -1,6 +1,7 @@
 import {FC, useState} from 'react';
 import * as Components from './Component.tsx';
 import {Navigate, useNavigate} from "react-router";
+import {reauthSocket} from "../socket.js";
 
 interface AuthentificationProps {
     signIn: boolean;
@@ -34,6 +35,10 @@ const Authentification: FC<AuthentificationProps> = ({signIn, toggle}) => {
                 console.log("data : ", data);
                 if (!data['status'] && !data['statusCode']) {
                     localStorage.setItem('loginInfo', JSON.stringify(data));
+                    if (data['accessToken']) {
+                        localStorage.setItem('token', data['accessToken']);
+                    }
+                    reauthSocket();
                     navigate('/home')
                 } else {
                     const errorMessages = Array.isArray(data.message) ? data.message : [data.message];
