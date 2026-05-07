@@ -37,7 +37,7 @@ export async function authFetch<T = unknown>(path: string, init: RequestInit = {
     });
     if (res.status === 401) {
         clearAuth();
-        window.location.href = '/authentication';
+        window.dispatchEvent(new Event('app:unauthorized'));
         throw new Error('Unauthorized');
     }
     if (!res.ok) {

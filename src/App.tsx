@@ -9,22 +9,28 @@ import StartQuizPage from "./pages/StartQuizPage.tsx";
 import QuestionPage from './pages/QuestionPage.tsx';
 import WelcomePage from "./pages/WelcomePage.tsx";
 import LeaderboardPage from "./pages/LeaderboardPage.tsx";
+import RootLayout from "./Components/RootLayout.tsx";
 import {homeLoader} from "./loaders.ts";
 
 const router = createBrowserRouter([
-    {path: '/', element: <WelcomePage/>},
     {
-        element: <PrivateRoutes/>,
+        element: <RootLayout/>,
         children: [
-            {path: '/home', element: <Home/>, loader: homeLoader},
-            {path: '/build', element: <BuildQuiz/>},
+            {path: '/', element: <WelcomePage/>},
+            {
+                element: <PrivateRoutes/>,
+                children: [
+                    {path: '/home', element: <Home/>, loader: homeLoader},
+                    {path: '/build', element: <BuildQuiz/>},
+                ],
+            },
+            {path: '/logout', element: <LogoutComponent/>},
+            {path: '/authentication', element: <Authentification/>},
+            {path: '/startquiz', element: <StartQuizPage/>},
+            {path: '/qspage', element: <QuestionPage/>},
+            {path: '/leaderboard', element: <LeaderboardPage/>},
         ],
     },
-    {path: '/logout', element: <LogoutComponent/>},
-    {path: '/authentication', element: <Authentification/>},
-    {path: '/startquiz', element: <StartQuizPage/>},
-    {path: '/qspage', element: <QuestionPage/>},
-    {path: '/leaderboard', element: <LeaderboardPage/>},
 ]);
 
 function App() {

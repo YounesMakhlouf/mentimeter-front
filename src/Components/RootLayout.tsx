@@ -1,0 +1,14 @@
+import {useEffect} from 'react';
+import {Outlet, useNavigate} from 'react-router';
+
+export default function RootLayout() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const onUnauthorized = () => navigate('/authentication');
+        window.addEventListener('app:unauthorized', onUnauthorized);
+        return () => window.removeEventListener('app:unauthorized', onUnauthorized);
+    }, [navigate]);
+
+    return <Outlet/>;
+}
