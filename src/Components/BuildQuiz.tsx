@@ -4,7 +4,7 @@ import {useLocation, Navigate} from 'react-router-dom';
 import {FaTrash} from "react-icons/fa";
 import {authFetch} from "../api.ts";
 
-export const Topics = {
+const Topics = {
     ANIMALS: 'animals',
     SCIENCE: 'science',
     PHYSICS: 'physics',
@@ -22,8 +22,6 @@ export const Topics = {
     PROGRAMMING: 'programming',
     SPACE: 'space',
 } as const;
-
-export type Topic = (typeof Topics)[keyof typeof Topics];
 
 const styles = `
 
@@ -128,7 +126,7 @@ function BuildQuiz() {
     if (!location.state?.quizName) {
         return <Navigate to="/home" replace />;
     }
-    let quizName = location.state.quizName;
+    const quizName: string = location.state.quizName;
 
     const addQuestion = () => {
         setQuestions([...questions, {text: '', options: [''], validity: [false], correctAnswer: ''}]);
@@ -195,17 +193,13 @@ function BuildQuiz() {
             return;
         }
 
-        if (quizName === "") {
-            quizName = "Untitled Quiz-" + topic;
-        }
-        questions.map(question => {
-            question.correctAnswer = question.options[question.validity.indexOf(true)];
-        });
         const quizData = {
             name: quizName, code: null, topic: topic, questions: questions.map(question => ({
-                question: question.text, options: question.options.map((option, index) => ({
+                question: question.text,
+                options: question.options.map((option, index) => ({
                     label: option, isCorrect: question.validity[index]
-                })),correctAnswer: question.correctAnswer
+                })),
+                correctAnswer: question.options[question.validity.indexOf(true)],
             }))
         };
 

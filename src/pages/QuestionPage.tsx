@@ -1,8 +1,17 @@
 import {socket} from '../socket.js'
 import {useNavigate} from "react-router";
 import styled from "styled-components";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {Navigate, useLocation} from "react-router-dom";
+
+function getRandomColor() {
+    const min = 150;
+    const max = 256;
+    const r = Math.floor(Math.random() * (max - min) + min);
+    const g = Math.floor(Math.random() * (max - min) + min);
+    const b = Math.floor(Math.random() * (max - min) + min);
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 export default function QuestionPage() {
     const [questions, setQuestions] = useState([]);
@@ -72,23 +81,17 @@ export default function QuestionPage() {
         };
     }, [code, navigate]);
 
+    const borderColors = useMemo(
+        () => [getRandomColor(), getRandomColor(), getRandomColor()],
+        [],
+    );
+
     if (!code) {
         return <Navigate to="/" replace />;
     }
 
     const currentQuestion = questions.find(q => q.questionNumber === questionNumber) || {};
     const {question, options} = currentQuestion.question || {};
-
-    function getRandomColor() {
-        const min = 150;
-        const max = 256;
-        const r = Math.floor(Math.random() * (max - min) + min);
-        const g = Math.floor(Math.random() * (max - min) + min);
-        const b = Math.floor(Math.random() * (max - min) + min);
-        return `rgb(${r}, ${g}, ${b})`;
-    }
-
-    const borderColors = [getRandomColor(), getRandomColor(), getRandomColor()];
 
     const Container = styled.div`
         background-color: #fff;
