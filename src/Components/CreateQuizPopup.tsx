@@ -1,61 +1,69 @@
 import Popup from 'reactjs-popup';
 import {FaPlusCircle} from "react-icons/fa";
-import {CSSProperties, useState} from "react";
-import { FaRegCircleXmark } from "react-icons/fa6";
+import {useState} from "react";
+import {FaRegCircleXmark} from "react-icons/fa6";
+import styled from "styled-components";
 import CreateQuizForm from "./CreateQuizForm.tsx";
 
-export default function CreateQuizPopup(){
+const TriggerButton = styled.button`
+    display: flex;
+    align-items: center;
+    height: 4em;
+    border-radius: 50px;
+    font-size: 1.1rem;
+`;
+
+const PlusIcon = styled(FaPlusCircle)`
+    margin-right: 1em;
+`;
+
+const ModalBox = styled.div`
+    width: 60%;
+    height: auto;
+    background-color: #F6F5F2;
+    border-radius: 12px;
+    position: fixed;
+    top: 50%;
+    left: 56%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 2em;
+`;
+
+const ModalOverlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(6px);
+    z-index: 0;
+`;
+
+const CloseIcon = styled(FaRegCircleXmark)`
+    height: 1.5em;
+    width: 1.5em;
+    align-self: flex-end;
+`;
+
+export default function CreateQuizPopup() {
     const [open, setOpen] = useState(false);
-    const buttonStyle={
-        display: 'flex',
-        alignItems: 'center',
-        height:"4em",
-        borderRadius:"50px ",
-        fontSize:"1.1rem"
-    }
-    const modalStyle : CSSProperties ={
-        width:"60%",
-        height: "auto",
-        backgroundColor:"#F6F5F2",
-        borderRadius: "12px",
-        position: "fixed",
-        top: "50%",
-        left: "56%",
-        transform: "translate(-50%, -50%)",
-        zIndex: 9999,
-        display: "flex",
-        flexDirection:"column",
-        padding:" 0.5em 2em"
-
-
-    }
-    const overlayStyle : CSSProperties = {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backdropFilter: "blur(6px)", // Apply a blur effect
-        zIndex: 0, // Ensure the overlay is below the modal
-    };
-
     const closeModal = () => setOpen(false);
     return (
         <div>
-            <button type="button" style={buttonStyle} className="button" onClick={() => setOpen(o => !o)}>
-                    <FaPlusCircle style={{marginRight: "1em"}}/>New Quiz
-            </button>
-            {open && <div style={overlayStyle} onClick={closeModal}></div>}
-            <Popup
-                open={open}
-                closeOnDocumentClick
-                onClose={closeModal} >
-                <div className="modal" style={modalStyle}>
+            <TriggerButton type="button" className="button" onClick={() => setOpen((o) => !o)}>
+                <PlusIcon/>New Quiz
+            </TriggerButton>
+            {open && <ModalOverlay onClick={closeModal}/>}
+            <Popup open={open} closeOnDocumentClick onClose={closeModal}>
+                <ModalBox className="modal">
                     <a className="close" onClick={closeModal}>
-                        <FaRegCircleXmark  style={{height:"1.5em",width:"1.5em",alignSelf:"flex-end"}}/>
+                        <CloseIcon/>
                     </a>
                     <CreateQuizForm/>
-                </div>
+                </ModalBox>
             </Popup>
         </div>
     );

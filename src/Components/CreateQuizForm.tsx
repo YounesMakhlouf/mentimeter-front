@@ -1,35 +1,48 @@
-import { ChangeEvent, CSSProperties, useState } from "react";
-import { randomQuizName } from '../utils/quizname-generator.ts';
-import { useNavigate } from "react-router";
+import {ChangeEvent, useState} from "react";
+import {randomQuizName} from '../utils/quizname-generator.ts';
+import {useNavigate} from "react-router";
+import styled from "styled-components";
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+`;
+
+const NameInput = styled.input`
+    width: 100%;
+    height: 3em;
+    border-radius: 50px;
+    border: none;
+    padding-left: 1em;
+`;
+
+const SubmitButton = styled.button`
+    width: 10em;
+    height: 4em;
+    border-radius: 50px;
+    margin-top: 1em;
+    background-color: rgba(225, 175, 209, 0.94);
+`;
 
 export default function CreateQuizForm() {
-    const [formData, setFormData] = useState({
-        name: ''
-    });
+    const [formData, setFormData] = useState({name: ''});
     const navigate = useNavigate();
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const formStyle: CSSProperties = {
-        display: "flex", flexDirection: "column", justifyContent: "flex-start"
-    };
-    const buttonStyle = {
-        width: "10em", height: "4em", borderRadius: "50px", marginTop: "1em", backgroundColor: "rgba(225,175,209,0.94)"
-    }
-    const inputStyle = {
-        width: "100%", height: "3em", borderRadius: "50px", border: "none", paddingLeft: "1em"
+        const {name, value} = event.target;
+        setFormData({...formData, [name]: value});
     };
 
     return (
         <>
             <h3>Let's give your new quiz a name </h3>
-            <form onSubmit={(event) => { event.preventDefault(); navigate('/build', { state: { quizName: formData.name } }) }} style={formStyle}>
+            <Form onSubmit={(event) => {
+                event.preventDefault();
+                navigate('/build', {state: {quizName: formData.name}});
+            }}>
                 <div>
-                    <input
-                        style={inputStyle}
+                    <NameInput
                         type="text"
                         id="name"
                         name="name"
@@ -38,8 +51,8 @@ export default function CreateQuizForm() {
                         placeholder={randomQuizName}
                     />
                 </div>
-                <button style={buttonStyle}>Let's Go !</button>
-            </form>
+                <SubmitButton>Let's Go !</SubmitButton>
+            </Form>
         </>
-    )
+    );
 }

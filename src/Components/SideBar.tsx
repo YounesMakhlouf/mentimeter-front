@@ -1,28 +1,36 @@
 import {Link} from "react-router";
+import styled from "styled-components";
 import LogoName from "./LogoName.tsx";
-import {CSSProperties} from "react";
 
-export default function sideBar() {
-    const sideBarStyle: CSSProperties = {
-        display: 'flex',
-        flexDirection: "column",
-        height: '100vh',
-        justifyContent: "space-between",
-        padding: "1em",
-        marginInlineEnd: "2.5em"
-    }
+const Aside = styled.aside`
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+    padding: 1em;
+    margin-inline-end: 2.5em;
+`;
 
-    const logoutFunction=()=>{
-        localStorage.clear()
-    }
-    return (<aside className="side-bar" style={sideBarStyle}>
-        <LogoName/>
-        <nav style={{
-            display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: 'flex-start', gap: '0.5em'
-        }}>
-            <div><a>About us</a></div>
-            <div><a>Help and support</a></div>
-            <Link to="/" className="btn" onClick={logoutFunction}>Logout</Link>
-        </nav>
-    </aside>)
+const NavList = styled.nav`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 0.5em;
+`;
+
+export default function SideBar() {
+    const logoutFunction = () => {
+        localStorage.clear();
+    };
+    return (
+        <Aside className="side-bar">
+            <LogoName/>
+            <NavList>
+                <div><a>About us</a></div>
+                <div><a>Help and support</a></div>
+                <Link to="/" className="btn" onClick={logoutFunction}>Logout</Link>
+            </NavList>
+        </Aside>
+    );
 }
