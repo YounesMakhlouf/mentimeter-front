@@ -1,19 +1,32 @@
 import QuizBox from "./QuizBox.tsx";
 import CreateQuizPopup from "./CreateQuizPopup.tsx";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router";
 import {authFetch} from "../api.ts";
+import {useAuth} from "../hooks/useAuth.ts";
+import {socket} from "../socket.js";
 
 export default function MainHomeBox(props) {
     const [quizzes, setQuizzes] = useState([]);
-
-    const userinfo = JSON.parse(localStorage.getItem('loginInfo'))
-    const email = userinfo != null ? userinfo['email'] : "stranger@gmail.com"
+    const {email} = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (!email) return;
         authFetch<{ id: string; name: string }[]>(`/users/${email}/quizzes`)
             .then((data) => setQuizzes(data))
             .catch((err) => console.error('Failed to load quizzes', err))
     }, [email])
+
+    useEffect(() => {
+        const onSuccess = (sessionCode) => {
+            navigate('/startquiz', {state: {sessionCode}});
+        };
+        socket.on('QuizCreationSuccess', onSuccess);
+        return () => {
+            socket.off('QuizCreationSuccess', onSuccess);
+        };
+    }, [navigate])
 
     return (<div className="flow">
         <h1 style={{color: "#6C0345"}}>

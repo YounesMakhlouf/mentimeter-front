@@ -2,6 +2,7 @@ import {FC, useState} from 'react';
 import * as Components from './Component.tsx';
 import {Navigate, useNavigate} from "react-router";
 import {reauthSocket} from "../socket.js";
+import {API_URL, isTokenValid, setAuth} from "../api.ts";
 
 interface AuthentificationProps {
     signIn: boolean;
@@ -22,17 +23,13 @@ const Authentification: FC<AuthentificationProps> = ({signIn, toggle}) => {
 
     const handleFormSubmit = (event, action) => {
         event.preventDefault();
-        console.log(inputDetails)
-        fetch(`http://localhost:3000/authentication/${action}`, {
+        fetch(`${API_URL}/authentication/${action}`, {
             method: "POST", body: JSON.stringify(inputDetails), headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         })
-            .then((res) => {
-                return res.json();
-            })
+            .then((res) => res.json())
             .then((data) => {
-                console.log("data : ", data);
                 if (!data['status'] && !data['statusCode']) {
                     if (action === 'register') {
                         toggle(true);
@@ -42,20 +39,17 @@ const Authentification: FC<AuthentificationProps> = ({signIn, toggle}) => {
                         setError(['Login response missing token. Please try again.']);
                         return;
                     }
-                    localStorage.setItem('loginInfo', JSON.stringify(data));
-                    localStorage.setItem('token', data['accessToken']);
+                    setAuth(data);
                     reauthSocket();
                     navigate('/home')
                 } else {
                     const errorMessages = Array.isArray(data.message) ? data.message : [data.message];
                     setError(errorMessages)
-                    console.log("errors:", errorMessages)
-
                 }
             });
     }
     return (<>
-        {!localStorage.getItem('loginInfo') ? <div className="centered_div">
+        {!isTokenValid() ? <div className="centered_div">
             <Components.Container>
                 <Components.SignUpContainer signinin={signIn}>
                     <Components.Form onSubmit={(event) => handleFormSubmit(event, 'register')}>

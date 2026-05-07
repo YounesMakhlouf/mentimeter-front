@@ -1,8 +1,6 @@
 import { io } from 'socket.io-client';
 
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3001';
-
-export const socket = io(URL, {
+export const socket = io(import.meta.env.VITE_SOCKET_URL, {
     auth: (cb) => cb({ token: localStorage.getItem('token') || null }),
 });
 

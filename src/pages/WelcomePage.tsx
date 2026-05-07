@@ -65,15 +65,15 @@ function WelcomePage() {
         'Fun, Fast, and Full of Facts!',
         'Join the Fun – Start a Quiz <span style="color: #cd7f32">Now!</span>'
     ];
-     useEffect(() => {
-        socket.on('question', (data) => {
-            console.log(data)
-            navigate('/qspage', {
-            state: {payload: data}
-        })
-            // setParticipants((prevParticipants) => [...prevParticipants, newParticipant]);
-        });
-    }, []);
+    useEffect(() => {
+        const onQuestion = (data) => {
+            navigate('/qspage', {state: {payload: data}});
+        };
+        socket.on('question', onQuestion);
+        return () => {
+            socket.off('question', onQuestion);
+        };
+    }, [navigate]);
 
     return (
         <>

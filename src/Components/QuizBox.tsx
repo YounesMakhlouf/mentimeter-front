@@ -1,12 +1,10 @@
-import {CSSProperties, useEffect, useState} from "react";
+import {CSSProperties, useState} from "react";
 import {Button} from "./Component.tsx";
 import {socket} from '../socket.js'
-import {useNavigate} from "react-router";
 
 
 export default function QuizBox(props) {
     const [isHovered, setIsHovered] = useState(false);
-    const navigate = useNavigate();
 
     const mainQuizBoxStyle: CSSProperties = {
         borderRadius: "0.5em",
@@ -25,19 +23,6 @@ export default function QuizBox(props) {
     const handleButtonClick = () => {
         socket.emit('createQuizSession', { quizId: props.quiz.id })
     }
-
-
-    useEffect(() => {
-        socket.on('QuizCreationSuccess', (sessionCode) => {
-            console.log(sessionCode)
-            navigate('/startquiz', {state: {sessionCode: sessionCode}});
-        });
-
-        // Cleanup on component unmount
-        return () => {
-            socket.off('QuizCreationSuccess');
-        };
-    }, [navigate]);
 
     return (<article className="flow">
         <div style={mainQuizBoxStyle}
