@@ -1,16 +1,13 @@
-import {FC, useState} from 'react';
+import {useState} from 'react';
 import * as Components from './Component.tsx';
 import {errorStyle} from './component-styles.ts';
 import {Navigate, useNavigate} from "react-router";
 import {reauthSocket} from "../socket.js";
 import {API_URL, isTokenValid, setAuth} from "../api.ts";
 
-interface AuthentificationProps {
-    signIn: boolean;
-    toggle: (signIn: boolean) => void;
-}
-
-const Authentification: FC<AuthentificationProps> = ({signIn, toggle}) => {
+const Authentification = () => {
+    const [signIn, setSignIn] = useState(true);
+    const toggle = (next: boolean) => setSignIn(next);
     const [inputDetails, setInputDetails] = useState([]);
     const [error, setError] = useState([]);
     const navigate = useNavigate()

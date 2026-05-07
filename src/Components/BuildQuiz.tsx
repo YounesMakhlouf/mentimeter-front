@@ -1,6 +1,5 @@
 import {useState} from 'react';
-import {useNavigate} from "react-router";
-import {useLocation, Navigate} from 'react-router-dom';
+import {Navigate, useLocation, useNavigate} from "react-router";
 import {FaTrash} from "react-icons/fa";
 import {authFetch} from "../api.ts";
 

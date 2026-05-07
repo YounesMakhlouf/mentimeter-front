@@ -1,8 +1,7 @@
 import {socket} from '../socket.js'
-import {useNavigate} from "react-router";
+import {Navigate, useLocation, useNavigate} from "react-router";
 import styled from "styled-components";
 import {useEffect, useMemo, useRef, useState} from "react";
-import {Navigate, useLocation} from "react-router-dom";
 
 function getRandomColor() {
     const min = 150;

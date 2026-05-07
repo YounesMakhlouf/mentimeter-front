@@ -1,7 +1,7 @@
 import {CSSProperties, useEffect, useState} from "react";
 import {Button} from "../Components/Component.tsx";
 import {socket} from "../socket";
-import {Link, Navigate, useLocation} from "react-router-dom";
+import {Link, Navigate, useLocation} from "react-router";
 
 export default function StartQuizPage() {
     const location = useLocation();

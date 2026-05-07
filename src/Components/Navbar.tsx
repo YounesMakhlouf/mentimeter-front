@@ -1,5 +1,5 @@
 import LogoName from "./LogoName.tsx";
-import {Link} from "react-router-dom";
+import {Link} from "react-router";
 import {CSSProperties} from "react";
 
 export default function Navbar(props) {

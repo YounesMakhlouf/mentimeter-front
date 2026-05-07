@@ -1,6 +1,6 @@
 import Podium from "../Components/Podium.tsx";
 import LeaderboardList from "../Components/LeaderboardList.tsx";
-import {Navigate, useLocation} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router';
 
 
 const LeaderboardPage = () => {

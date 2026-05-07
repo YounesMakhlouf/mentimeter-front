@@ -1,22 +1,13 @@
 import QuizBox from "./QuizBox.tsx";
 import CreateQuizPopup from "./CreateQuizPopup.tsx";
-import {useEffect, useState} from "react";
-import {useNavigate} from "react-router";
-import {authFetch} from "../api.ts";
-import {useAuth} from "../hooks/useAuth.ts";
+import {useEffect} from "react";
+import {useLoaderData, useNavigate} from "react-router";
 import {socket} from "../socket.js";
+import type {Quiz} from "../loaders.ts";
 
 export default function MainHomeBox(props) {
-    const [quizzes, setQuizzes] = useState([]);
-    const {email} = useAuth();
+    const {quizzes} = useLoaderData() as {quizzes: Quiz[]};
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!email) return;
-        authFetch<{ id: string; name: string }[]>(`/users/${email}/quizzes`)
-            .then((data) => setQuizzes(data))
-            .catch((err) => console.error('Failed to load quizzes', err))
-    }, [email])
 
     useEffect(() => {
         const onSuccess = (sessionCode) => {
