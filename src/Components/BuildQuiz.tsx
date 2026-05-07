@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useNavigate} from "react-router";
-import {useLocation} from 'react-router-dom';
+import {useLocation, Navigate} from 'react-router-dom';
 import {FaTrash} from "react-icons/fa";
 import {authFetch} from "../api.ts";
 
@@ -120,11 +120,15 @@ select.topic-dropdown {
 
 function BuildQuiz() {
     const location = useLocation();
-    let quizName = location.state.quizName;
     const navigate = useNavigate()
     const [topic, setTopic] = useState('');
     const [questions, setQuestions] = useState([{text: '', options: [''], validity: [false], correctAnswer: ''}]);
     const [errorMessage, setErrorMessage] = useState('');
+
+    if (!location.state?.quizName) {
+        return <Navigate to="/home" replace />;
+    }
+    let quizName = location.state.quizName;
 
     const addQuestion = () => {
         setQuestions([...questions, {text: '', options: [''], validity: [false], correctAnswer: ''}]);

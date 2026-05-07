@@ -1,13 +1,12 @@
 import {CSSProperties, useEffect, useState} from "react";
 import {Button} from "../Components/Component.tsx";
 import {socket} from "../socket";
-import {Link, useLocation} from "react-router-dom";
+import {Link, Navigate, useLocation} from "react-router-dom";
 
 export default function StartQuizPage() {
     const location = useLocation();
-    console.log(location)
-    const sessionCode = location.state?.sessionCode || "N/A";
     const [participants, setParticipants] = useState([]);
+    const sessionCode = location.state?.sessionCode;
 
     const avatarStyle = {
         width: "50px",
@@ -61,6 +60,10 @@ export default function StartQuizPage() {
 
     function handleStartQuiz() {
         socket.emit('sendQuestion', {quizCode: sessionCode, questionNumber: 0});
+    }
+
+    if (!sessionCode) {
+        return <Navigate to="/home" replace />;
     }
 
     return (<div style={startQuizStyle} className={"flow wrapper"}>

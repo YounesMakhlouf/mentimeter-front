@@ -1,11 +1,14 @@
 import Podium from "../Components/Podium.tsx";
 import LeaderboardList from "../Components/LeaderboardList.tsx";
-import {useLocation} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
 
 
 const LeaderboardPage = () => {
     const {state} = useLocation();
-    const participants = state['payload']
+    if (!state?.payload) {
+        return <Navigate to="/" replace />;
+    }
+    const participants = state.payload;
     const sortedParticipants = [...participants].sort((a, b) => b.score - a.score);
     const topParticipants = sortedParticipants.slice(0, 3);
     const restParticipants = sortedParticipants.slice(3);

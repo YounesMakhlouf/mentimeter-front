@@ -34,10 +34,16 @@ const Authentification: FC<AuthentificationProps> = ({signIn, toggle}) => {
             .then((data) => {
                 console.log("data : ", data);
                 if (!data['status'] && !data['statusCode']) {
-                    localStorage.setItem('loginInfo', JSON.stringify(data));
-                    if (data['accessToken']) {
-                        localStorage.setItem('token', data['accessToken']);
+                    if (action === 'register') {
+                        toggle(true);
+                        return;
                     }
+                    if (!data['accessToken']) {
+                        setError(['Login response missing token. Please try again.']);
+                        return;
+                    }
+                    localStorage.setItem('loginInfo', JSON.stringify(data));
+                    localStorage.setItem('token', data['accessToken']);
                     reauthSocket();
                     navigate('/home')
                 } else {

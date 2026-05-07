@@ -2,7 +2,7 @@ import {socket} from '../socket.js'
 import {useNavigate} from "react-router";
 import styled from "styled-components";
 import {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 
 export default function QuestionPage() {
     const [questions, setQuestions] = useState([]);
@@ -18,8 +18,7 @@ export default function QuestionPage() {
     };
 
     const location = useLocation();
-    console.log(location)
-    const code = location.state?.payload.quizCode || "N/A";
+    const code = location.state?.payload?.quizCode;
 
     const sendAnswer = (event) => {
         event.preventDefault();
@@ -66,6 +65,10 @@ export default function QuestionPage() {
             socket.off("endQuiz");
         };
     }, [navigate]);
+
+    if (!code) {
+        return <Navigate to="/" replace />;
+    }
 
     const currentQuestion = questions.find(q => q.questionNumber === questionNumber) || {};
     const {question, options} = currentQuestion.question || {};
