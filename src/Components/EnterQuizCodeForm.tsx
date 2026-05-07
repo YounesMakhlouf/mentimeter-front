@@ -1,5 +1,5 @@
-import {CSSProperties, useEffect, useState} from 'react';
-import {socket} from '../socket.js'
+import {CSSProperties, FormEvent, useEffect, useState} from 'react';
+import {socket} from '../socket.ts'
 import {randomPseudo} from "../utils/pseudoGenerator.ts"
 import {Button} from "./Component.tsx";
 
@@ -35,14 +35,14 @@ const QuizJoinForm = () => {
     const [selectedAvatar, setSelectedAvatar] = useState(predefinedAvatars[0]);
     const [joinStatus, setJoinStatus] = useState<JoinStatus>('idle');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         socket.emit('joinQuiz', {quizCode, playerName, avatar: selectedAvatar});
         localStorage.setItem('name', playerName);
         setJoinStatus('submitting');
     }
 
-    const handleAvatarSelect = (avatarUrl) => {
+    const handleAvatarSelect = (avatarUrl: string) => {
         setSelectedAvatar(avatarUrl);
     };
 
@@ -103,7 +103,7 @@ const QuizJoinForm = () => {
                 <img src="/assets/loader.gif" alt="loader" style={pacStyle}/>
             </div>
         )}
-        <Button type="submit" disabled={isLocked} onClick={handleSubmit}>
+        <Button type="submit" disabled={isLocked}>
             {joinStatus === 'joined' ? 'Joined' : joinStatus === 'submitting' ? 'Joining…' : 'Join now'}
         </Button>
     </form>);

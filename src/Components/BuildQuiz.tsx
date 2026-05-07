@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {ChangeEvent, useState} from 'react';
 import {Navigate, useLocation, useNavigate} from "react-router";
 import {FaTrash} from "react-icons/fa";
 import {authFetch} from "../api.ts";
@@ -131,19 +131,19 @@ function BuildQuiz() {
         setQuestions([...questions, {text: '', options: [''], validity: [false], correctAnswer: ''}]);
     };
 
-    const handleQuestionChange = (index, event) => {
+    const handleQuestionChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
         const newQuestions = [...questions];
         newQuestions[index].text = event.target.value;
         setQuestions(newQuestions);
     };
 
-    const handleOptionChange = (questionIndex, optionIndex, event) => {
+    const handleOptionChange = (questionIndex: number, optionIndex: number, event: ChangeEvent<HTMLInputElement>) => {
         const newQuestions = [...questions];
         newQuestions[questionIndex].options[optionIndex] = event.target.value;
         setQuestions(newQuestions);
     };
 
-    const handleValidityChange = (questionIndex, optionIndex) => {
+    const handleValidityChange = (questionIndex: number, optionIndex: number) => {
         const newQuestions = [...questions];
         newQuestions[questionIndex].validity[optionIndex] = !newQuestions[questionIndex].validity[optionIndex];
         if (newQuestions[questionIndex].validity[optionIndex]) {
@@ -158,27 +158,27 @@ function BuildQuiz() {
         setQuestions(newQuestions);
     };
 
-    const addOption = (questionIndex) => {
+    const addOption = (questionIndex: number) => {
         const newQuestions = [...questions];
         newQuestions[questionIndex].options.push('');
         newQuestions[questionIndex].validity.push(false);
         setQuestions(newQuestions);
     };
 
-    const removeOption = (questionIndex, optionIndex) => {
+    const removeOption = (questionIndex: number, optionIndex: number) => {
         const newQuestions = [...questions];
         newQuestions[questionIndex].options.splice(optionIndex, 1);
         newQuestions[questionIndex].validity.splice(optionIndex, 1);
         setQuestions(newQuestions);
     };
 
-    const removeQuestion = (index) => {
+    const removeQuestion = (index: number) => {
         const newQuestions = [...questions];
         newQuestions.splice(index, 1);
         setQuestions(newQuestions);
     };
 
-    const handleTopicChange = (event) => {
+    const handleTopicChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setTopic(event.target.value);
     };
 

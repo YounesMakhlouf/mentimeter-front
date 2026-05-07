@@ -1,14 +1,22 @@
-const podiumStyles = {
+const podiumStyles: Record<1 | 2 | 3, {avatarSize: number; fontSize: string}> = {
     1: {avatarSize: 100, fontSize: '1.5em'}, // First place
     2: {avatarSize: 75, fontSize: '1.2em'},  // Second place
     3: {avatarSize: 50, fontSize: '1em'}     // Third place
 };
 
-const Podium = ({topParticipants}) => {
+interface PodiumParticipant {
+    id: string;
+    name: string;
+    avatar: string;
+    score: number;
+}
+
+const Podium = ({topParticipants}: {topParticipants: PodiumParticipant[]}) => {
     return (<div className="podium">
         {topParticipants.map((participant, index) => {
-            const style = podiumStyles[index + 1];
-            return (<div key={participant.id} className={`podium-place place-${index + 1}`}>
+            const place = (index + 1) as 1 | 2 | 3;
+            const style = podiumStyles[place];
+            return (<div key={participant.id} className={`podium-place place-${place}`}>
                 <img src={participant.avatar} alt={`${participant.name}'s Avatar`} style={{
                     width: style.avatarSize,
                     height: style.avatarSize,

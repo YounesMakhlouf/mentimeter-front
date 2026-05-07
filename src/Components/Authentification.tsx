@@ -1,25 +1,26 @@
-import {useState} from 'react';
+import {ChangeEvent, FormEvent, useState} from 'react';
 import * as Components from './Component.tsx';
 import {errorStyle} from './component-styles.ts';
 import {Navigate, useNavigate} from "react-router";
-import {reauthSocket} from "../socket.js";
+import {reauthSocket} from "../socket.ts";
 import {API_URL, isTokenValid, setAuth} from "../api.ts";
+
+type Action = 'login' | 'register';
 
 const Authentification = () => {
     const [signIn, setSignIn] = useState(true);
     const toggle = (next: boolean) => setSignIn(next);
-    const [inputDetails, setInputDetails] = useState([]);
-    const [error, setError] = useState([]);
+    const [inputDetails, setInputDetails] = useState<Record<string, string>>({});
+    const [error, setError] = useState<string[]>([]);
     const navigate = useNavigate()
-    console.log(localStorage)
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         setInputDetails(prevState => ({
             ...prevState, [name]: value
         }));
     };
 
-    const handleFormSubmit = (event, action) => {
+    const handleFormSubmit = (event: FormEvent<HTMLFormElement>, action: Action) => {
         event.preventDefault();
         fetch(`${API_URL}/authentication/${action}`, {
             method: "POST", body: JSON.stringify(inputDetails), headers: {

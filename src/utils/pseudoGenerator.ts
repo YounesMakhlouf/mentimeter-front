@@ -1,4 +1,4 @@
-function getRandomInt(max) {
+function getRandomInt(max: number) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
@@ -33,7 +33,7 @@ const jobs = ["Curator", "Designer", "Boilermaker", "Podiatrist", "Economist", "
 
 function generateName() {
     const job = jobs[getRandomInt(jobs.length)]
-    const letter = job.charAt(0);
+    const letter = job.charAt(0) as keyof typeof adj_by_letter;
     const adjs = adj_by_letter[letter]
     const adj = adjs[getRandomInt(adjs.length)]
     const name = `The ${adj} ${job}`

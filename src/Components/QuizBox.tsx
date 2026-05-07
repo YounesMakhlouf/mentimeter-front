@@ -1,9 +1,10 @@
 import {CSSProperties, useState} from "react";
 import {Button} from "./Component.tsx";
-import {socket} from '../socket.js'
+import {socket} from '../socket.ts'
+import type {Quiz} from '../loaders.ts';
 
 
-export default function QuizBox(props) {
+export default function QuizBox(props: {quiz: Quiz}) {
     const [isHovered, setIsHovered] = useState(false);
 
     const mainQuizBoxStyle: CSSProperties = {

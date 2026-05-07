@@ -2,15 +2,15 @@ import QuizBox from "./QuizBox.tsx";
 import CreateQuizPopup from "./CreateQuizPopup.tsx";
 import {useEffect} from "react";
 import {useLoaderData, useNavigate} from "react-router";
-import {socket} from "../socket.js";
+import {socket} from "../socket.ts";
 import type {Quiz} from "../loaders.ts";
 
-export default function MainHomeBox(props) {
+export default function MainHomeBox(props: {name: string}) {
     const {quizzes} = useLoaderData() as {quizzes: Quiz[]};
     const navigate = useNavigate();
 
     useEffect(() => {
-        const onSuccess = (sessionCode) => {
+        const onSuccess = (sessionCode: string) => {
             navigate('/startquiz', {state: {sessionCode}});
         };
         socket.on('QuizCreationSuccess', onSuccess);

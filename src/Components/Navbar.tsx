@@ -1,8 +1,13 @@
 import LogoName from "./LogoName.tsx";
 import {Link} from "react-router";
-import {CSSProperties} from "react";
+import {CSSProperties, Dispatch, SetStateAction} from "react";
 
-export default function Navbar(props) {
+interface NavbarProps {
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function Navbar(props: NavbarProps) {
     const navbarStyle: CSSProperties = {
         backgroundColor: "rgba(229,228,226,0.58)",
         display: "flex",

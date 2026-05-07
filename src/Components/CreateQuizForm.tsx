@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { ChangeEvent, CSSProperties, useState } from "react";
 import { randomQuizName } from '../utils/quizname-generator.ts';
 import { useNavigate } from "react-router";
 
@@ -8,7 +8,7 @@ export default function CreateQuizForm() {
     });
     const navigate = useNavigate();
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };

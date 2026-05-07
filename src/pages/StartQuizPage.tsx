@@ -1,12 +1,12 @@
 import {CSSProperties, useEffect, useState} from "react";
 import {Button} from "../Components/Component.tsx";
-import {socket} from "../socket";
+import {socket, Participant} from "../socket.ts";
 import {Link, Navigate, useLocation} from "react-router";
 
 export default function StartQuizPage() {
     const location = useLocation();
-    const [participants, setParticipants] = useState([]);
-    const sessionCode = location.state?.sessionCode;
+    const [participants, setParticipants] = useState<Participant[]>([]);
+    const sessionCode: string | undefined = location.state?.sessionCode;
 
     const avatarStyle = {
         width: "50px",
@@ -42,23 +42,23 @@ export default function StartQuizPage() {
     const buttonContainerStyle: CSSProperties = {
         display: "flex", justifyContent: "center", gap: "1em"
     };
-    const ParticipantCircle = ({avatar, playerName}) => (<div style={participantCircleStyle}>
+    const ParticipantCircle = ({avatar, playerName}: Participant) => (<div style={participantCircleStyle}>
         <img src={avatar} alt="Participant Avatar" style={avatarStyle}/>
         <div className="pseudonym">{playerName}</div>
     </div>);
 
     useEffect(() => {
-        socket.on('playerJoined', (newParticipant) => {
-            console.log(newParticipant)
-            setParticipants((prevParticipants) => [...prevParticipants, newParticipant]);
-        });
-
+        const onPlayerJoined = (newParticipant: Participant) => {
+            setParticipants((prev) => [...prev, newParticipant]);
+        };
+        socket.on('playerJoined', onPlayerJoined);
         return () => {
-            socket.off('playerJoined');
+            socket.off('playerJoined', onPlayerJoined);
         };
     }, []);
 
     function handleStartQuiz() {
+        if (!sessionCode) return;
         socket.emit('sendQuestion', {quizCode: sessionCode, questionNumber: 0});
     }
 

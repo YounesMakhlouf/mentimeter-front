@@ -4,7 +4,7 @@ import { FaRegCircleXmark } from "react-icons/fa6";
 import {CSSProperties, useEffect, useState} from "react";
 import EnterQuizCodeForm from "../Components/EnterQuizCodeForm.tsx";
 import Typewriter from 'typewriter-effect';
-import {socket} from "../socket";
+import {socket, QuestionPayload} from "../socket.ts";
 import {useNavigate} from "react-router";
 
 
@@ -66,7 +66,7 @@ function WelcomePage() {
         'Join the Fun – Start a Quiz <span style="color: #cd7f32">Now!</span>'
     ];
     useEffect(() => {
-        const onQuestion = (data) => {
+        const onQuestion = (data: QuestionPayload) => {
             navigate('/qspage', {state: {payload: data}});
         };
         socket.on('question', onQuestion);

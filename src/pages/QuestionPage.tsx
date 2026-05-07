@@ -1,7 +1,7 @@
-import {socket} from '../socket.js'
+import {socket, QuestionPayload, Participant} from '../socket.ts'
 import {Navigate, useLocation, useNavigate} from "react-router";
 import styled from "styled-components";
-import {useEffect, useMemo, useRef, useState} from "react";
+import {ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState} from "react";
 
 function getRandomColor() {
     const min = 150;
@@ -13,7 +13,7 @@ function getRandomColor() {
 }
 
 export default function QuestionPage() {
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState<QuestionPayload[]>([]);
     const [questionNumber, setQuestionNumber] = useState(0);
     const [answerState, setAnswerState] = useState("");
     const [isAnswering, setIsAnswering] = useState(false);
@@ -21,16 +21,17 @@ export default function QuestionPage() {
 
     const navigate = useNavigate();
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {value} = event.target;
         setAnswerState(value);
     };
 
     const location = useLocation();
-    const code = location.state?.payload?.quizCode;
+    const code: string | undefined = location.state?.payload?.quizCode;
 
-    const sendAnswer = (event) => {
+    const sendAnswer = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!code) return;
         socket.emit("getAnswer", {
             quizCode: code,
             answer: answerState,
@@ -47,7 +48,7 @@ export default function QuestionPage() {
 
         let timer: ReturnType<typeof setTimeout> | undefined;
 
-        const onQuestion = (question) => {
+        const onQuestion = (question: QuestionPayload) => {
             isAnsweringRef.current = false;
             setIsAnswering(false);
             setQuestions((prev) => [...prev, question]);
@@ -66,7 +67,7 @@ export default function QuestionPage() {
             }, 10000);
         };
 
-        const onEndQuiz = (payload) => {
+        const onEndQuiz = (payload: Participant[]) => {
             navigate('/leaderboard', {state: {payload}});
         };
 
@@ -89,8 +90,9 @@ export default function QuestionPage() {
         return <Navigate to="/" replace />;
     }
 
-    const currentQuestion = questions.find(q => q.questionNumber === questionNumber) || {};
-    const {question, options} = currentQuestion.question || {};
+    const currentQuestion = questions.find(q => q.questionNumber === questionNumber);
+    const question = currentQuestion?.question.question;
+    const options = currentQuestion?.question.options;
 
     const Container = styled.div`
         background-color: #fff;
