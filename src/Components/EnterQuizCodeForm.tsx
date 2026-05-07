@@ -3,6 +3,8 @@ import {socket} from '../socket.js'
 import {randomPseudo} from "../utils/pseudoGenerator.ts"
 import {Button} from "./Component.tsx";
 
+type JoinStatus = 'idle' | 'submitting' | 'joined' | 'error';
+
 const avatarStyle = {
     width: '65px', height: '65px', borderRadius: '50%', marginInline: "0.5rem"
 };
@@ -15,11 +17,11 @@ const inputGroupStyle: CSSProperties = {
 const labelStyle = {
     marginLeft: "0.5em"
 }
-const errorStyle = {
-    display: "none", color: "#bc2525", marginLeft: "0.5em"
+const errorStyle: CSSProperties = {
+    color: "#bc2525", marginLeft: "0.5em"
 }
 const loadJoin: CSSProperties = {
-    display: "none", marginLeft: "0.5em", color: "#3a9188", flexDirection: "row", alignItems: "center"
+    display: "flex", marginLeft: "0.5em", color: "#3a9188", flexDirection: "row", alignItems: "center"
 }
 const pacStyle = {
     width: "3em", marginRight: "1em"
@@ -31,14 +33,13 @@ const QuizJoinForm = () => {
     const [quizCode, setQuizCode] = useState('');
     const [playerName, setPlayerName] = useState('');
     const [selectedAvatar, setSelectedAvatar] = useState(predefinedAvatars[0]);
-    const [hasJoined, setHasJoined] = useState(false);
+    const [joinStatus, setJoinStatus] = useState<JoinStatus>('idle');
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        socket.on('connect', () => console.log('connected'));
-        socket.emit('joinQuiz', {"quizCode": quizCode, "playerName": playerName, "avatar": selectedAvatar});
+        socket.emit('joinQuiz', {quizCode, playerName, avatar: selectedAvatar});
         localStorage.setItem('name', playerName);
-        console.log(playerName);
-        setHasJoined(true); // Disable the button after joining
+        setJoinStatus('submitting');
     }
 
     const handleAvatarSelect = (avatarUrl) => {
@@ -46,19 +47,17 @@ const QuizJoinForm = () => {
     };
 
     useEffect(() => {
-        socket.on("errorMsg", () => {
-            const success: HTMLElement = document.querySelector(".successJoining")
-            const error: HTMLElement = document.querySelector(".errorJoining")
-            success.style.display = "none"
-            error.style.display = "block";
-        })
-        socket.on("playerJoined", () => {
-            const success: HTMLElement = document.querySelector(".successJoining")
-            const error: HTMLElement = document.querySelector(".errorJoining")
-            error.style.display = "none"
-            success.style.display = "flex";
-        })
-    })
+        const onError = () => setJoinStatus('error');
+        const onJoined = () => setJoinStatus('joined');
+        socket.on('errorMsg', onError);
+        socket.on('playerJoined', onJoined);
+        return () => {
+            socket.off('errorMsg', onError);
+            socket.off('playerJoined', onJoined);
+        };
+    }, []);
+
+    const isLocked = joinStatus === 'submitting' || joinStatus === 'joined';
 
     return (<form onSubmit={handleSubmit}>
         <div style={inputGroupStyle}>
@@ -81,9 +80,11 @@ const QuizJoinForm = () => {
                 style={inputStyle}
             />
         </div>
-        <div className={"errorJoining"} style={errorStyle}>
-            Ooopsie! looks like this quiz doesn't exist !
-        </div>
+        {joinStatus === 'error' && (
+            <div style={errorStyle}>
+                Ooopsie! looks like this quiz doesn't exist !
+            </div>
+        )}
         <div>
             <p style={labelStyle}>Select an Avatar</p>
             <div style={{display: 'flex', justifyContent: 'center', marginBottom: '20px'}}>
@@ -96,13 +97,14 @@ const QuizJoinForm = () => {
                 />))}
             </div>
         </div>
-        <div className={"successJoining"} style={loadJoin}>
-            Buckle up! joining quiz ..
-            <img src="/assets/loader.gif" alt="loader" style={pacStyle}/>
-        </div>
-        {/*<button type="submit" style={buttonStyle}>Join Quiz</button>*/}
-        <Button type="submit" disabled={hasJoined} onClick={handleSubmit}>
-            {hasJoined ? 'Joined' : 'Join now'}
+        {joinStatus === 'joined' && (
+            <div style={loadJoin}>
+                Buckle up! joining quiz ..
+                <img src="/assets/loader.gif" alt="loader" style={pacStyle}/>
+            </div>
+        )}
+        <Button type="submit" disabled={isLocked} onClick={handleSubmit}>
+            {joinStatus === 'joined' ? 'Joined' : joinStatus === 'submitting' ? 'Joining…' : 'Join now'}
         </Button>
     </form>);
 };
