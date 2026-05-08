@@ -1,14 +1,16 @@
 import {useEffect} from 'react';
-import Podium from "../Components/Podium.tsx";
-import LeaderboardList from "../Components/LeaderboardList.tsx";
-import {Navigate, useLocation} from 'react-router';
+import styled from 'styled-components';
+import {Navigate, useLocation, useNavigate} from 'react-router';
+import {Card, GhostButton, PrimaryButton} from '../design/styled.ts';
+import {Confetti, Logo, ShapeField, Sticker} from '../design/primitives.tsx';
 
 const PAYLOAD_KEY = 'leaderboard:payload';
 
 interface ScoredParticipant {
-    id: string;
-    name: string;
-    avatar: string;
+    id?: string;
+    playerName?: string;
+    name?: string;
+    avatar?: string;
     score: number;
 }
 
@@ -22,8 +24,174 @@ const readStored = (): ScoredParticipant[] | null => {
     }
 };
 
+const Page = styled.div`
+    position: relative;
+    min-height: 100vh;
+    background: var(--paper);
+    overflow: hidden;
+`;
+
+const Header = styled.header`
+    position: relative;
+    padding: 22px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+`;
+
+const Wrap = styled.div`
+    position: relative;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 8px 32px 32px;
+    z-index: 2;
+`;
+
+const TitleBlock = styled.div`
+    text-align: center;
+    margin-bottom: 28px;
+`;
+
+const Title = styled.h1`
+    font-size: 64px;
+    margin-top: 12px;
+
+    @media (max-width: 700px) {
+        font-size: 44px;
+    }
+`;
+
+const Subtitle = styled.p`
+    color: var(--ink-mute);
+    font-size: 16px;
+    margin-top: 6px;
+`;
+
+const PodiumRow = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 14px;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    max-width: 720px;
+    margin-inline: auto;
+`;
+
+const PodiumCol = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+`;
+
+const PodiumFace = styled.div<{$size: number}>`
+    width: ${({$size}) => $size + 10}px;
+    height: ${({$size}) => $size + 10}px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 3px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: ${({$size}) => $size * 0.55}px;
+    box-shadow: var(--shadow-md);
+`;
+
+const PodiumName = styled.div<{$big?: boolean}>`
+    font-family: var(--display);
+    font-size: ${({$big}) => $big ? '22px' : '18px'};
+    font-weight: 800;
+`;
+
+const PodiumScore = styled.div<{$big?: boolean}>`
+    font-family: var(--display);
+    font-variant-numeric: tabular-nums;
+    font-size: ${({$big}) => $big ? '22px' : '16px'};
+    font-weight: 700;
+    color: var(--ink-mute);
+`;
+
+const PodiumBlock = styled.div<{$height: number; $bg: string; $ink: string}>`
+    width: 100%;
+    height: ${({$height}) => $height}px;
+    background: ${({$bg}) => $bg};
+    color: ${({$ink}) => $ink};
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 12px;
+    border-radius: 16px 16px 0 0;
+    border: 2.5px solid var(--ink);
+    border-bottom: none;
+`;
+
+const RestList = styled(Card)`
+    overflow: hidden;
+    max-width: 720px;
+    margin-inline: auto;
+`;
+
+const RestRow = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1.5px solid rgba(0, 0, 0, .07);
+
+    &:last-child { border-bottom: none; }
+`;
+
+const Rank = styled.span`
+    width: 36px;
+    font-family: var(--display);
+    font-variant-numeric: tabular-nums;
+    font-size: 20px;
+    color: var(--ink-mute);
+`;
+
+const Face = styled.div`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+`;
+
+const Bar = styled.div`
+    flex: 2;
+    height: 8px;
+    background: rgba(0, 0, 0, .06);
+    border-radius: 999px;
+    overflow: hidden;
+    max-width: 200px;
+`;
+
+const BarFill = styled.div<{$pct: number; $delay: number}>`
+    height: 100%;
+    width: ${({$pct}) => $pct * 100}%;
+    background: var(--brand);
+    transform-origin: left;
+    animation: bar-grow .8s cubic-bezier(.34, 1.56, .64, 1) ${({$delay}) => $delay}s both;
+`;
+
+const ScoreCol = styled.span`
+    width: 64px;
+    text-align: right;
+    font-family: var(--display);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+`;
+
+const displayName = (p: ScoredParticipant) => p.playerName || p.name || 'Player';
+
 const LeaderboardPage = () => {
     const {state} = useLocation();
+    const navigate = useNavigate();
     const participants: ScoredParticipant[] | null = state?.payload ?? readStored();
 
     useEffect(() => {
@@ -35,14 +203,87 @@ const LeaderboardPage = () => {
     }
 
     const sortedParticipants = [...participants].sort((a, b) => b.score - a.score);
-    const topParticipants = sortedParticipants.slice(0, 3);
-    const restParticipants = sortedParticipants.slice(3);
+    const top3 = sortedParticipants.slice(0, 3);
+    const rest = sortedParticipants.slice(3);
+    const max = Math.max(1, ...sortedParticipants.map((p) => p.score));
+
+    const podiumOrder: Array<0 | 1 | 2> = [1, 0, 2];
+    const heights: Record<number, number> = {0: 220, 1: 170, 2: 130};
+    const colors: Record<number, string> = {
+        0: 'var(--opt-c)',
+        1: 'var(--opt-b)',
+        2: 'var(--opt-a)',
+    };
+    const inks: Record<number, string> = {0: 'var(--ink)', 1: '#fff', 2: '#fff'};
+    const sizes: Record<number, number> = {0: 80, 1: 64, 2: 56};
+    const trophies = ['🏆', '🥈', '🥉'];
 
     return (
-        <div className="app wrapper flow">
-            <Podium topParticipants={topParticipants}/>
-            <LeaderboardList participants={restParticipants}/>
-        </div>
+        <Page>
+            <Confetti count={70}/>
+            <ShapeField density={8} opacity={0.1} seed={17}/>
+
+            <Header>
+                <Logo size={26}/>
+                <div style={{display: 'flex', gap: 10}}>
+                    <GhostButton onClick={() => navigate('/')}>Done</GhostButton>
+                    <PrimaryButton onClick={() => navigate('/home')}>↻ Host another</PrimaryButton>
+                </div>
+            </Header>
+
+            <Wrap>
+                <TitleBlock>
+                    <Sticker color="var(--opt-c)" rotate={-3}>Final scores</Sticker>
+                    <Title>Game over!</Title>
+                    <Subtitle>{sortedParticipants.length} player{sortedParticipants.length === 1 ? '' : 's'} · Thanks for playing</Subtitle>
+                </TitleBlock>
+
+                {top3.length > 0 && (
+                    <PodiumRow>
+                        {podiumOrder.map((podiumIdx, slot) => {
+                            const p = top3[podiumIdx];
+                            if (!p) return <div key={slot}/>;
+                            const isWinner = podiumIdx === 0;
+                            return (
+                                <PodiumCol key={podiumIdx} className="pop-in" style={{animationDelay: `${slot * 0.18}s`}}>
+                                    <PodiumFace $size={sizes[podiumIdx]}>{p.avatar || '🎲'}</PodiumFace>
+                                    <PodiumName $big={isWinner}>{displayName(p)}</PodiumName>
+                                    <PodiumScore $big={isWinner}>{p.score.toLocaleString()}</PodiumScore>
+                                    <PodiumBlock
+                                        $height={heights[podiumIdx]}
+                                        $bg={colors[podiumIdx]}
+                                        $ink={inks[podiumIdx]}
+                                    >
+                                        <span style={{fontFamily: 'var(--display)', fontSize: 56, fontWeight: 800, lineHeight: 1}}>
+                                            {trophies[podiumIdx]}
+                                        </span>
+                                    </PodiumBlock>
+                                </PodiumCol>
+                            );
+                        })}
+                    </PodiumRow>
+                )}
+
+                {rest.length > 0 && (
+                    <RestList>
+                        {rest.map((p, i) => {
+                            const place = i + 4;
+                            return (
+                                <RestRow key={i}>
+                                    <Rank>{place}</Rank>
+                                    <Face>{p.avatar || '🎲'}</Face>
+                                    <span style={{flex: 1, fontWeight: 600}}>{displayName(p)}</span>
+                                    <Bar>
+                                        <BarFill $pct={p.score / max} $delay={0.05 * i}/>
+                                    </Bar>
+                                    <ScoreCol>{p.score.toLocaleString()}</ScoreCol>
+                                </RestRow>
+                            );
+                        })}
+                    </RestList>
+                )}
+            </Wrap>
+        </Page>
     );
 };
 

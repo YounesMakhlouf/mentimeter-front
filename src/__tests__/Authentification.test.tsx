@@ -23,13 +23,9 @@ const renderApp = () =>
     );
 
 const fillSignIn = async (user: ReturnType<typeof userEvent.setup>, email: string, password: string) => {
-    const emails = screen.getAllByPlaceholderText('Email');
-    const passwords = screen.getAllByPlaceholderText('Password');
-    await user.type(emails[1], email);
-    await user.type(passwords[1], password);
-    const submit = screen.getAllByRole('button', {name: /sign in|signing in/i})
-        .find((b) => (b as HTMLButtonElement).type === 'submit');
-    await user.click(submit!);
+    await user.type(screen.getByPlaceholderText('you@school.edu'), email);
+    await user.type(screen.getByPlaceholderText('••••••••'), password);
+    await user.click(screen.getByRole('button', {name: /^log in/i}));
 };
 
 describe('Authentification', () => {

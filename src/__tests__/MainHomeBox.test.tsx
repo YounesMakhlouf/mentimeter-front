@@ -35,9 +35,9 @@ describe('MainHomeBox', () => {
         for (const k of Object.keys(handlers)) delete handlers[k];
     });
 
-    it('renders the welcome line with the provided name', async () => {
+    it('greets the provided name', async () => {
         renderWithLoaderData([]);
-        expect(await screen.findByText(/Welcome back, alice/i)).toBeInTheDocument();
+        expect(await screen.findByText(/Hey alice/i)).toBeInTheDocument();
     });
 
     it('renders one QuizBox per quiz from the loader', async () => {
@@ -53,13 +53,13 @@ describe('MainHomeBox', () => {
 
     it('renders zero QuizBoxes when the user has no quizzes', async () => {
         renderWithLoaderData([]);
-        await screen.findByText(/Welcome back/i);
+        await screen.findByText(/Hey alice/i);
         expect(screen.queryByText('Start Quiz')).not.toBeInTheDocument();
     });
 
     it('subscribes to QuizCreationSuccess on mount and unsubscribes on unmount', async () => {
         const {unmount} = renderWithLoaderData([]);
-        await screen.findByText(/Welcome back/i);
+        await screen.findByText(/Hey alice/i);
         expect(handlers.QuizCreationSuccess).toHaveLength(1);
         unmount();
         expect(handlers.QuizCreationSuccess).toHaveLength(0);

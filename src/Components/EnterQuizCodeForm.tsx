@@ -1,76 +1,91 @@
-import {FormEvent, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import {socket} from '../socket.ts'
-import {randomPseudo} from "../utils/pseudoGenerator.ts"
-import {Button} from "./Component.tsx";
+import {socket} from '../socket.ts';
+import {randomPseudo} from "../utils/pseudoGenerator.ts";
+import {EMOJI_AVATARS} from "../design/avatars.ts";
+import {GhostButton, Input, LargeButton, PrimaryButton} from "../design/styled.ts";
 
 type JoinStatus = 'idle' | 'submitting' | 'joined' | 'error';
+type Step = 'name' | 'avatar';
 
-const InputGroup = styled.div`
+const Stack = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin-block-end: 1em;
+    gap: 18px;
 `;
 
-const InputLabel = styled.label`
-    margin-left: 0.5em;
+const Title = styled.h2`
+    font-size: 32px;
+    margin: 0;
 `;
 
-const TextInput = styled.input`
-    min-height: 3em;
-    border-radius: 50px;
-    border: none;
-    padding-inline-start: 1em;
-    margin-block: 1em;
+const Subtle = styled.p`
+    color: var(--ink-mute);
+    margin: -8px 0 0;
+    font-size: 14px;
+`;
+
+const Footer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    gap: 12px;
+`;
+
+const AvatarGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+`;
+
+const AvatarPick = styled.button<{$selected: boolean}>`
+    aspect-ratio: 1;
+    border: ${({$selected}) => $selected ? '3px solid var(--brand)' : '2.5px solid var(--ink)'};
+    background: var(--card);
+    border-radius: 16px;
+    font-size: 32px;
+    cursor: pointer;
+    box-shadow: ${({$selected}) => $selected ? 'var(--shadow-md)' : 'var(--shadow-sm)'};
+    transform: ${({$selected}) => $selected ? 'translateY(-2px)' : 'none'};
+    transition: all .15s ease;
+    line-height: 1;
+    padding: 0;
 `;
 
 const ErrorMessage = styled.div`
     color: #bc2525;
-    margin-left: 0.5em;
+    font-weight: 600;
+    font-size: 14px;
 `;
 
 const SuccessLoader = styled.div`
     display: flex;
-    margin-left: 0.5em;
-    color: #3a9188;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
+    gap: 14px;
+    text-align: center;
+    padding: 12px 0;
 `;
 
-const LoaderIcon = styled.img`
-    width: 3em;
-    margin-right: 1em;
-`;
-
-const AvatarRow = styled.div`
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-`;
-
-const AvatarOption = styled.img<{$selected: boolean}>`
-    width: 65px;
-    height: 65px;
+const Spinner = styled.div`
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    margin-inline: 0.5rem;
-    border: ${({$selected}) => $selected ? '2px solid blue' : 'none'};
+    border: 5px solid var(--ink);
+    border-top-color: transparent;
+    animation: spin-slow 1s linear infinite;
 `;
 
-const predefinedAvatars = ['https://robohash.org/1.png?set=set4', 'https://robohash.org/2.png?set=set4', 'https://robohash.org/3.png?set=set4', 'https://robohash.org/4.png?set=set4', 'https://robohash.org/5.png?set=set4', 'https://robohash.org/6.png?set=set4', 'https://robohash.org/7.png?set=set4', 'https://robohash.org/8.png?set=set4',];
+interface Props {
+    initialCode?: string;
+}
 
-const QuizJoinForm = () => {
-    const [quizCode, setQuizCode] = useState('');
+const QuizJoinForm = ({initialCode = ''}: Props) => {
+    const [step, setStep] = useState<Step>('name');
+    const [quizCode, setQuizCode] = useState(initialCode);
     const [playerName, setPlayerName] = useState('');
-    const [selectedAvatar, setSelectedAvatar] = useState(predefinedAvatars[0]);
+    const [emojiIdx, setEmojiIdx] = useState(0);
     const [joinStatus, setJoinStatus] = useState<JoinStatus>('idle');
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        socket.emit('joinQuiz', {quizCode, playerName, avatar: selectedAvatar});
-        localStorage.setItem('name', playerName);
-        setJoinStatus('submitting');
-    }
 
     useEffect(() => {
         const onError = () => setJoinStatus('error');
@@ -83,55 +98,86 @@ const QuizJoinForm = () => {
         };
     }, []);
 
-    const isLocked = joinStatus === 'submitting' || joinStatus === 'joined';
+    const submit = () => {
+        const name = playerName.trim();
+        if (!name || !quizCode.trim()) return;
+        const avatar = EMOJI_AVATARS[emojiIdx];
+        socket.emit('joinQuiz', {quizCode: quizCode.trim(), playerName: name, avatar});
+        localStorage.setItem('name', name);
+        setJoinStatus('submitting');
+    };
+
+    if (joinStatus === 'joined' || joinStatus === 'submitting') {
+        return (
+            <Stack>
+                <SuccessLoader>
+                    <div style={{fontSize: 64, animation: 'wiggle 0.8s ease-in-out infinite'}}>{EMOJI_AVATARS[emojiIdx]}</div>
+                    <Title>{joinStatus === 'joined' ? `You're in, ${playerName}!` : `Joining as ${playerName}…`}</Title>
+                    <Subtle style={{margin: 0}}>Hang tight, the host will start soon.</Subtle>
+                    <Spinner/>
+                </SuccessLoader>
+            </Stack>
+        );
+    }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <InputGroup>
-                <InputLabel>Quiz code </InputLabel>
-                <TextInput
-                    type="text"
-                    placeholder="7007024f-e0c7-46bb-8517-181c34968318"
-                    value={quizCode}
-                    onChange={(e) => setQuizCode(e.target.value)}
-                />
-            </InputGroup>
-            <InputGroup>
-                <InputLabel>Your pseudo </InputLabel>
-                <TextInput
-                    type="text"
-                    placeholder={randomPseudo}
-                    value={playerName}
-                    onChange={(e) => setPlayerName(e.target.value)}
-                />
-            </InputGroup>
-            {joinStatus === 'error' && (
-                <ErrorMessage>Ooopsie! looks like this quiz doesn't exist !</ErrorMessage>
+        <Stack>
+            {step === 'name' && (
+                <>
+                    <Title>What should we call you?</Title>
+                    <Subtle>Your classmates will see this on the leaderboard.</Subtle>
+                    <Input
+                        type="text"
+                        placeholder="Quiz code"
+                        value={quizCode}
+                        onChange={(e) => setQuizCode(e.target.value)}
+                    />
+                    <Input
+                        type="text"
+                        autoFocus
+                        placeholder={randomPseudo}
+                        value={playerName}
+                        onChange={(e) => setPlayerName(e.target.value)}
+                        maxLength={20}
+                    />
+                    {joinStatus === 'error' && <ErrorMessage>Ooopsie! looks like this quiz doesn't exist.</ErrorMessage>}
+                    <Footer>
+                        <span/>
+                        <PrimaryButton
+                            type="button"
+                            disabled={!playerName.trim() || !quizCode.trim()}
+                            style={{opacity: !playerName.trim() || !quizCode.trim() ? 0.5 : 1}}
+                            onClick={() => setStep('avatar')}
+                        >
+                            Continue →
+                        </PrimaryButton>
+                    </Footer>
+                </>
             )}
-            <div>
-                <InputLabel as="p">Select an Avatar</InputLabel>
-                <AvatarRow>
-                    {predefinedAvatars.map((avatarUrl, index) => (
-                        <AvatarOption
-                            key={index}
-                            src={avatarUrl}
-                            alt={`Avatar ${index}`}
-                            $selected={avatarUrl === selectedAvatar}
-                            onClick={() => setSelectedAvatar(avatarUrl)}
-                        />
-                    ))}
-                </AvatarRow>
-            </div>
-            {joinStatus === 'joined' && (
-                <SuccessLoader>
-                    Buckle up! joining quiz ..
-                    <LoaderIcon src="/assets/loader.gif" alt="loader"/>
-                </SuccessLoader>
+            {step === 'avatar' && (
+                <>
+                    <Title>Pick your buddy</Title>
+                    <Subtle>You can change this later.</Subtle>
+                    <AvatarGrid>
+                        {EMOJI_AVATARS.map((e, i) => (
+                            <AvatarPick
+                                key={i}
+                                type="button"
+                                $selected={i === emojiIdx}
+                                onClick={() => setEmojiIdx(i)}
+                            >{e}</AvatarPick>
+                        ))}
+                    </AvatarGrid>
+                    {joinStatus === 'error' && <ErrorMessage>Ooopsie! looks like this quiz doesn't exist.</ErrorMessage>}
+                    <Footer>
+                        <GhostButton type="button" onClick={() => setStep('name')}>← Back</GhostButton>
+                        <LargeButton type="button" onClick={submit} style={{background: 'var(--brand)', color: 'var(--brand-ink)'}}>
+                            Join game →
+                        </LargeButton>
+                    </Footer>
+                </>
             )}
-            <Button type="submit" disabled={isLocked}>
-                {joinStatus === 'joined' ? 'Joined' : joinStatus === 'submitting' ? 'Joining…' : 'Join now'}
-            </Button>
-        </form>
+        </Stack>
     );
 };
 

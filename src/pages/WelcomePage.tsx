@@ -1,76 +1,198 @@
-import Navbar from "../Components/Navbar.tsx";
-import Popup from "reactjs-popup";
-import {FaRegCircleXmark} from "react-icons/fa6";
 import {useEffect, useState} from "react";
 import styled from "styled-components";
+import Popup from "reactjs-popup";
+import {FaRegCircleXmark} from "react-icons/fa6";
 import EnterQuizCodeForm from "../Components/EnterQuizCodeForm.tsx";
-import Typewriter from 'typewriter-effect';
 import {socket, QuestionPayload} from "../socket.ts";
-import {useNavigate} from "react-router";
+import {Link, useNavigate} from "react-router";
+import {Card, GhostButton, InkButton, PrimaryButton} from "../design/styled.ts";
+import {Avatar, Logo, ShapeField, ShapeIcon, Sticker} from "../design/primitives.tsx";
+import {OPT_META} from "../design/tokens.ts";
 
-const ModalBox = styled.div`
-    width: 60%;
-    height: auto;
-    background-color: #F6F5F2;
-    border-radius: 12px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
+const Page = styled.div`
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+`;
+
+const TopNav = styled.header`
+    position: relative;
+    z-index: 2;
     display: flex;
-    flex-direction: column;
-    padding: 0.5em 2em;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 48px;
 `;
 
-const ModalOverlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(6px);
-    z-index: 0;
-`;
-
-const CloseIcon = styled(FaRegCircleXmark)`
-    height: 1.5em;
-    width: 1.5em;
-    align-self: flex-end;
+const NavActions = styled.div`
+    display: flex;
+    gap: 10px;
 `;
 
 const Hero = styled.div`
-    display: flex;
-    flex-direction: row;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    padding: 32px 64px 64px;
+    max-width: 1280px;
+    margin: 0 auto;
     align-items: center;
-    padding: 1em;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        padding: 24px;
+    }
 `;
 
-const Tagline = styled.div`
-    min-width: 200px;
-    margin-right: 1em;
-    font-size: 3rem;
-    width: 60%;
-    color: #6C0345;
+const Headline = styled.h1`
+    font-size: clamp(56px, 7.2vw, 104px);
+    margin: 24px 0;
+    font-weight: 800;
 `;
 
-const SideImage = styled.img`
-    max-width: 50%;
-    height: auto;
+const Highlight = styled.span`
+    background: var(--opt-a);
+    color: #fff;
+    padding: 0 14px;
+    border-radius: 14px;
+    display: inline-block;
+    transform: rotate(-1.5deg);
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow-sm);
+`;
+
+const Phrase = styled.p`
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    max-width: 540px;
+    margin-bottom: 36px;
+    min-height: 64px;
+`;
+
+const PinRow = styled(Card)`
+    padding: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    max-width: 540px;
+    border-radius: 999px;
+`;
+
+const PinLabel = styled.span`
+    padding-left: 14px;
+    font-weight: 700;
+    color: var(--ink-mute);
+`;
+
+const PinInput = styled.input`
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 10px 4px;
+    font-family: var(--body);
+    background: transparent;
+    color: var(--ink);
+    min-width: 0;
+`;
+
+const PinSubmit = styled(InkButton)`
+    border-radius: 999px;
+    padding: 14px 28px;
+`;
+
+const Meta = styled.div`
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+    color: var(--ink-mute);
+    font-size: 14px;
+    font-weight: 500;
+`;
+
+const PreviewArea = styled.div`
+    position: relative;
+    height: 460px;
+    @media (max-width: 900px) { display: none; }
+`;
+
+const QuestionPreview = styled(Card)`
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    padding: 18px;
+    transform: rotate(-4deg);
+    width: 240px;
+    background: var(--opt-a);
+    color: #fff;
+    border-radius: 20px;
+`;
+
+const LeaderboardPreview = styled(Card)`
+    position: absolute;
+    top: 140px;
+    right: 0;
+    padding: 22px;
+    transform: rotate(3deg);
+    width: 280px;
+    animation-delay: 0.1s;
+`;
+
+const StreakPreview = styled(Card)`
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    padding: 16px 20px;
+    transform: rotate(-2deg);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    animation-delay: 0.2s;
+    background: var(--opt-d);
+`;
+
+const ModalBox = styled.div`
+    width: min(560px, calc(100% - 32px));
+    background: var(--card);
+    border: 2.5px solid var(--ink);
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-xl);
+    padding: 28px 32px 32px;
+    position: relative;
+`;
+
+const ModalClose = styled.button`
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ink);
+    padding: 4px;
 `;
 
 const phrases = [
-    'Are You a Quiz Whiz?',
-    "Wanna  Be Everyone's <i>favourite</i> teacher?",
-    'Your quiz session on another <span style="color: #cd7f32">level!</span>',
-    'Fun, Fast, and Full of Facts!',
-    'Join the Fun – Start a Quiz <span style="color: #cd7f32">Now!</span>'
+    'Are you a quiz whiz?',
+    'Run quizzes your class will actually remember.',
+    'Press play. Watch the room light up.',
+    'Live answers. Loud podiums. Lessons that stick.',
 ];
 
 function WelcomePage() {
     const [open, setOpen] = useState(false);
-    const closeModal = () => setOpen(false);
+    const [code, setCode] = useState('');
+    const [phraseIdx, setPhraseIdx] = useState(0);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const t = setInterval(() => setPhraseIdx((i) => (i + 1) % phrases.length), 3800);
+        return () => clearInterval(t);
+    }, []);
 
     useEffect(() => {
         const onQuestion = (data: QuestionPayload) => {
@@ -82,32 +204,108 @@ function WelcomePage() {
         };
     }, [navigate]);
 
+    const closeModal = () => setOpen(false);
+
     return (
-        <>
-            <Navbar open={open} setOpen={setOpen}/>
-            {open && <ModalOverlay onClick={closeModal}/>}
-            <Popup open={open} closeOnDocumentClick onClose={closeModal}>
-                <ModalBox className="modal">
-                    <a className="close" onClick={closeModal}>
-                        <CloseIcon/>
-                    </a>
-                    <EnterQuizCodeForm/>
+        <Page>
+            <ShapeField density={14} opacity={0.22} seed={3}/>
+            <TopNav>
+                <Logo size={28}/>
+                <NavActions>
+                    <Link to="/authentication"><GhostButton>Log in</GhostButton></Link>
+                    <Link to="/authentication"><PrimaryButton>Get started</PrimaryButton></Link>
+                </NavActions>
+            </TopNav>
+
+            <Hero>
+                <div>
+                    <Sticker color="var(--opt-c)" rotate={-4}>For teachers · Free forever</Sticker>
+                    <Headline>
+                        Make every <Highlight>question</Highlight><br/>count.
+                    </Headline>
+                    <Phrase key={phraseIdx} className="slide-up">{phrases[phraseIdx]}</Phrase>
+
+                    <PinRow as="div">
+                        <PinLabel>Game PIN</PinLabel>
+                        <PinInput
+                            placeholder="123 456"
+                            value={code}
+                            maxLength={9}
+                            onChange={(e) => setCode(e.target.value.replace(/[^\d ]/g, ''))}
+                        />
+                        <PinSubmit onClick={() => setOpen(true)} type="button">Enter →</PinSubmit>
+                    </PinRow>
+
+                    <Meta>
+                        <span>★ 4.9 from 12,400 teachers</span>
+                        <span>· No card needed</span>
+                    </Meta>
+                </div>
+
+                <PreviewArea>
+                    <QuestionPreview className="pop-in">
+                        <div style={{fontSize: 12, fontWeight: 700, opacity: 0.8, letterSpacing: '.06em'}}>
+                            QUESTION 03 / 08
+                        </div>
+                        <div style={{fontFamily: 'var(--display)', fontSize: 22, fontWeight: 800, marginTop: 6}}>
+                            Which planet has the most moons?
+                        </div>
+                        <div style={{display: 'flex', gap: 6, marginTop: 14}}>
+                            {OPT_META.map((o) => (
+                                <ShapeIcon key={o.letter} kind={o.shape} size={22} color="rgba(255,255,255,.95)"/>
+                            ))}
+                        </div>
+                    </QuestionPreview>
+
+                    <LeaderboardPreview className="pop-in">
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                            <span style={{fontFamily: 'var(--display)', fontSize: 18, fontWeight: 800}}>🏆 Leaderboard</span>
+                            <span style={{
+                                fontSize: 11, padding: '3px 8px', borderRadius: 999,
+                                border: '2px solid var(--line)', fontWeight: 600,
+                            }}>LIVE</span>
+                        </div>
+                        {[
+                            {n: 'Maya', s: 8420},
+                            {n: 'Kenji', s: 8100},
+                            {n: 'Priya', s: 7950},
+                        ].map((p, i) => (
+                            <div key={i} style={{display: 'flex', alignItems: 'center', gap: 10, marginTop: 12}}>
+                                <span style={{fontFamily: 'var(--display)', width: 22, fontSize: 18, fontWeight: 800}}>{i + 1}</span>
+                                <Avatar name={p.n} size={32}/>
+                                <span style={{flex: 1, fontWeight: 600}}>{p.n}</span>
+                                <span style={{fontFamily: 'var(--display)', fontVariantNumeric: 'tabular-nums', fontWeight: 700}}>
+                                    {p.s.toLocaleString()}
+                                </span>
+                            </div>
+                        ))}
+                    </LeaderboardPreview>
+
+                    <StreakPreview className="pop-in">
+                        <div style={{fontFamily: 'var(--display)', fontVariantNumeric: 'tabular-nums', fontSize: 36, fontWeight: 800}}>
+                            +1,200
+                        </div>
+                        <div style={{fontSize: 13, lineHeight: 1.2}}>
+                            <div style={{fontWeight: 700}}>5-streak!</div>
+                            <div style={{color: 'var(--ink-mute)'}}>Speed bonus unlocked</div>
+                        </div>
+                    </StreakPreview>
+
+                    <div style={{position: 'absolute', bottom: 80, right: 60, animation: 'wiggle 2.4s ease-in-out infinite'}}>
+                        <ShapeIcon kind="triangle" size={64} color="var(--opt-c)"/>
+                    </div>
+                </PreviewArea>
+            </Hero>
+
+            <Popup open={open} closeOnDocumentClick onClose={closeModal} modal>
+                <ModalBox>
+                    <ModalClose onClick={closeModal} aria-label="Close">
+                        <FaRegCircleXmark size={28}/>
+                    </ModalClose>
+                    <EnterQuizCodeForm initialCode={code.trim()}/>
                 </ModalBox>
             </Popup>
-            <Hero className="welcome-container">
-                <Tagline>
-                    <Typewriter
-                        options={{
-                            strings: phrases,
-                            autoStart: true,
-                            loop: true,
-                            delay: 75,
-                        }}
-                    />
-                </Tagline>
-                <SideImage src="/assets/welcome.webp" alt="brika bel thon"/>
-            </Hero>
-        </>
+        </Page>
     );
 }
 

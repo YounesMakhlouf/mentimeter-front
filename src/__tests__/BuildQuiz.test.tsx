@@ -25,9 +25,25 @@ describe('BuildQuiz', () => {
         expect(screen.getByText('home page')).toBeInTheDocument();
     });
 
-    it('renders the quiz name from route state', () => {
+    it('shows the quiz name in the editable name input', () => {
         renderAt({quizName: 'My Quiz'});
-        expect(screen.getByText('Quiz Name: My Quiz')).toBeInTheDocument();
+        expect(screen.getByDisplayValue('My Quiz')).toBeInTheDocument();
+    });
+
+    it('renders four answer options by default', () => {
+        renderAt({quizName: 'Q1'});
+        expect(screen.getAllByPlaceholderText(/^Answer [ABCD]$/)).toHaveLength(4);
+    });
+
+    it('refuses to submit without a topic', async () => {
+        const spy = vi.spyOn(api, 'authFetch');
+        const user = userEvent.setup();
+        renderAt({quizName: 'Q1'});
+
+        await user.click(screen.getByRole('button', {name: /save.*finish/i}));
+
+        expect(screen.getByText(/Pick a topic/i)).toBeInTheDocument();
+        expect(spy).not.toHaveBeenCalled();
     });
 
     it('refuses to submit when no option is marked correct', async () => {
@@ -35,29 +51,14 @@ describe('BuildQuiz', () => {
         const user = userEvent.setup();
         renderAt({quizName: 'Q1'});
 
-        await user.type(screen.getByPlaceholderText('Enter question'), 'What is 1+1?');
-        await user.type(screen.getByPlaceholderText('Enter option'), '2');
-        await user.click(screen.getByRole('button', {name: /submit quiz/i}));
+        await user.selectOptions(screen.getByRole('combobox'), 'geography');
+        await user.type(screen.getByPlaceholderText(/Type your question/i), 'What is 1+1?');
+        const optionInputs = screen.getAllByPlaceholderText(/^Answer [ABCD]$/);
+        for (let i = 0; i < 4; i++) await user.type(optionInputs[i], `opt${i}`);
+        await user.click(screen.getByRole('button', {name: /save.*finish/i}));
 
-        expect(screen.getByText(/must have a correct answer/i)).toBeInTheDocument();
+        expect(screen.getByText(/correct one selected/i)).toBeInTheDocument();
         expect(spy).not.toHaveBeenCalled();
-    });
-
-    it('only allows one correct answer per question (radio behaviour)', async () => {
-        const user = userEvent.setup();
-        renderAt({quizName: 'Q1'});
-
-        await user.click(screen.getByRole('button', {name: /add option/i}));
-        const radios = screen.getAllByRole('radio');
-        expect(radios).toHaveLength(2);
-
-        await user.click(radios[0]);
-        expect(radios[0]).toBeChecked();
-        expect(radios[1]).not.toBeChecked();
-
-        await user.click(radios[1]);
-        expect(radios[0]).not.toBeChecked();
-        expect(radios[1]).toBeChecked();
     });
 
     it('submits with the right wire format and navigates home on success', async () => {
@@ -66,14 +67,16 @@ describe('BuildQuiz', () => {
         renderAt({quizName: 'Capitals'});
 
         await user.selectOptions(screen.getByRole('combobox'), 'geography');
-        await user.type(screen.getByPlaceholderText('Enter question'), 'Capital of France?');
-        await user.click(screen.getByRole('button', {name: /add option/i}));
-        const optionInputs = screen.getAllByPlaceholderText('Enter option');
+        await user.type(screen.getByPlaceholderText(/Type your question/i), 'Capital of France?');
+        const optionInputs = screen.getAllByPlaceholderText(/^Answer [ABCD]$/);
         await user.type(optionInputs[0], 'Paris');
         await user.type(optionInputs[1], 'Berlin');
-        const radios = screen.getAllByRole('radio');
-        await user.click(radios[0]);
-        await user.click(screen.getByRole('button', {name: /submit quiz/i}));
+        await user.type(optionInputs[2], 'London');
+        await user.type(optionInputs[3], 'Madrid');
+        // Click the "mark correct" toggle on the first option (it's not a radio, it's a button with no name)
+        const correctToggles = screen.getAllByTitle(/Mark correct|Correct$/);
+        await user.click(correctToggles[0]);
+        await user.click(screen.getByRole('button', {name: /save.*finish/i}));
 
         await waitFor(() => expect(screen.getByText('home page')).toBeInTheDocument());
         expect(spy).toHaveBeenCalledTimes(1);
@@ -88,6 +91,8 @@ describe('BuildQuiz', () => {
                 options: [
                     {label: 'Paris', isCorrect: true},
                     {label: 'Berlin', isCorrect: false},
+                    {label: 'London', isCorrect: false},
+                    {label: 'Madrid', isCorrect: false},
                 ],
                 correctAnswer: 'Paris',
             }],

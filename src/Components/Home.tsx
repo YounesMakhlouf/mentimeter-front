@@ -5,18 +5,28 @@ import {useAuth} from "../hooks/useAuth.ts";
 
 const Layout = styled.div`
     display: grid;
-    grid-template-columns: fit-content(20ch) minmax(min(50vw, 30ch), 1fr);
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+
+    @media (max-width: 800px) {
+        grid-template-columns: 1fr;
+    }
+`;
+
+const Main = styled.main`
+    background: var(--paper);
+    overflow: auto;
 `;
 
 function Home() {
     const {username} = useAuth();
 
     return (
-        <Layout className="container">
+        <Layout>
             <SideBar/>
-            <div className="main-content">
+            <Main>
                 <MainHomeBox name={username ?? "stranger"}/>
-            </div>
+            </Main>
         </Layout>
     );
 }

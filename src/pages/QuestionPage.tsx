@@ -1,106 +1,162 @@
-import {socket, QuestionPayload, Participant} from '../socket.ts'
-import {Navigate, useLocation, useNavigate} from "react-router";
+import {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
-import {ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState} from "react";
+import {Navigate, useLocation, useNavigate} from "react-router";
+import {socket, QuestionPayload, Participant} from '../socket.ts';
+import {Card, Chip} from "../design/styled.ts";
+import {Avatar, ShapeIcon} from "../design/primitives.tsx";
+import {OPT_META} from "../design/tokens.ts";
 
 const QUIZ_CODE_KEY = 'qspage:quizCode';
+const QUESTION_TIME = 10; // seconds — matches the existing 10s server fallback timeout
 
-function getRandomColor() {
-    const min = 150;
-    const max = 256;
-    const r = Math.floor(Math.random() * (max - min) + min);
-    const g = Math.floor(Math.random() * (max - min) + min);
-    const b = Math.floor(Math.random() * (max - min) + min);
-    return `rgb(${r}, ${g}, ${b})`;
-}
-
-const Container = styled.div`
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    position: relative;
-    margin: auto;
-    margin-top: 2%;
-    overflow: hidden;
-    top: 10%;
-    width: 500px;
-    height: 600px;
-    max-width: 100%;
-    min-height: 400px;
-`;
-
-const Heading = styled.h2`
-    margin-top: 8%;
-    margin-bottom: 8%;
-`;
-
-const QuizLabel = styled.span<{$accent?: boolean}>`
-    color: ${({$accent}) => $accent ? '#DC6B19' : '#6C0345'};
-`;
-
-const QuestionText = styled.p`
-    font-size: 1.5em;
-`;
-
-const OptionsList = styled.div`
+const Page = styled.div`
+    height: 100vh;
+    background: var(--paper);
+    color: var(--ink);
     display: flex;
     flex-direction: column;
-    & > div {
-        margin-top: 1em;
-    }
+    overflow: hidden;
 `;
 
-const OptionRow = styled.div<{$borderColor: string}>`
-    border: 2px solid ${({$borderColor}) => $borderColor};
-    padding: 1em;
-    border-radius: 5px;
+const TopBar = styled.header`
+    padding: 16px 24px;
     display: flex;
-    align-items: flex-start;
-    width: 85%;
-    margin: 0 auto 1em;
+    align-items: center;
+    justify-content: space-between;
 `;
 
-const SubmitButton = styled.button<{$pending: boolean}>`
-    margin-top: 5em;
-    background-color: #6C0345;
-    color: white;
-    border-radius: 5px;
-    cursor: ${({$pending}) => $pending ? 'not-allowed' : 'pointer'};
+const PlayerInfo = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+`;
+
+const Body = styled.div`
+    flex: 1;
+    padding: 12px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+`;
+
+const QuestionCard = styled(Card)`
+    padding: 22px;
+    position: relative;
+`;
+
+const TimeBar = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: rgba(0, 0, 0, .08);
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    overflow: hidden;
+`;
+
+const TimeFill = styled.div<{$pct: number; $low: boolean}>`
+    height: 100%;
+    width: ${({$pct}) => $pct * 100}%;
+    background: ${({$low}) => $low ? 'var(--opt-a)' : 'var(--opt-d)'};
+    transition: width 1s linear;
+`;
+
+const TimeChip = styled.div<{$low: boolean}>`
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: ${({$low}) => $low ? 'var(--opt-a)' : 'var(--ink)'};
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    font-family: var(--display);
+    font-variant-numeric: tabular-nums;
+    animation: ${({$low}) => $low ? 'pulse-ring 1s ease-out infinite' : 'none'};
+`;
+
+const QuestionHeading = styled.h2`
+    font-family: var(--display);
+    font-size: 28px;
+    line-height: 1.15;
+    margin-top: 12px;
+`;
+
+const OptionsGrid = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    flex: 1;
+`;
+
+const OptionTile = styled.button<{$bg: string; $ink: string; $selected: boolean; $dim: boolean}>`
+    background: ${({$bg}) => $bg};
+    color: ${({$ink}) => $ink};
+    border: 2.5px solid var(--ink);
+    border-radius: var(--r-lg);
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px;
+    box-shadow: var(--shadow-md);
+    opacity: ${({$dim}) => $dim ? 0.35 : 1};
+    transform: ${({$selected}) => $selected ? 'scale(.98)' : 'none'};
+    transition: all .15s ease;
+    text-align: left;
+    min-height: 120px;
+`;
+
+const OptionLabel = styled.span`
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+`;
+
+const Spinner = styled.div`
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: 6px solid var(--ink);
+    border-top-color: transparent;
+    animation: spin-slow 1s linear infinite;
+`;
+
+const Centered = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    text-align: center;
 `;
 
 export default function QuestionPage() {
     const [questions, setQuestions] = useState<QuestionPayload[]>([]);
     const [questionNumber, setQuestionNumber] = useState(0);
-    const [answerState, setAnswerState] = useState("");
-    const [isAnswering, setIsAnswering] = useState(false);
+    const [picked, setPicked] = useState<number | null>(null);
+    const [time, setTime] = useState(QUESTION_TIME);
+    const [phase, setPhase] = useState<'answer' | 'wait'>('answer');
     const isAnsweringRef = useRef(false);
-
     const navigate = useNavigate();
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const {value} = event.target;
-        setAnswerState(value);
-    };
-
     const location = useLocation();
     const code: string | null = location.state?.payload?.quizCode ?? sessionStorage.getItem(QUIZ_CODE_KEY);
+    const playerName = localStorage.getItem('name') || 'Player';
 
     useEffect(() => {
         if (code) sessionStorage.setItem(QUIZ_CODE_KEY, code);
     }, [code]);
-
-    const sendAnswer = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (!code) return;
-        socket.emit("getAnswer", {
-            quizCode: code,
-            answer: answerState,
-            questionNumber: questionNumber,
-            playerPseudo: localStorage.getItem('name')
-        });
-        isAnsweringRef.current = true;
-        setIsAnswering(true);
-    }
 
     useEffect(() => {
         if (!code) return;
@@ -108,11 +164,13 @@ export default function QuestionPage() {
 
         let timer: ReturnType<typeof setTimeout> | undefined;
 
-        const onQuestion = (question: QuestionPayload) => {
+        const onQuestion = (q: QuestionPayload) => {
             isAnsweringRef.current = false;
-            setIsAnswering(false);
-            setQuestions((prev) => [...prev, question]);
-            setQuestionNumber(question.questionNumber);
+            setPicked(null);
+            setPhase('answer');
+            setTime(QUESTION_TIME);
+            setQuestions((prev) => [...prev, q]);
+            setQuestionNumber(q.questionNumber);
 
             if (timer) clearTimeout(timer);
             timer = setTimeout(() => {
@@ -120,72 +178,134 @@ export default function QuestionPage() {
                     socket.emit("getAnswer", {
                         quizCode: code,
                         answer: "",
-                        questionNumber: question.questionNumber,
-                        playerPseudo: localStorage.getItem('name'),
+                        questionNumber: q.questionNumber,
+                        playerPseudo: playerName,
                     });
                 }
-            }, 10000);
+            }, QUESTION_TIME * 1000);
         };
 
         const onEndQuiz = (payload: Participant[]) => {
             navigate('/leaderboard', {state: {payload}});
         };
 
-        socket.on("question", onQuestion);
-        socket.on("endQuiz", onEndQuiz);
+        socket.on('question', onQuestion);
+        socket.on('endQuiz', onEndQuiz);
 
         return () => {
             if (timer) clearTimeout(timer);
-            socket.off("question", onQuestion);
-            socket.off("endQuiz", onEndQuiz);
+            socket.off('question', onQuestion);
+            socket.off('endQuiz', onEndQuiz);
         };
-    }, [code, navigate]);
+    }, [code, navigate, playerName]);
 
-    const borderColors = useMemo(
-        () => [getRandomColor(), getRandomColor(), getRandomColor()],
-        [],
-    );
+    // Countdown ticker
+    useEffect(() => {
+        if (phase !== 'answer') return;
+        const t = setInterval(() => setTime((s) => Math.max(0, s - 1)), 1000);
+        return () => clearInterval(t);
+    }, [phase]);
 
     if (!code) {
         return <Navigate to="/" replace/>;
     }
 
-    const currentQuestion = questions.find(q => q.questionNumber === questionNumber);
-    const question = currentQuestion?.question.question;
+    const currentQuestion = questions.find((q) => q.questionNumber === questionNumber);
+    const questionText = currentQuestion?.question.question;
     const options = currentQuestion?.question.options;
 
+    const onPick = (idx: number, label: string) => {
+        if (picked !== null) return;
+        setPicked(idx);
+        setPhase('wait');
+        isAnsweringRef.current = true;
+        socket.emit('getAnswer', {
+            quizCode: code,
+            answer: label,
+            questionNumber,
+            playerPseudo: playerName,
+        });
+    };
+
+    if (!currentQuestion) {
+        return (
+            <Page>
+                <Centered>
+                    <Spinner/>
+                    <h2 style={{fontSize: 28}}>Waiting for the host…</h2>
+                </Centered>
+            </Page>
+        );
+    }
+
     return (
-        <Container>
-            <div>
-                <Heading>
-                    <QuizLabel>Quiz</QuizLabel>
-                    <QuizLabel $accent>Up</QuizLabel>
-                </Heading>
-                <form onSubmit={sendAnswer}>
+        <Page>
+            <TopBar>
+                <PlayerInfo>
+                    <Avatar name={playerName} emoji="🎲" size={36}/>
                     <div>
-                        <QuestionText>{question}</QuestionText>
+                        <div style={{fontWeight: 700, fontSize: 14}}>{playerName}</div>
+                        <div style={{color: 'var(--ink-mute)', fontSize: 11}}>Live game</div>
                     </div>
-                    <OptionsList>
-                        <div>
-                            {options && options.map((option, index) => (
-                                <OptionRow key={index} $borderColor={borderColors[index]}>
-                                    <input
-                                        type="radio"
-                                        id={`option${index}`}
-                                        name="answer"
-                                        value={option.label}
-                                        onChange={handleInputChange}
-                                    />
-                                    <label htmlFor={`option${index}`}>{option.label}</label>
-                                </OptionRow>
-                            ))}
-                        </div>
-                    </OptionsList>
-                    <SubmitButton type="submit" $pending={isAnswering} disabled={isAnswering}>
-                        Submit Answer
-                    </SubmitButton>
-                </form>
-            </div>
-        </Container>
+                </PlayerInfo>
+                <Chip>Q {(questionNumber + 1).toString().padStart(2, '0')}</Chip>
+            </TopBar>
+            <Body>
+                {phase === 'answer' && (
+                    <>
+                        <QuestionCard>
+                            <TimeBar>
+                                <TimeFill $pct={time / QUESTION_TIME} $low={time < 6}/>
+                            </TimeBar>
+                            <div style={{display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4, marginTop: 6}}>
+                                <TimeChip $low={time < 6}>{time}</TimeChip>
+                                <span style={{color: 'var(--ink-mute)', fontSize: 13, fontWeight: 600}}>seconds left</span>
+                            </div>
+                            <QuestionHeading>{questionText}</QuestionHeading>
+                        </QuestionCard>
+                        <OptionsGrid>
+                            {options?.map((option, i) => {
+                                const m = OPT_META[i] ?? OPT_META[i % 4];
+                                const sel = picked === i;
+                                return (
+                                    <OptionTile
+                                        key={i}
+                                        type="button"
+                                        $bg={m.colorVar}
+                                        $ink={m.inkVar}
+                                        $selected={sel}
+                                        $dim={picked !== null && !sel}
+                                        disabled={picked !== null}
+                                        onClick={() => onPick(i, option.label)}
+                                    >
+                                        <ShapeIcon
+                                            kind={m.shape}
+                                            size={42}
+                                            color={m.inkVar === '#ffffff' ? 'rgba(255,255,255,.95)' : 'rgba(0,0,0,.85)'}
+                                        />
+                                        <OptionLabel>{option.label}</OptionLabel>
+                                    </OptionTile>
+                                );
+                            })}
+                        </OptionsGrid>
+                    </>
+                )}
+                {phase === 'wait' && picked !== null && (
+                    <Centered>
+                        <Spinner/>
+                        <h2 style={{fontSize: 32}}>Locked in!</h2>
+                        <p style={{color: 'var(--ink-mute)', fontSize: 16, maxWidth: 320}}>
+                            Hang tight — we'll reveal the answer when everyone's in.
+                        </p>
+                        {options?.[picked] && (
+                            <Card style={{padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 10}}>
+                                <ShapeIcon kind={OPT_META[picked].shape} size={24} color={OPT_META[picked].colorVar}/>
+                                <span style={{fontWeight: 700}}>You picked: {options[picked].label}</span>
+                            </Card>
+                        )}
+                    </Centered>
+                )}
+            </Body>
+        </Page>
     );
 }

@@ -2,6 +2,7 @@ import {describe, expect, it, vi, beforeEach} from 'vitest';
 import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import EnterQuizCodeForm from '../Components/EnterQuizCodeForm';
+import {EMOJI_AVATARS} from '../design/avatars';
 
 type Handler = (...args: unknown[]) => void;
 
@@ -27,6 +28,13 @@ const trigger = (event: string, ...args: unknown[]) => {
     });
 };
 
+const fillNameAndContinue = async (user: ReturnType<typeof userEvent.setup>, code: string, name: string) => {
+    await user.type(screen.getByPlaceholderText('Quiz code'), code);
+    const nameInput = screen.getAllByRole('textbox')[1];
+    await user.type(nameInput, name);
+    await user.click(screen.getByRole('button', {name: /continue/i}));
+};
+
 describe('EnterQuizCodeForm', () => {
     beforeEach(() => {
         for (const key of Object.keys(handlers)) delete handlers[key];
@@ -34,34 +42,41 @@ describe('EnterQuizCodeForm', () => {
         localStorage.clear();
     });
 
-    it('emits joinQuiz with the typed values and locks the button', async () => {
+    it('walks name -> avatar -> emits joinQuiz with the right shape', async () => {
         const user = userEvent.setup();
         render(<EnterQuizCodeForm/>);
 
-        await user.type(screen.getByPlaceholderText(/7007024f/), 'CODE-123');
-        await user.type(screen.getByPlaceholderText(/The/), 'Alice');
-        await user.click(screen.getByRole('button', {name: /join now/i}));
+        await fillNameAndContinue(user, 'CODE-123', 'Alice');
+        // We're on the avatar step now
+        expect(screen.getByText(/Pick your buddy/i)).toBeInTheDocument();
+        await user.click(screen.getByRole('button', {name: /join game/i}));
 
-        expect(socket.emit).toHaveBeenCalledWith('joinQuiz', expect.objectContaining({
+        expect(socket.emit).toHaveBeenCalledWith('joinQuiz', {
             quizCode: 'CODE-123',
             playerName: 'Alice',
-        }));
+            avatar: EMOJI_AVATARS[0],
+        });
         expect(localStorage.getItem('name')).toBe('Alice');
-        expect(screen.getByRole('button', {name: /joining/i})).toBeDisabled();
     });
 
-    it('shows the success loader and disables the button when playerJoined fires', () => {
+    it('disables Continue while quiz code or pseudo are empty', async () => {
         render(<EnterQuizCodeForm/>);
+        const continueBtn = screen.getByRole('button', {name: /continue/i});
+        expect(continueBtn).toBeDisabled();
+    });
+
+    it('flips to the joined state when playerJoined fires', () => {
+        render(<EnterQuizCodeForm initialCode="CODE"/>);
         trigger('playerJoined');
-        expect(screen.getByText(/Buckle up/i)).toBeInTheDocument();
-        expect(screen.getByRole('button', {name: /joined/i})).toBeDisabled();
+        expect(screen.getByText(/You're in/i)).toBeInTheDocument();
     });
 
-    it('shows the error message and re-enables the button when errorMsg fires', () => {
+    it('shows the error message when errorMsg fires', async () => {
+        const user = userEvent.setup();
         render(<EnterQuizCodeForm/>);
+        await fillNameAndContinue(user, 'CODE', 'Alice');
         trigger('errorMsg');
         expect(screen.getByText(/Ooopsie/i)).toBeInTheDocument();
-        expect(screen.getByRole('button', {name: /join now/i})).toBeEnabled();
     });
 
     it('cleans up listeners on unmount', () => {
