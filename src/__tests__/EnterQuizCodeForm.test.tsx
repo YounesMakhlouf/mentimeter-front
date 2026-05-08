@@ -29,7 +29,7 @@ const trigger = (event: string, ...args: unknown[]) => {
 };
 
 const fillNameAndContinue = async (user: ReturnType<typeof userEvent.setup>, code: string, name: string) => {
-    await user.type(screen.getByPlaceholderText('Quiz code'), code);
+    await user.type(screen.getByPlaceholderText('123 456'), code);
     const nameInput = screen.getAllByRole('textbox')[1];
     await user.type(nameInput, name);
     await user.click(screen.getByRole('button', {name: /continue/i}));
@@ -42,17 +42,17 @@ describe('EnterQuizCodeForm', () => {
         localStorage.clear();
     });
 
-    it('walks name -> avatar -> emits joinQuiz with the right shape', async () => {
+    it('walks name -> avatar -> emits joinQuiz with a normalized 6-digit pin', async () => {
         const user = userEvent.setup();
         render(<EnterQuizCodeForm/>);
 
-        await fillNameAndContinue(user, 'CODE-123', 'Alice');
+        await fillNameAndContinue(user, '123 456', 'Alice');
         // We're on the avatar step now
         expect(screen.getByText(/Pick your buddy/i)).toBeInTheDocument();
         await user.click(screen.getByRole('button', {name: /join game/i}));
 
         expect(socket.emit).toHaveBeenCalledWith('joinQuiz', {
-            quizCode: 'CODE-123',
+            quizCode: '123456',
             playerName: 'Alice',
             avatar: EMOJI_AVATARS[0],
         });
@@ -74,7 +74,7 @@ describe('EnterQuizCodeForm', () => {
     it('shows the error message when errorMsg fires', async () => {
         const user = userEvent.setup();
         render(<EnterQuizCodeForm/>);
-        await fillNameAndContinue(user, 'CODE', 'Alice');
+        await fillNameAndContinue(user, '123456', 'Alice');
         trigger('errorMsg');
         expect(screen.getByText(/Ooopsie/i)).toBeInTheDocument();
     });

@@ -302,7 +302,7 @@ function WelcomePage() {
                     <ModalClose onClick={closeModal} aria-label="Close">
                         <FaRegCircleXmark size={28}/>
                     </ModalClose>
-                    <EnterQuizCodeForm initialCode={code.trim()}/>
+                    <EnterQuizCodeForm initialCode={code.replace(/\D/g, '')}/>
                 </ModalBox>
             </Popup>
         </Page>

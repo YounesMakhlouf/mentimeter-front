@@ -100,9 +100,10 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
 
     const submit = () => {
         const name = playerName.trim();
-        if (!name || !quizCode.trim()) return;
+        const pin = quizCode.replace(/\D/g, '');
+        if (!name || pin.length !== 6) return;
         const avatar = EMOJI_AVATARS[emojiIdx];
-        socket.emit('joinQuiz', {quizCode: quizCode.trim(), playerName: name, avatar});
+        socket.emit('joinQuiz', {quizCode: pin, playerName: name, avatar});
         localStorage.setItem('name', name);
         setJoinStatus('submitting');
     };
@@ -128,9 +129,11 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
                     <Subtle>Your classmates will see this on the leaderboard.</Subtle>
                     <Input
                         type="text"
-                        placeholder="Quiz code"
+                        inputMode="numeric"
+                        placeholder="123 456"
                         value={quizCode}
-                        onChange={(e) => setQuizCode(e.target.value)}
+                        maxLength={7}
+                        onChange={(e) => setQuizCode(e.target.value.replace(/[^\d ]/g, ''))}
                     />
                     <Input
                         type="text"
@@ -145,8 +148,8 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
                         <span/>
                         <PrimaryButton
                             type="button"
-                            disabled={!playerName.trim() || !quizCode.trim()}
-                            style={{opacity: !playerName.trim() || !quizCode.trim() ? 0.5 : 1}}
+                            disabled={!playerName.trim() || quizCode.replace(/\D/g, '').length !== 6}
+                            style={{opacity: !playerName.trim() || quizCode.replace(/\D/g, '').length !== 6 ? 0.5 : 1}}
                             onClick={() => setStep('avatar')}
                         >
                             Continue →
