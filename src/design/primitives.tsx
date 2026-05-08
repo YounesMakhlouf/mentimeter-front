@@ -120,17 +120,22 @@ export function ShapeField({density = 18, opacity = 0.18, seed = 1}: {
 }
 
 export function GameCode({code, size = 96}: {code: string; size?: number}) {
-    const grouped = String(code).replace(/\s/g, '').replace(/(.{3})/g, '$1 ').trim();
+    const raw = String(code).replace(/\s/g, '');
+    // Short PINs get the 3-grouped display; long IDs (UUIDs, etc.) render compact, in one line.
+    const isShort = raw.length <= 9 && !raw.includes('-');
+    const display = isShort ? raw.replace(/(.{3})/g, '$1 ').trim() : raw;
     return (
         <div style={{
             fontFamily: 'var(--display)',
             fontVariantNumeric: 'tabular-nums',
-            fontSize: size,
-            lineHeight: 1,
+            fontSize: isShort ? size : Math.min(size, 28),
+            lineHeight: 1.1,
             fontWeight: 800,
-            letterSpacing: '0.04em',
+            letterSpacing: isShort ? '0.04em' : '0.02em',
             color: 'var(--ink)',
-        }}>{grouped}</div>
+            wordBreak: isShort ? 'normal' : 'break-all',
+            userSelect: 'all',
+        }}>{display}</div>
     );
 }
 
