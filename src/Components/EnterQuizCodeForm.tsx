@@ -34,8 +34,8 @@ const Footer = styled.div`
 
 const AvatarGrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
 `;
 
 const AvatarPick = styled.button<{$selected: boolean}>`
