@@ -17,6 +17,8 @@ const buttonBase = css`
     align-items: center;
     justify-content: center;
     gap: 10px;
+    white-space: nowrap;
+    line-height: 1;
 
     &:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
     &:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
