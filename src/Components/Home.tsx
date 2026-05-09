@@ -15,12 +15,12 @@ const TopBar = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 32px;
+    padding: 12px 20px;
     border-bottom: 2.5px solid var(--ink);
     background: var(--card);
 
-    @media (max-width: 600px) {
-        padding: 12px 20px;
+    @media (min-width: 600px) {
+        padding: 16px 32px;
     }
 `;
 
@@ -31,12 +31,13 @@ const UserCluster = styled.div`
 `;
 
 const UserMeta = styled.div`
+    display: none;
     text-align: right;
     line-height: 1.15;
     max-width: 200px;
 
-    @media (max-width: 480px) {
-        display: none;
+    @media (min-width: 480px) {
+        display: block;
     }
 `;
 

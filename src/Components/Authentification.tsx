@@ -41,21 +41,20 @@ const Wrap = styled.div`
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     max-width: 1080px;
     margin: 32px auto;
     padding: 0 24px;
 
-    @media (max-width: 800px) {
-        grid-template-columns: 1fr;
+    @media (min-width: 800px) {
+        grid-template-columns: 1fr 1fr;
     }
 `;
 
 const BrandPanel = styled(Card)<{$mode: 'login' | 'register'}>`
     background: ${({$mode}) => $mode === 'login' ? 'var(--brand)' : 'var(--ink)'};
     color: #fff;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
     padding: 48px;
     display: flex;
     flex-direction: column;
@@ -63,23 +62,22 @@ const BrandPanel = styled(Card)<{$mode: 'login' | 'register'}>`
     transition: background .4s ease;
     min-height: 520px;
 
-    @media (max-width: 800px) {
-        border-radius: var(--r-lg) var(--r-lg) 0 0;
+    @media (min-width: 800px) {
+        border-radius: var(--r-lg) 0 0 var(--r-lg);
     }
 `;
 
 const FormPanel = styled(Card)`
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    padding: 48px 56px;
+    border-radius: 0 0 var(--r-lg) var(--r-lg);
+    padding: 36px;
     display: flex;
     flex-direction: column;
     gap: 16px;
     background: var(--card);
 
-    @media (max-width: 800px) {
-        border-radius: 0 0 var(--r-lg) var(--r-lg);
-        padding: 36px;
+    @media (min-width: 800px) {
+        border-radius: 0 var(--r-lg) var(--r-lg) 0;
+        padding: 48px 56px;
     }
 `;
 

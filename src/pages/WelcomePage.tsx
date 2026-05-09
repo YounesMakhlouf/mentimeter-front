@@ -32,16 +32,16 @@ const Hero = styled.div`
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: 1fr;
     gap: 64px;
-    padding: 32px 64px 64px;
+    padding: 24px;
     max-width: 1280px;
     margin: 0 auto;
     align-items: center;
 
-    @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        padding: 24px;
+    @media (min-width: 900px) {
+        grid-template-columns: 1.15fr 1fr;
+        padding: 32px 64px 64px;
     }
 `;
 
@@ -105,9 +105,12 @@ const PinSubmit = styled(InkButton)`
 `;
 
 const PreviewArea = styled.div`
-    position: relative;
-    height: 460px;
-    @media (max-width: 900px) { display: none; }
+    display: none;
+    @media (min-width: 900px) {
+        display: block;
+        position: relative;
+        height: 460px;
+    }
 `;
 
 const QuestionPreview = styled(Card)`
