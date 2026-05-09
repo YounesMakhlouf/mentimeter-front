@@ -19,7 +19,7 @@ const Page = styled.div`
 `;
 
 const TopBar = styled.header`
-    padding: 16px 24px;
+    padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,22 +28,22 @@ const TopBar = styled.header`
 const PlayerInfo = styled.div`
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.625rem;
 `;
 
 const Body = styled.div`
     flex: 1;
-    padding: 12px 24px 24px;
+    padding: 0.75rem 1.5rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    max-width: 800px;
+    gap: 1.125rem;
+    max-width: 50rem;
     margin: 0 auto;
     width: 100%;
 `;
 
 const QuestionCard = styled(Card)`
-    padding: 22px;
+    padding: 1.375rem;
     position: relative;
 `;
 
@@ -52,10 +52,10 @@ const TimeBar = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
+    height: 0.375rem;
     background: rgba(0, 0, 0, .08);
-    border-top-left-radius: 22px;
-    border-top-right-radius: 22px;
+    border-top-left-radius: 1.375rem;
+    border-top-right-radius: 1.375rem;
     overflow: hidden;
 `;
 
@@ -67,15 +67,15 @@ const TimeFill = styled.div<{$pct: number; $low: boolean}>`
 `;
 
 const TimeChip = styled.div<{$low: boolean}>`
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: 50%;
     background: ${({$low}) => $low ? 'var(--opt-a)' : 'var(--ink)'};
     color: var(--paper);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 800;
     font-family: var(--display);
     font-variant-numeric: tabular-nums;
@@ -84,15 +84,15 @@ const TimeChip = styled.div<{$low: boolean}>`
 
 const QuestionHeading = styled.h2`
     font-family: var(--display);
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 1.15;
-    margin-top: 12px;
+    margin-top: 0.75rem;
 `;
 
 const OptionsGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 0.75rem;
     flex: 1;
 `;
 
@@ -107,25 +107,25 @@ const OptionTile = styled.button<{$bg: string; $ink: string; $selected: boolean;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 12px;
-    padding: 18px;
+    gap: 0.75rem;
+    padding: 1.125rem;
     box-shadow: var(--shadow-md);
     opacity: ${({$dim}) => $dim ? 0.35 : 1};
     transform: ${({$selected}) => $selected ? 'scale(.98)' : 'none'};
     transition: all .15s ease;
     text-align: left;
-    min-height: 120px;
+    min-height: 7.5rem;
 `;
 
 const OptionLabel = styled.span`
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.2;
 `;
 
 const Spinner = styled.div`
-    width: 88px;
-    height: 88px;
+    width: 5.5rem;
+    height: 5.5rem;
     border-radius: 50%;
     border: 6px solid var(--ink);
     border-top-color: transparent;
@@ -138,7 +138,7 @@ const Centered = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 1.125rem;
     text-align: center;
 `;
 
@@ -232,7 +232,7 @@ export default function QuestionPage() {
             <Page>
                 <Centered>
                     <Spinner/>
-                    <h2 style={{fontSize: 28}}>Waiting for the host…</h2>
+                    <h2 style={{fontSize: '1.75rem'}}>Waiting for the host…</h2>
                 </Centered>
             </Page>
         );
@@ -244,8 +244,8 @@ export default function QuestionPage() {
                 <PlayerInfo>
                     <Avatar name={playerName} emoji="🎲" size={36}/>
                     <div>
-                        <div style={{fontWeight: 700, fontSize: 14}}>{playerName}</div>
-                        <div style={{color: 'var(--ink-mute)', fontSize: 11}}>Live game</div>
+                        <div style={{fontWeight: 700, fontSize: '0.875rem'}}>{playerName}</div>
+                        <div style={{color: 'var(--ink-mute)', fontSize: '0.6875rem'}}>Live game</div>
                     </div>
                 </PlayerInfo>
                 <Chip>Q {(questionNumber + 1).toString().padStart(2, '0')}</Chip>
@@ -257,9 +257,9 @@ export default function QuestionPage() {
                             <TimeBar>
                                 <TimeFill $pct={time / QUESTION_TIME} $low={time < 6}/>
                             </TimeBar>
-                            <div style={{display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4, marginTop: 6}}>
+                            <div style={{display: 'flex', alignItems: 'center', gap: 10, marginBottom: '0.25rem', marginTop: '0.375rem'}}>
                                 <TimeChip $low={time < 6}>{time}</TimeChip>
-                                <span style={{color: 'var(--ink-mute)', fontSize: 13, fontWeight: 600}}>seconds left</span>
+                                <span style={{color: 'var(--ink-mute)', fontSize: '0.8125rem', fontWeight: 600}}>seconds left</span>
                             </div>
                             <QuestionHeading>{questionText}</QuestionHeading>
                         </QuestionCard>
@@ -293,12 +293,12 @@ export default function QuestionPage() {
                 {phase === 'wait' && picked !== null && (
                     <Centered>
                         <Spinner/>
-                        <h2 style={{fontSize: 32}}>Locked in!</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: 16, maxWidth: 320}}>
+                        <h2 style={{fontSize: '2rem'}}>Locked in!</h2>
+                        <p style={{color: 'var(--ink-mute)', fontSize: '1rem', maxWidth: 320}}>
                             Hang tight — we'll reveal the answer when everyone's in.
                         </p>
                         {options?.[picked] && (
-                            <Card style={{padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 10}}>
+                            <Card style={{padding: '0.625rem 1.125rem', display: 'flex', alignItems: 'center', gap: 10}}>
                                 <ShapeIcon kind={OPT_META[picked].shape} size={24} color={OPT_META[picked].colorVar}/>
                                 <span style={{fontWeight: 700}}>You picked: {options[picked].label}</span>
                             </Card>

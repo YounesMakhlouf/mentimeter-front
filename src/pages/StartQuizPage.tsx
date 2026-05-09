@@ -16,7 +16,7 @@ const Page = styled.div`
 
 const Header = styled.header`
     position: relative;
-    padding: 18px 32px;
+    padding: 1.125rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,29 +28,29 @@ const Wrap = styled.div`
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 16px 24px 24px;
-    max-width: 1320px;
+    gap: 2rem;
+    padding: 1rem 1.5rem 1.5rem;
+    max-width: 82.5rem;
     margin: 0 auto;
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 5rem);
 
-    @media (min-width: 900px) {
+    @media (min-width: 56.25rem) {
         grid-template-columns: 1.2fr 1fr;
-        padding: 16px 48px 32px;
+        padding: 1rem 3rem 2rem;
     }
 `;
 
 const CodePanel = styled(Card)`
-    padding: 36px;
+    padding: 2.25rem;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 1.375rem;
     background: var(--card);
 `;
 
 const SectionLabel = styled.div`
     font-weight: 700;
-    font-size: 14px;
+    font-size: 0.875rem;
     letter-spacing: .06em;
     text-transform: uppercase;
     color: var(--ink-mute);
@@ -58,12 +58,12 @@ const SectionLabel = styled.div`
 
 const PinLabel = styled.div`
     font-weight: 700;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--ink-mute);
 `;
 
 const ParticipantPanel = styled(Card)`
-    padding: 24px;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -75,18 +75,18 @@ const PanelHeader = styled.div`
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
 `;
 
 const PanelTitle = styled.h2`
-    font-size: 28px;
+    font-size: 1.75rem;
     color: var(--paper);
 `;
 
 const Counter = styled.span`
     font-family: var(--display);
     font-variant-numeric: tabular-nums;
-    font-size: 32px;
+    font-size: 2rem;
     font-weight: 800;
 `;
 
@@ -94,37 +94,37 @@ const PartGrid = styled.div`
     flex: 1;
     overflow: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(6.875rem, 1fr));
+    gap: 0.75rem;
     align-content: flex-start;
 `;
 
 const PartCell = styled.div`
     background: rgba(255, 255, 255, .08);
-    border-radius: 16px;
-    padding: 12px 8px;
+    border-radius: 1rem;
+    padding: 0.75rem 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem;
 `;
 
 const PartFace = styled.div`
-    width: 52px;
-    height: 52px;
+    width: 3.25rem;
+    height: 3.25rem;
     border-radius: 50%;
     background: var(--paper);
     color: var(--ink);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
+    font-size: 1.625rem;
     border: 2.5px solid var(--paper);
 `;
 
 const PartName = styled.div`
     font-weight: 600;
-    font-size: 13px;
+    font-size: 0.8125rem;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -135,7 +135,7 @@ const PartName = styled.div`
 const Empty = styled.div`
     grid-column: 1 / -1;
     text-align: center;
-    padding: 60px 0;
+    padding: 3.75rem 0;
     opacity: 0.7;
 `;
 
@@ -182,12 +182,12 @@ export default function StartQuizPage() {
                     <SectionLabel>Quiz session</SectionLabel>
                     <div>
                         <PinLabel>Join at <span style={{color: 'var(--ink)'}}>quizup.live</span></PinLabel>
-                        <div style={{marginTop: 6}}>
+                        <div style={{marginTop: '0.375rem'}}>
                             <PinLabel>Game PIN</PinLabel>
                             <GameCode code={sessionCode} size={64}/>
                         </div>
                     </div>
-                    <p style={{color: 'var(--ink-mute)', fontSize: 14, lineHeight: 1.4}}>
+                    <p style={{color: 'var(--ink-mute)', fontSize: '0.875rem', lineHeight: 1.4}}>
                         Players open <b style={{color: 'var(--ink)'}}>localhost:5173</b> and enter this code to join.
                     </p>
                     <div style={{flex: 1}}/>

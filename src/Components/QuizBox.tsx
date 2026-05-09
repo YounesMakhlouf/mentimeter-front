@@ -14,33 +14,33 @@ const Article = styled(Card)`
 `;
 
 const CoverArea = styled.div<{$color: string}>`
-    height: 130px;
+    height: 8.125rem;
     background: ${({$color}) => $color};
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 64px;
+    font-size: 4rem;
 `;
 
 const TopicChip = styled(Chip)`
     position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 11px;
-    padding: 3px 10px;
+    top: 0.625rem;
+    left: 0.625rem;
+    font-size: 0.6875rem;
+    padding: 3px 0.625rem;
 `;
 
 const Body = styled.div`
-    padding: 16px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
     flex: 1;
 `;
 
 const Title = styled.h3`
-    font-size: 20px;
+    font-size: 1.25rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -50,14 +50,14 @@ const Title = styled.h3`
 
 const Meta = styled.div`
     color: var(--ink-mute);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
 `;
 
 const Actions = styled.div`
     display: flex;
-    gap: 8px;
-    margin-top: 6px;
+    gap: 0.5rem;
+    margin-top: 0.375rem;
 `;
 
 const ActionBtn = styled.button`
@@ -66,8 +66,8 @@ const ActionBtn = styled.button`
     background: var(--card);
     color: var(--ink);
     border-radius: var(--r-md);
-    padding: 10px 14px;
-    font-size: 14px;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
     font-weight: 700;
     cursor: pointer;
     box-shadow: var(--shadow-sm);
@@ -77,8 +77,8 @@ const ActionBtn = styled.button`
 
 const StartBtn = styled(PrimaryButton)`
     flex: 1;
-    padding: 10px 14px;
-    font-size: 14px;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
 `;
 
 const TOPIC_DEFAULTS: Record<string, {color: string; emoji: string}> = {

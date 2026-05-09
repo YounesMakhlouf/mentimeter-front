@@ -86,7 +86,7 @@ export function Sticker({children, color = 'var(--opt-c)', rotate = -6, size = 1
             border: '2.5px solid var(--ink)',
             boxShadow: 'var(--shadow-sm)',
             borderRadius: 999,
-            padding: '6px 14px',
+            padding: '0.375rem 0.875rem',
             transform: `rotate(${rotate}deg)`,
             fontWeight: 800,
             fontSize: size,

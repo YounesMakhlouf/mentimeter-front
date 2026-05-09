@@ -22,19 +22,19 @@
     --shadow-lg: 0 8px 0 0 var(--ink);
     --shadow-xl: 0 14px 0 0 var(--ink);
 
-    --r-sm: 10px;
-    --r-md: 16px;
-    --r-lg: 24px;
-    --r-xl: 32px;
+    --r-sm: 0.625rem;
+    --r-md: 1rem;
+    --r-lg: 1.5rem;
+    --r-xl: 2rem;
 
-    --gap-1: 4px;
-    --gap-2: 8px;
-    --gap-3: 12px;
-    --gap-4: 16px;
-    --gap-5: 24px;
-    --gap-6: 32px;
-    --gap-7: 48px;
-    --gap-8: 64px;
+    --gap-1: 0.25rem;
+    --gap-2: 0.5rem;
+    --gap-3: 0.75rem;
+    --gap-4: 1rem;
+    --gap-5: 1.5rem;
+    --gap-6: 2rem;
+    --gap-7: 3rem;
+    --gap-8: 4rem;
 
     --display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
     --body: "Rubik", ui-sans-serif, system-ui, sans-serif;

@@ -20,12 +20,12 @@ const TopNav = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 22px 48px;
+    padding: 1.375rem 3rem;
 `;
 
 const NavActions = styled.div`
     display: flex;
-    gap: 10px;
+    gap: 0.625rem;
 `;
 
 const Hero = styled.div`
@@ -33,29 +33,29 @@ const Hero = styled.div`
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 64px;
-    padding: 24px;
-    max-width: 1280px;
+    gap: 4rem;
+    padding: 1.5rem;
+    max-width: 80rem;
     margin: 0 auto;
     align-items: center;
 
-    @media (min-width: 900px) {
+    @media (min-width: 56.25rem) {
         grid-template-columns: 1.15fr 1fr;
-        padding: 32px 64px 64px;
+        padding: 2rem 4rem 4rem;
     }
 `;
 
 const Headline = styled.h1`
-    font-size: clamp(56px, 7.2vw, 104px);
-    margin: 24px 0;
+    font-size: clamp(3.5rem, 7.2vw, 6.5rem);
+    margin: 1.5rem 0;
     font-weight: 800;
 `;
 
 const Highlight = styled.span`
     background: var(--opt-a);
     color: #fff;
-    padding: 0 14px;
-    border-radius: 14px;
+    padding: 0 0.875rem;
+    border-radius: 0.875rem;
     display: inline-block;
     transform: rotate(-1.5deg);
     border: 3px solid var(--ink);
@@ -63,25 +63,25 @@ const Highlight = styled.span`
 `;
 
 const Phrase = styled.p`
-    font-size: 22px;
+    font-size: 1.375rem;
     line-height: 1.4;
     color: var(--ink-soft);
-    max-width: 540px;
-    margin-bottom: 36px;
-    min-height: 64px;
+    max-width: 33.75rem;
+    margin-bottom: 2.25rem;
+    min-height: 4rem;
 `;
 
 const PinRow = styled(Card)`
-    padding: 12px;
+    padding: 0.75rem;
     display: flex;
-    gap: 10px;
+    gap: 0.625rem;
     align-items: center;
-    max-width: 540px;
+    max-width: 33.75rem;
     border-radius: 999px;
 `;
 
 const PinLabel = styled.span`
-    padding-left: 14px;
+    padding-left: 0.875rem;
     font-weight: 700;
     color: var(--ink-mute);
 `;
@@ -90,9 +90,9 @@ const PinInput = styled.input`
     flex: 1;
     border: none;
     outline: none;
-    font-size: 22px;
+    font-size: 1.375rem;
     font-weight: 700;
-    padding: 10px 4px;
+    padding: 0.625rem 0.25rem;
     font-family: var(--body);
     background: transparent;
     color: var(--ink);
@@ -101,49 +101,49 @@ const PinInput = styled.input`
 
 const PinSubmit = styled(InkButton)`
     border-radius: 999px;
-    padding: 14px 28px;
+    padding: 0.875rem 1.75rem;
 `;
 
 const PreviewArea = styled.div`
     display: none;
-    @media (min-width: 900px) {
+    @media (min-width: 56.25rem) {
         display: block;
         position: relative;
-        height: 460px;
+        height: 28.75rem;
     }
 `;
 
 const QuestionPreview = styled(Card)`
     position: absolute;
-    top: 20px;
-    left: 30px;
-    padding: 18px;
+    top: 1.25rem;
+    left: 1.875rem;
+    padding: 1.125rem;
     transform: rotate(-4deg);
-    width: 240px;
+    width: 15rem;
     background: var(--opt-a);
     color: #fff;
-    border-radius: 20px;
+    border-radius: 1.25rem;
 `;
 
 const LeaderboardPreview = styled(Card)`
     position: absolute;
-    top: 140px;
+    top: 8.75rem;
     right: 0;
-    padding: 22px;
+    padding: 1.375rem;
     transform: rotate(3deg);
-    width: 280px;
+    width: 17.5rem;
     animation-delay: 0.1s;
 `;
 
 const StreakPreview = styled(Card)`
     position: absolute;
-    bottom: 10px;
+    bottom: 0.625rem;
     left: 0;
-    padding: 16px 20px;
+    padding: 1rem 1.25rem;
     transform: rotate(-2deg);
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 0.875rem;
     animation-delay: 0.2s;
     background: var(--opt-d);
 `;
@@ -211,13 +211,13 @@ function WelcomePage() {
 
                 <PreviewArea>
                     <QuestionPreview className="pop-in">
-                        <div style={{fontSize: 12, fontWeight: 700, opacity: 0.8, letterSpacing: '.06em'}}>
+                        <div style={{fontSize: '0.75rem', fontWeight: 700, opacity: 0.8, letterSpacing: '.06em'}}>
                             QUESTION 03 / 08
                         </div>
-                        <div style={{fontFamily: 'var(--display)', fontSize: 22, fontWeight: 800, marginTop: 6}}>
+                        <div style={{fontFamily: 'var(--display)', fontSize: '1.375rem', fontWeight: 800, marginTop: '0.375rem'}}>
                             Which planet has the most moons?
                         </div>
-                        <div style={{display: 'flex', gap: 6, marginTop: 14}}>
+                        <div style={{display: 'flex', gap: 6, marginTop: '0.875rem'}}>
                             {OPT_META.map((o) => (
                                 <ShapeIcon key={o.letter} kind={o.shape} size={22} color="rgba(255,255,255,.95)"/>
                             ))}
@@ -226,9 +226,9 @@ function WelcomePage() {
 
                     <LeaderboardPreview className="pop-in">
                         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <span style={{fontFamily: 'var(--display)', fontSize: 18, fontWeight: 800}}>🏆 Leaderboard</span>
+                            <span style={{fontFamily: 'var(--display)', fontSize: '1.125rem', fontWeight: 800}}>🏆 Leaderboard</span>
                             <span style={{
-                                fontSize: 11, padding: '3px 8px', borderRadius: 999,
+                                fontSize: '0.6875rem', padding: '3px 0.5rem', borderRadius: 999,
                                 border: '2px solid var(--line)', fontWeight: 600,
                             }}>LIVE</span>
                         </div>
@@ -237,8 +237,8 @@ function WelcomePage() {
                             {n: 'Kenji', s: 8100},
                             {n: 'Priya', s: 7950},
                         ].map((p, i) => (
-                            <div key={i} style={{display: 'flex', alignItems: 'center', gap: 10, marginTop: 12}}>
-                                <span style={{fontFamily: 'var(--display)', width: 22, fontSize: 18, fontWeight: 800}}>{i + 1}</span>
+                            <div key={i} style={{display: 'flex', alignItems: 'center', gap: 10, marginTop: '0.75rem'}}>
+                                <span style={{fontFamily: 'var(--display)', width: 22, fontSize: '1.125rem', fontWeight: 800}}>{i + 1}</span>
                                 <Avatar name={p.n} size={32}/>
                                 <span style={{flex: 1, fontWeight: 600}}>{p.n}</span>
                                 <span style={{fontFamily: 'var(--display)', fontVariantNumeric: 'tabular-nums', fontWeight: 700}}>
@@ -249,10 +249,10 @@ function WelcomePage() {
                     </LeaderboardPreview>
 
                     <StreakPreview className="pop-in">
-                        <div style={{fontFamily: 'var(--display)', fontVariantNumeric: 'tabular-nums', fontSize: 36, fontWeight: 800}}>
+                        <div style={{fontFamily: 'var(--display)', fontVariantNumeric: 'tabular-nums', fontSize: '2.25rem', fontWeight: 800}}>
                             +1,200
                         </div>
-                        <div style={{fontSize: 13, lineHeight: 1.2}}>
+                        <div style={{fontSize: '0.8125rem', lineHeight: 1.2}}>
                             <div style={{fontWeight: 700}}>5-streak!</div>
                             <div style={{color: 'var(--ink-mute)'}}>Speed bonus unlocked</div>
                         </div>
