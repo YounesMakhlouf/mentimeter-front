@@ -105,15 +105,6 @@ const PinSubmit = styled(InkButton)`
     padding: 14px 28px;
 `;
 
-const Meta = styled.div`
-    display: flex;
-    gap: 24px;
-    margin-top: 28px;
-    color: var(--ink-mute);
-    font-size: 14px;
-    font-weight: 500;
-`;
-
 const PreviewArea = styled.div`
     position: relative;
     height: 460px;
@@ -235,11 +226,6 @@ function WelcomePage() {
                         />
                         <PinSubmit onClick={() => setOpen(true)} type="button">Enter →</PinSubmit>
                     </PinRow>
-
-                    <Meta>
-                        <span>★ 4.9 from 12,400 teachers</span>
-                        <span>· No card needed</span>
-                    </Meta>
                 </div>
 
                 <PreviewArea>
