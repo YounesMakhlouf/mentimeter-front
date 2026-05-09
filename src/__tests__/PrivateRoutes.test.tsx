@@ -2,12 +2,7 @@ import {describe, expect, it, beforeEach} from 'vitest';
 import {render, screen} from '@testing-library/react';
 import {MemoryRouter, Route, Routes} from 'react-router';
 import PrivateRoutes from '../Components/PrivateRoutes';
-
-const makeJwt = (payload: object) => {
-    const header = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
-    const body = btoa(JSON.stringify(payload));
-    return `${header}.${body}.sig`;
-};
+import {expiredJwt, futureJwt} from '../test/helpers';
 
 const renderAt = (path: string) =>
     render(
@@ -33,8 +28,7 @@ describe('PrivateRoutes', () => {
     });
 
     it('redirects to /authentication when the token is expired', () => {
-        const past = Math.floor(Date.now() / 1000) - 60;
-        localStorage.setItem('token', makeJwt({exp: past}));
+        localStorage.setItem('token', expiredJwt());
         renderAt('/home');
         expect(screen.getByText('auth page')).toBeInTheDocument();
     });
@@ -48,8 +42,7 @@ describe('PrivateRoutes', () => {
     });
 
     it('renders the protected route when the token is valid', () => {
-        const future = Math.floor(Date.now() / 1000) + 3600;
-        localStorage.setItem('token', makeJwt({exp: future}));
+        localStorage.setItem('token', futureJwt());
         renderAt('/home');
         expect(screen.getByText('protected')).toBeInTheDocument();
         expect(screen.queryByText('auth page')).not.toBeInTheDocument();

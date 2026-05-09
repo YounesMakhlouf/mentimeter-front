@@ -3,6 +3,7 @@ import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter, Route, Routes} from 'react-router';
 import Authentification from '../Components/Authentification';
+import {futureJwt} from '../test/helpers';
 
 vi.mock('../socket.ts', () => ({
     reauthSocket: vi.fn(),
@@ -86,10 +87,7 @@ describe('Authentification', () => {
     });
 
     it('redirects to /home when an unexpired token is already in storage', async () => {
-        const future = Math.floor(Date.now() / 1000) + 3600;
-        const header = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
-        const body = btoa(JSON.stringify({exp: future}));
-        localStorage.setItem('token', `${header}.${body}.sig`);
+        localStorage.setItem('token', futureJwt());
 
         renderApp();
         await waitFor(() => expect(screen.getByText('home page')).toBeInTheDocument());
