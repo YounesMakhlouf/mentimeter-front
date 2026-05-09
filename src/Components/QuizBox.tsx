@@ -3,6 +3,7 @@ import {socket} from '../socket.ts';
 import type {Quiz} from '../loaders.ts';
 import {Card, Chip, PrimaryButton} from "../design/styled.ts";
 import {OPT_META} from "../design/tokens.ts";
+import {formatTopic} from "../topics.ts";
 
 const Article = styled(Card)`
     overflow: hidden;
@@ -120,7 +121,7 @@ export default function QuizBox({quiz}: Props) {
         <Article as="article">
             <CoverArea $color={color}>
                 {quiz.topic && (
-                    <TopicChip as="span">{quiz.topic}</TopicChip>
+                    <TopicChip as="span">{formatTopic(quiz.topic)}</TopicChip>
                 )}
                 {emoji}
             </CoverArea>

@@ -6,6 +6,11 @@ import type {Quiz} from "../loaders.ts";
 import QuizBox from "./QuizBox.tsx";
 import CreateQuizPopup from "./CreateQuizPopup.tsx";
 import {Chip} from "../design/styled.ts";
+import {formatTopic} from "../topics.ts";
+
+const ALL_FILTER = 'All';
+
+type QuizWithTopic = Quiz & {topic?: string};
 
 const Outer = styled.div`
     padding: 32px 48px;
@@ -71,6 +76,41 @@ const Grid = styled.div`
     gap: 18px;
 `;
 
+const NewQuizCard = styled.button`
+    border: 2.5px dashed var(--ink);
+    background: transparent;
+    cursor: pointer;
+    box-shadow: none;
+    min-height: 280px;
+    border-radius: var(--r-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--ink);
+    font-family: var(--body);
+    padding: 24px;
+
+    &:hover { background: rgba(0, 0, 0, .03); }
+`;
+
+const NewQuizPlus = styled.div`
+    font-size: 48px;
+    line-height: 1;
+`;
+
+const NewQuizTitle = styled.div`
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 800;
+`;
+
+const NewQuizHint = styled.div`
+    color: var(--ink-mute);
+    font-size: 13px;
+`;
+
 const TODAY_LABEL = (() => {
     try {
         return new Date().toLocaleDateString(undefined, {weekday: 'long', month: 'short', day: 'numeric'});
@@ -79,16 +119,14 @@ const TODAY_LABEL = (() => {
     }
 })();
 
-const TOPICS = ['All', 'Math', 'Science', 'Geography', 'History', 'Literature', 'Space'];
-
 interface MainHomeBoxProps {
     name: string;
 }
 
 export default function MainHomeBox({name}: MainHomeBoxProps) {
-    const {quizzes} = useLoaderData() as {quizzes: Quiz[]};
+    const {quizzes} = useLoaderData() as {quizzes: QuizWithTopic[]};
     const navigate = useNavigate();
-    const [filter, setFilter] = useState('All');
+    const [filter, setFilter] = useState<string>(ALL_FILTER);
 
     useEffect(() => {
         const onSuccess = (sessionCode: string) => {
@@ -100,10 +138,19 @@ export default function MainHomeBox({name}: MainHomeBoxProps) {
         };
     }, [navigate]);
 
+    const availableTopics = useMemo(() => {
+        const set = new Set<string>();
+        for (const q of quizzes) {
+            if (q.topic) set.add(q.topic.toLowerCase());
+        }
+        return [...set].sort();
+    }, [quizzes]);
+
+    const filterChips = useMemo(() => [ALL_FILTER, ...availableTopics], [availableTopics]);
+
     const visible = useMemo(() => {
-        if (filter === 'All') return quizzes;
-        const needle = filter.toLowerCase();
-        return quizzes.filter((q) => (q as Quiz & {topic?: string}).topic?.toLowerCase() === needle);
+        if (filter === ALL_FILTER) return quizzes;
+        return quizzes.filter((q) => q.topic?.toLowerCase() === filter);
     }, [quizzes, filter]);
 
     const firstName = name.split(' ')[0];
@@ -119,22 +166,33 @@ export default function MainHomeBox({name}: MainHomeBoxProps) {
                 <CreateQuizPopup/>
             </Greeting>
 
-            <FilterRow>
-                {TOPICS.map((t) => (
-                    <FilterChip
-                        key={t}
-                        as="button"
-                        $active={filter === t}
-                        onClick={() => setFilter(t)}
-                        type="button"
-                    >{t}</FilterChip>
-                ))}
-            </FilterRow>
+            {filterChips.length > 1 && (
+                <FilterRow>
+                    {filterChips.map((t) => (
+                        <FilterChip
+                            key={t}
+                            as="button"
+                            $active={filter === t}
+                            onClick={() => setFilter(t)}
+                            type="button"
+                        >{t === ALL_FILTER ? t : formatTopic(t)}</FilterChip>
+                    ))}
+                </FilterRow>
+            )}
 
             <Grid>
                 {visible.map((quiz) => (
                     <QuizBox key={quiz.id} quiz={quiz}/>
                 ))}
+                <CreateQuizPopup
+                    trigger={(open) => (
+                        <NewQuizCard type="button" onClick={open}>
+                            <NewQuizPlus>＋</NewQuizPlus>
+                            <NewQuizTitle>New quiz</NewQuizTitle>
+                            <NewQuizHint>Start from scratch</NewQuizHint>
+                        </NewQuizCard>
+                    )}
+                />
             </Grid>
 
             {quizzes.length === 0 && (
