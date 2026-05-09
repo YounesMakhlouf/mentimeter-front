@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
 import styled from "styled-components";
-import Popup from "reactjs-popup";
-import {FaRegCircleXmark} from "react-icons/fa6";
 import EnterQuizCodeForm from "../Components/EnterQuizCodeForm.tsx";
+import Modal from "../Components/Modal.tsx";
 import {socket, QuestionPayload} from "../socket.ts";
 import {Link, useNavigate} from "react-router";
 import {Card, GhostButton, InkButton, PrimaryButton} from "../design/styled.ts";
@@ -146,27 +145,6 @@ const StreakPreview = styled(Card)`
     background: var(--opt-d);
 `;
 
-const ModalBox = styled.div`
-    width: min(560px, calc(100% - 32px));
-    background: var(--card);
-    border: 2.5px solid var(--ink);
-    border-radius: var(--r-xl);
-    box-shadow: var(--shadow-xl);
-    padding: 28px 32px 32px;
-    position: relative;
-`;
-
-const ModalClose = styled.button`
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--ink);
-    padding: 4px;
-`;
-
 const phrases = [
     'Are you a quiz whiz?',
     'Run quizzes your class will actually remember.',
@@ -283,14 +261,9 @@ function WelcomePage() {
                 </PreviewArea>
             </Hero>
 
-            <Popup open={open} closeOnDocumentClick onClose={closeModal} modal>
-                <ModalBox>
-                    <ModalClose onClick={closeModal} aria-label="Close">
-                        <FaRegCircleXmark size={28}/>
-                    </ModalClose>
-                    <EnterQuizCodeForm initialCode={code.replace(/\D/g, '')}/>
-                </ModalBox>
-            </Popup>
+            <Modal open={open} onClose={closeModal}>
+                <EnterQuizCodeForm initialCode={code.replace(/\D/g, '')}/>
+            </Modal>
         </Page>
     );
 }

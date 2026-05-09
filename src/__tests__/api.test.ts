@@ -1,11 +1,6 @@
 import {describe, expect, it, beforeEach} from 'vitest';
 import {clearAuth, getToken, isTokenValid, setAuth} from '../api';
-
-const makeJwt = (payload: object) => {
-    const header = btoa(JSON.stringify({alg: 'HS256', typ: 'JWT'}));
-    const body = btoa(JSON.stringify(payload));
-    return `${header}.${body}.sig`;
-};
+import {expiredJwt, futureJwt} from '../test/helpers';
 
 describe('api', () => {
     beforeEach(() => {
@@ -34,14 +29,12 @@ describe('api', () => {
         });
 
         it('returns false when the token is expired', () => {
-            const past = Math.floor(Date.now() / 1000) - 60;
-            localStorage.setItem('token', makeJwt({exp: past}));
+            localStorage.setItem('token', expiredJwt());
             expect(isTokenValid()).toBe(false);
         });
 
         it('returns true when the token has not expired', () => {
-            const future = Math.floor(Date.now() / 1000) + 3600;
-            localStorage.setItem('token', makeJwt({exp: future}));
+            localStorage.setItem('token', futureJwt());
             expect(isTokenValid()).toBe(true);
         });
     });
