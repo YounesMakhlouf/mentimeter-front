@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {ReactNode, useState} from "react";
 import Popup from 'reactjs-popup';
 import {FaRegCircleXmark} from "react-icons/fa6";
 import styled from "styled-components";
@@ -31,14 +31,21 @@ const ModalClose = styled.button`
     padding: 4px;
 `;
 
-export default function CreateQuizPopup() {
+interface Props {
+    trigger?: (open: () => void) => ReactNode;
+}
+
+export default function CreateQuizPopup({trigger}: Props) {
     const [open, setOpen] = useState(false);
     const closeModal = () => setOpen(false);
+    const openModal = () => setOpen(true);
     return (
         <>
-            <TriggerButton type="button" onClick={() => setOpen(true)}>
-                ＋ New quiz
-            </TriggerButton>
+            {trigger ? trigger(openModal) : (
+                <TriggerButton type="button" onClick={openModal}>
+                    ＋ New quiz
+                </TriggerButton>
+            )}
             <Popup open={open} closeOnDocumentClick onClose={closeModal} modal>
                 <ModalBox>
                     <ModalClose onClick={closeModal} aria-label="Close">

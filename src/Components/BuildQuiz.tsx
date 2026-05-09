@@ -6,25 +6,7 @@ import {authFetch} from "../api.ts";
 import {Card, Chip, GhostButton, Input, PrimaryButton} from "../design/styled.ts";
 import {ShapeIcon} from "../design/primitives.tsx";
 import {OPT_META} from "../design/tokens.ts";
-
-const Topics = {
-    ANIMALS: 'animals',
-    SCIENCE: 'science',
-    PHYSICS: 'physics',
-    BIOLOGY: 'biology',
-    CHEMISTRY: 'chemistry',
-    MATH: 'math',
-    GEOGRAPHY: 'geography',
-    HISTORY: 'history',
-    SPORTS: 'sports',
-    MOVIES: 'movies',
-    MUSIC: 'music',
-    LITERATURE: 'literature',
-    ART: 'art',
-    POLITICS: 'politics',
-    PROGRAMMING: 'programming',
-    SPACE: 'space',
-} as const;
+import {TOPIC_KEYS, formatTopic} from "../topics.ts";
 
 interface QuestionDraft {
     text: string;
@@ -86,7 +68,7 @@ const Counter = styled.span`
 
 const Body = styled.div`
     display: grid;
-    grid-template-columns: 260px 1fr 280px;
+    grid-template-columns: 260px 1fr;
     overflow: hidden;
 
     @media (max-width: 1100px) {
@@ -250,25 +232,6 @@ const CorrectToggle = styled.button<{$correct: boolean; $bg: string; $ink: strin
     flex: none;
 `;
 
-const Inspector = styled.aside`
-    border-left: 2.5px solid var(--ink);
-    background: var(--card);
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    overflow: auto;
-
-    @media (max-width: 1100px) { display: none; }
-`;
-
-const InspectorTitle = styled.h3`
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    color: var(--ink-mute);
-`;
-
 const ErrorBlock = styled.div`
     color: #bc2525;
     font-weight: 600;
@@ -362,8 +325,8 @@ function BuildQuiz() {
                 />
                 <TopicSelect value={topic} onChange={(e) => setTopic(e.target.value)}>
                     <option value="">Select topic…</option>
-                    {Object.entries(Topics).map(([key, value]) => (
-                        <option key={key} value={value}>{key.charAt(0) + key.slice(1).toLowerCase()}</option>
+                    {TOPIC_KEYS.map((key) => (
+                        <option key={key} value={key}>{formatTopic(key)}</option>
                     ))}
                 </TopicSelect>
                 <Counter>{questions.length} question{questions.length === 1 ? '' : 's'}</Counter>
@@ -451,20 +414,6 @@ function BuildQuiz() {
                         {errorMessage && <ErrorBlock>{errorMessage}</ErrorBlock>}
                     </EditorInner>
                 </Editor>
-
-                <Inspector>
-                    <InspectorTitle>Tips</InspectorTitle>
-                    <p style={{fontSize: 14, lineHeight: 1.5, color: 'var(--ink-soft)'}}>
-                        Each question needs four answers and one marked correct. Players see the four shape buttons —
-                        circle, square, triangle, diamond — in those colors.
-                    </p>
-                    <Card style={{background: 'var(--opt-c)', padding: 14, marginTop: 8}}>
-                        <div style={{fontFamily: 'var(--display)', fontSize: 16, fontWeight: 800}}>✨ Multiple-choice only</div>
-                        <p style={{fontSize: 12, marginTop: 4, lineHeight: 1.4}}>
-                            More question types are coming. For now, every question is a four-option pick.
-                        </p>
-                    </Card>
-                </Inspector>
             </Body>
         </Page>
     );
