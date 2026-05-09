@@ -13,11 +13,11 @@ const ALL_FILTER = 'All';
 type QuizWithTopic = Quiz & {topic?: string};
 
 const Outer = styled.div`
-    padding: 24px;
-    max-width: 1280px;
+    padding: 1.5rem;
+    max-width: 80rem;
 
-    @media (min-width: 800px) {
-        padding: 32px 48px;
+    @media (min-width: 50rem) {
+        padding: 2rem 3rem;
     }
 `;
 
@@ -25,23 +25,23 @@ const Greeting = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 24px;
-    margin-bottom: 28px;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
     flex-wrap: wrap;
 `;
 
 const DateLabel = styled.div`
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--ink-mute);
 `;
 
 const Hi = styled.h1`
-    font-size: 40px;
-    margin-top: 6px;
+    font-size: 2.5rem;
+    margin-top: 0.375rem;
 
-    @media (min-width: 600px) {
-        font-size: 56px;
+    @media (min-width: 37.5rem) {
+        font-size: 3.5rem;
     }
 `;
 
@@ -52,14 +52,14 @@ const Wave = styled.span`
 
 const Subtitle = styled.p`
     color: var(--ink-mute);
-    font-size: 18px;
-    margin-top: 6px;
+    font-size: 1.125rem;
+    margin-top: 0.375rem;
 `;
 
 const FilterRow = styled.div`
     display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
     flex-wrap: wrap;
 `;
 
@@ -72,8 +72,8 @@ const FilterChip = styled(Chip)<{$active?: boolean}>`
 
 const Grid = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
+    gap: 1.125rem;
 `;
 
 const NewQuizCard = styled.button`
@@ -81,34 +81,34 @@ const NewQuizCard = styled.button`
     background: transparent;
     cursor: pointer;
     box-shadow: none;
-    min-height: 280px;
+    min-height: 17.5rem;
     border-radius: var(--r-lg);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 0.625rem;
     color: var(--ink);
     font-family: var(--body);
-    padding: 24px;
+    padding: 1.5rem;
 
     &:hover { background: rgba(0, 0, 0, .03); }
 `;
 
 const NewQuizPlus = styled.div`
-    font-size: 48px;
+    font-size: 3rem;
     line-height: 1;
 `;
 
 const NewQuizTitle = styled.div`
     font-family: var(--display);
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 800;
 `;
 
 const NewQuizHint = styled.div`
     color: var(--ink-mute);
-    font-size: 13px;
+    font-size: 0.8125rem;
 `;
 
 const TODAY_LABEL = (() => {
@@ -196,7 +196,7 @@ export default function MainHomeBox({name}: MainHomeBoxProps) {
             </Grid>
 
             {quizzes.length === 0 && (
-                <div style={{textAlign: 'center', padding: '60px 0', color: 'var(--ink-mute)'}}>
+                <div style={{textAlign: 'center', padding: '3.75rem 0', color: 'var(--ink-mute)'}}>
                     No quizzes yet. Hit “New quiz” to create your first one.
                 </div>
             )}

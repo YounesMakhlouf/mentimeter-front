@@ -11,39 +11,39 @@ type Step = 'name' | 'avatar';
 const Stack = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 1.125rem;
 `;
 
 const Title = styled.h2`
-    font-size: 32px;
+    font-size: 2rem;
     margin: 0;
 `;
 
 const Subtle = styled.p`
     color: var(--ink-mute);
-    margin: -8px 0 0;
-    font-size: 14px;
+    margin: -0.5rem 0 0;
+    font-size: 0.875rem;
 `;
 
 const Footer = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-top: 8px;
-    gap: 12px;
+    margin-top: 0.5rem;
+    gap: 0.75rem;
 `;
 
 const AvatarGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 0.75rem;
 `;
 
 const AvatarPick = styled.button<{$selected: boolean}>`
     aspect-ratio: 1;
     border: ${({$selected}) => $selected ? '3px solid var(--brand)' : '2.5px solid var(--ink)'};
     background: var(--card);
-    border-radius: 16px;
-    font-size: 32px;
+    border-radius: 1rem;
+    font-size: 2rem;
     cursor: pointer;
     box-shadow: ${({$selected}) => $selected ? 'var(--shadow-md)' : 'var(--shadow-sm)'};
     transform: ${({$selected}) => $selected ? 'translateY(-2px)' : 'none'};
@@ -55,21 +55,21 @@ const AvatarPick = styled.button<{$selected: boolean}>`
 const ErrorMessage = styled.div`
     color: #bc2525;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.875rem;
 `;
 
 const SuccessLoader = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 0.875rem;
     text-align: center;
-    padding: 12px 0;
+    padding: 0.75rem 0;
 `;
 
 const Spinner = styled.div`
-    width: 60px;
-    height: 60px;
+    width: 3.75rem;
+    height: 3.75rem;
     border-radius: 50%;
     border: 5px solid var(--ink);
     border-top-color: transparent;
@@ -112,7 +112,7 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
         return (
             <Stack>
                 <SuccessLoader>
-                    <div style={{fontSize: 64, animation: 'wiggle 0.8s ease-in-out infinite'}}>{EMOJI_AVATARS[emojiIdx]}</div>
+                    <div style={{fontSize: '4rem', animation: 'wiggle 0.8s ease-in-out infinite'}}>{EMOJI_AVATARS[emojiIdx]}</div>
                     <Title>{joinStatus === 'joined' ? `You're in, ${playerName}!` : `Joining as ${playerName}…`}</Title>
                     <Subtle style={{margin: 0}}>Hang tight, the host will start soon.</Subtle>
                     <Spinner/>

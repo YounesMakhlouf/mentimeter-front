@@ -33,7 +33,7 @@ const Page = styled.div`
 
 const Header = styled.header`
     position: relative;
-    padding: 22px 32px;
+    padding: 1.375rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -42,39 +42,39 @@ const Header = styled.header`
 
 const Wrap = styled.div`
     position: relative;
-    max-width: 1080px;
+    max-width: 67.5rem;
     margin: 0 auto;
-    padding: 8px 32px 32px;
+    padding: 0.5rem 2rem 2rem;
     z-index: 2;
 `;
 
 const TitleBlock = styled.div`
     text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 1.75rem;
 `;
 
 const Title = styled.h1`
-    font-size: 44px;
-    margin-top: 12px;
+    font-size: 2.75rem;
+    margin-top: 0.75rem;
 
-    @media (min-width: 700px) {
-        font-size: 64px;
+    @media (min-width: 43.75rem) {
+        font-size: 4rem;
     }
 `;
 
 const Subtitle = styled.p`
     color: var(--ink-mute);
-    font-size: 16px;
-    margin-top: 6px;
+    font-size: 1rem;
+    margin-top: 0.375rem;
 `;
 
 const PodiumRow = styled.div`
     display: grid;
     grid-template-columns: 1fr 1.2fr 1fr;
-    gap: 14px;
+    gap: 0.875rem;
     align-items: flex-end;
-    margin-bottom: 28px;
-    max-width: 720px;
+    margin-bottom: 1.75rem;
+    max-width: 45rem;
     margin-inline: auto;
 `;
 
@@ -82,7 +82,7 @@ const PodiumCol = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
 `;
 
 const PodiumFace = styled.div<{$size: number}>`
@@ -100,14 +100,14 @@ const PodiumFace = styled.div<{$size: number}>`
 
 const PodiumName = styled.div<{$big?: boolean}>`
     font-family: var(--display);
-    font-size: ${({$big}) => $big ? '22px' : '18px'};
+    font-size: ${({$big}) => $big ? '1.375rem' : '1.125rem'};
     font-weight: 800;
 `;
 
 const PodiumScore = styled.div<{$big?: boolean}>`
     font-family: var(--display);
     font-variant-numeric: tabular-nums;
-    font-size: ${({$big}) => $big ? '22px' : '16px'};
+    font-size: ${({$big}) => $big ? '1.375rem' : '1rem'};
     font-weight: 700;
     color: var(--ink-mute);
 `;
@@ -120,55 +120,55 @@ const PodiumBlock = styled.div<{$height: number; $bg: string; $ink: string}>`
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 12px;
-    border-radius: 16px 16px 0 0;
+    padding-top: 0.75rem;
+    border-radius: 1rem 1rem 0 0;
     border: 2.5px solid var(--ink);
     border-bottom: none;
 `;
 
 const RestList = styled(Card)`
     overflow: hidden;
-    max-width: 720px;
+    max-width: 45rem;
     margin-inline: auto;
 `;
 
 const RestRow = styled.div`
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 14px 18px;
+    gap: 0.875rem;
+    padding: 0.875rem 1.125rem;
     border-bottom: 1.5px solid rgba(0, 0, 0, .07);
 
     &:last-child { border-bottom: none; }
 `;
 
 const Rank = styled.span`
-    width: 36px;
+    width: 2.25rem;
     font-family: var(--display);
     font-variant-numeric: tabular-nums;
-    font-size: 20px;
+    font-size: 1.25rem;
     color: var(--ink-mute);
 `;
 
 const Face = styled.div`
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     background: var(--card);
     border: 2px solid var(--ink);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 1.375rem;
 `;
 
 const Bar = styled.div`
     flex: 2;
-    height: 8px;
+    height: 0.5rem;
     background: rgba(0, 0, 0, .06);
     border-radius: 999px;
     overflow: hidden;
-    max-width: 200px;
+    max-width: 12.5rem;
 `;
 
 const BarFill = styled.div<{$pct: number; $delay: number}>`
@@ -180,7 +180,7 @@ const BarFill = styled.div<{$pct: number; $delay: number}>`
 `;
 
 const ScoreCol = styled.span`
-    width: 64px;
+    width: 4rem;
     text-align: right;
     font-family: var(--display);
     font-variant-numeric: tabular-nums;
@@ -254,7 +254,7 @@ const LeaderboardPage = () => {
                                         $bg={colors[podiumIdx]}
                                         $ink={inks[podiumIdx]}
                                     >
-                                        <span style={{fontFamily: 'var(--display)', fontSize: 56, fontWeight: 800, lineHeight: 1}}>
+                                        <span style={{fontFamily: 'var(--display)', fontSize: '3.5rem', fontWeight: 800, lineHeight: 1}}>
                                             {trophies[podiumIdx]}
                                         </span>
                                     </PodiumBlock>

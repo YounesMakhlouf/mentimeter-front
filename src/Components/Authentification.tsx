@@ -30,7 +30,7 @@ const Page = styled.div`
 
 const Header = styled.header`
     position: relative;
-    padding: 22px 48px;
+    padding: 1.375rem 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,11 +42,11 @@ const Wrap = styled.div`
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
-    max-width: 1080px;
-    margin: 32px auto;
-    padding: 0 24px;
+    max-width: 67.5rem;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
 
-    @media (min-width: 800px) {
+    @media (min-width: 50rem) {
         grid-template-columns: 1fr 1fr;
     }
 `;
@@ -55,56 +55,56 @@ const BrandPanel = styled(Card)<{$mode: 'login' | 'register'}>`
     background: ${({$mode}) => $mode === 'login' ? 'var(--brand)' : 'var(--ink)'};
     color: #fff;
     border-radius: var(--r-lg) var(--r-lg) 0 0;
-    padding: 48px;
+    padding: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: background .4s ease;
-    min-height: 520px;
+    min-height: 32.5rem;
 
-    @media (min-width: 800px) {
+    @media (min-width: 50rem) {
         border-radius: var(--r-lg) 0 0 var(--r-lg);
     }
 `;
 
 const FormPanel = styled(Card)`
     border-radius: 0 0 var(--r-lg) var(--r-lg);
-    padding: 36px;
+    padding: 2.25rem;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1rem;
     background: var(--card);
 
-    @media (min-width: 800px) {
+    @media (min-width: 50rem) {
         border-radius: 0 var(--r-lg) var(--r-lg) 0;
-        padding: 48px 56px;
+        padding: 3rem 3.5rem;
     }
 `;
 
 const Field = styled.label`
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 0.375rem;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.875rem;
 `;
 
 const ErrorBlock = styled.div`
     color: #bc2525;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.875rem;
 `;
 
 const Switch = styled.div`
     text-align: center;
     color: var(--ink-mute);
-    font-size: 14px;
-    margin-top: 8px;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
 
     a {
         color: var(--brand);
         font-weight: 700;
-        margin-left: 4px;
+        margin-left: 0.25rem;
     }
 `;
 
@@ -164,10 +164,10 @@ const Authentification = () => {
                 <BrandPanel $mode={mode}>
                     <div>
                         <Sticker color="var(--opt-c)" rotate={-5}>{signIn ? 'Welcome back' : 'Hey, friend'}</Sticker>
-                        <h1 style={{fontSize: 48, marginTop: 24, color: '#fff'}}>
+                        <h1 style={{fontSize: '3rem', marginTop: '1.5rem', color: '#fff'}}>
                             {signIn ? 'Pick up where you left off.' : "Let's get your classroom buzzing."}
                         </h1>
-                        <p style={{fontSize: 16, opacity: 0.85, marginTop: 16, lineHeight: 1.5}}>
+                        <p style={{fontSize: '1rem', opacity: 0.85, marginTop: '1rem', lineHeight: 1.5}}>
                             {signIn
                                 ? 'Your quizzes, drafts, and class history are waiting.'
                                 : 'Free for teachers. Unlimited players per game. No credit card.'}
@@ -183,8 +183,8 @@ const Authentification = () => {
 
                 {signIn ? (
                     <FormPanel as="form" action={loginFormAction}>
-                        <h2 style={{fontSize: 32}}>Log in</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: 15, marginTop: -8}}>
+                        <h2 style={{fontSize: '2rem'}}>Log in</h2>
+                        <p style={{color: 'var(--ink-mute)', fontSize: '0.9375rem', marginTop: '-0.5rem'}}>
                             Use your email and password.
                         </p>
                         <Field>
@@ -197,7 +197,7 @@ const Authentification = () => {
                         </Field>
                         {loginError && <ErrorBlock>{loginError}</ErrorBlock>}
                         <LargeButton type="submit" disabled={loginPending} style={{
-                            background: 'var(--brand)', color: 'var(--brand-ink)', marginTop: 12,
+                            background: 'var(--brand)', color: 'var(--brand-ink)', marginTop: '0.75rem',
                         }}>
                             {loginPending ? 'Logging in…' : 'Log in →'}
                         </LargeButton>
@@ -208,8 +208,8 @@ const Authentification = () => {
                     </FormPanel>
                 ) : (
                     <FormPanel as="form" action={registerFormAction}>
-                        <h2 style={{fontSize: 32}}>Create account</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: 15, marginTop: -8}}>
+                        <h2 style={{fontSize: '2rem'}}>Create account</h2>
+                        <p style={{color: 'var(--ink-mute)', fontSize: '0.9375rem', marginTop: '-0.5rem'}}>
                             Just an email and a password — that's it.
                         </p>
                         <Field>
@@ -222,7 +222,7 @@ const Authentification = () => {
                         </Field>
                         {registerError && <ErrorBlock>{registerError}</ErrorBlock>}
                         <PrimaryButton type="submit" disabled={registerPending} style={{
-                            padding: '18px 28px', fontSize: 18, borderRadius: 'var(--r-lg)', marginTop: 12,
+                            padding: '1.125rem 1.75rem', fontSize: '1.125rem', borderRadius: 'var(--r-lg)', marginTop: '0.75rem',
                         }}>
                             {registerPending ? 'Creating…' : 'Create account →'}
                         </PrimaryButton>

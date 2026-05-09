@@ -31,21 +31,21 @@ const TopBar = styled.header`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px;
-    padding: 14px 24px;
+    gap: 1rem;
+    padding: 0.875rem 1.5rem;
     border-bottom: 2.5px solid var(--ink);
     background: var(--card);
 
-    @media (min-width: 800px) {
+    @media (min-width: 50rem) {
         flex-wrap: nowrap;
     }
 `;
 
 const NameInput = styled(Input)`
-    max-width: 380px;
+    max-width: 23.75rem;
     font-weight: 700;
-    font-size: 18px;
-    padding: 10px 14px;
+    font-size: 1.125rem;
+    padding: 0.625rem 0.875rem;
 `;
 
 const TopicSelect = styled.select`
@@ -54,8 +54,8 @@ const TopicSelect = styled.select`
     background: var(--card);
     color: var(--ink);
     border-radius: var(--r-md);
-    padding: 10px 14px;
-    font-size: 15px;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     font-family: var(--body);
     box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .06);
@@ -63,7 +63,7 @@ const TopicSelect = styled.select`
 
 const Counter = styled.span`
     color: var(--ink-mute);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 600;
 `;
 
@@ -73,30 +73,30 @@ const Body = styled.div`
     grid-template-rows: auto 1fr;
     overflow: hidden;
 
-    @media (min-width: 800px) {
-        grid-template-columns: 220px 1fr;
+    @media (min-width: 50rem) {
+        grid-template-columns: 13.75rem 1fr;
         grid-template-rows: none;
     }
-    @media (min-width: 1100px) {
-        grid-template-columns: 260px 1fr;
+    @media (min-width: 68.75rem) {
+        grid-template-columns: 16.25rem 1fr;
     }
 `;
 
 const QuestionList = styled.aside`
     border-right: 2.5px solid var(--ink);
     background: var(--card);
-    padding: 12px;
+    padding: 0.75rem;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
     overflow: auto;
 `;
 
 const QuestionTab = styled.button<{$active: boolean}>`
-    padding: 12px;
+    padding: 0.75rem;
     text-align: left;
     display: flex;
-    gap: 10px;
+    gap: 0.625rem;
     align-items: flex-start;
     cursor: pointer;
     background: ${({$active}) => $active ? 'var(--brand)' : 'var(--card)'};
@@ -109,15 +109,15 @@ const QuestionTab = styled.button<{$active: boolean}>`
 
 const TabIndex = styled.span`
     font-family: var(--display);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 800;
-    width: 22px;
+    width: 1.375rem;
     flex: none;
 `;
 
 const TabText = styled.span`
     flex: 1;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     line-height: 1.3;
     overflow: hidden;
@@ -131,8 +131,8 @@ const AddTabBtn = styled.button`
     border: 2.5px dashed var(--ink);
     background: transparent;
     box-shadow: none;
-    padding: 14px 12px;
-    margin-top: 4px;
+    padding: 0.875rem 0.75rem;
+    margin-top: 0.25rem;
     color: var(--ink);
     font-weight: 700;
     font-family: var(--body);
@@ -142,25 +142,25 @@ const AddTabBtn = styled.button`
 
 const Editor = styled.section`
     overflow: auto;
-    padding: 32px;
+    padding: 2rem;
     background: var(--paper);
 `;
 
 const EditorInner = styled.div`
-    max-width: 720px;
+    max-width: 45rem;
     margin: 0 auto;
 `;
 
 const EditorHeader = styled.div`
     display: flex;
-    gap: 10px;
+    gap: 0.625rem;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 1.125rem;
 `;
 
 const StepLabel = styled.span`
     font-family: var(--display);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--ink-mute);
     font-weight: 700;
     letter-spacing: .06em;
@@ -173,11 +173,11 @@ const QuestionTextarea = styled.textarea`
     background: var(--card);
     color: var(--ink);
     border-radius: var(--r-md);
-    padding: 24px;
+    padding: 1.5rem;
     width: 100%;
     box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .06);
     outline: none;
-    font-size: 28px;
+    font-size: 1.75rem;
     font-weight: 700;
     line-height: 1.25;
     resize: vertical;
@@ -189,10 +189,10 @@ const QuestionTextarea = styled.textarea`
 const OptionsGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: 14px;
-    margin-top: 24px;
+    gap: 0.875rem;
+    margin-top: 1.5rem;
 
-    @media (min-width: 700px) {
+    @media (min-width: 43.75rem) {
         grid-template-columns: 1fr 1fr;
     }
 `;
@@ -200,11 +200,11 @@ const OptionsGrid = styled.div`
 const OptionTile = styled(Card)<{$bg: string; $ink: string; $correct: boolean}>`
     background: ${({$bg}) => $bg};
     color: ${({$ink}) => $ink};
-    padding: 18px;
+    padding: 1.125rem;
     display: flex;
     align-items: center;
-    gap: 12px;
-    outline: ${({$correct}) => $correct ? '4px solid var(--ink)' : 'none'};
+    gap: 0.75rem;
+    outline: ${({$correct}) => $correct ? '0.25rem solid var(--ink)' : 'none'};
     outline-offset: 2px;
 `;
 
@@ -214,22 +214,22 @@ const OptionInput = styled.input`
     border: none;
     outline: none;
     color: inherit;
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
     font-family: inherit;
     min-width: 0;
 `;
 
 const CorrectToggle = styled.button<{$correct: boolean; $bg: string; $ink: string}>`
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
     border-radius: 999px;
     border: 2.5px solid ${({$ink}) => $ink};
     background: ${({$correct, $ink}) => $correct ? $ink : 'transparent'};
     color: ${({$correct, $bg}) => $correct ? $bg : 'inherit'};
     cursor: pointer;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1;
     flex: none;
 `;
@@ -237,7 +237,7 @@ const CorrectToggle = styled.button<{$correct: boolean; $bg: string; $ink: strin
 const ErrorBlock = styled.div`
     color: #bc2525;
     font-weight: 600;
-    margin-top: 14px;
+    margin-top: 0.875rem;
 `;
 
 function BuildQuiz() {
@@ -350,8 +350,8 @@ function BuildQuiz() {
                                 {qq.text || <span style={{opacity: 0.5}}>Untitled question</span>}
                             </TabText>
                             <Chip as="span" style={{
-                                fontSize: 10,
-                                padding: '2px 8px',
+                                fontSize: '0.625rem',
+                                padding: '2px 0.5rem',
                                 flex: 'none',
                                 background: i === active ? 'var(--ink)' : 'var(--paper)',
                                 color: i === active ? 'var(--paper)' : 'var(--ink)',

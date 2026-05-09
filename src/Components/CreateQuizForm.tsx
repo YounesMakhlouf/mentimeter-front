@@ -7,18 +7,18 @@ import {Input, PrimaryButton} from "../design/styled.ts";
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1rem;
 `;
 
 const Heading = styled.h3`
-    font-size: 28px;
+    font-size: 1.75rem;
     margin: 0;
 `;
 
 const Subtle = styled.p`
     color: var(--ink-mute);
     margin: 0;
-    font-size: 14px;
+    font-size: 0.875rem;
 `;
 
 export default function CreateQuizForm() {
@@ -47,7 +47,7 @@ export default function CreateQuizForm() {
                     placeholder={randomQuizName}
                     autoFocus
                 />
-                <PrimaryButton type="submit" style={{padding: '16px 24px', fontSize: 17}}>
+                <PrimaryButton type="submit" style={{padding: '1rem 1.5rem', fontSize: '1.0625rem'}}>
                     Let's go →
                 </PrimaryButton>
             </Form>

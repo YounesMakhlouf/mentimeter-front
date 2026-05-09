@@ -6,9 +6,9 @@ const buttonBase = css`
     background: var(--card);
     color: var(--ink);
     border-radius: var(--r-md);
-    padding: 14px 22px;
+    padding: 0.875rem 1.375rem;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
     box-shadow: var(--shadow-md);
     transition: transform .12s ease, box-shadow .12s ease;
@@ -16,7 +16,7 @@ const buttonBase = css`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 0.625rem;
     white-space: nowrap;
     line-height: 1;
 
@@ -41,15 +41,15 @@ export const InkButton = styled.button`
 
 export const LargeButton = styled.button`
     ${buttonBase}
-    padding: 18px 28px;
-    font-size: 18px;
+    padding: 1.125rem 1.75rem;
+    font-size: 1.125rem;
     border-radius: var(--r-lg);
 `;
 
 export const XLargeButton = styled.button`
     ${buttonBase}
-    padding: 22px 36px;
-    font-size: 22px;
+    padding: 1.375rem 2.25rem;
+    font-size: 1.375rem;
     border-radius: var(--r-lg);
     box-shadow: var(--shadow-lg);
 `;
@@ -75,8 +75,8 @@ export const Input = styled.input`
     background: var(--card);
     color: var(--ink);
     border-radius: var(--r-md);
-    padding: 14px 18px;
-    font-size: 17px;
+    padding: 0.875rem 1.125rem;
+    font-size: 1.0625rem;
     font-family: var(--body);
     width: 100%;
     box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .06);
@@ -88,12 +88,12 @@ export const Input = styled.input`
 export const Chip = styled.span`
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
     border-radius: 999px;
     border: 2px solid var(--line);
     background: var(--card);
     font-weight: 600;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--ink);
 `;

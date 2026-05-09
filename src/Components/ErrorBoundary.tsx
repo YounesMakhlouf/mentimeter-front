@@ -11,36 +11,36 @@ const Page = styled.div`
 
 const Header = styled.header`
     position: relative;
-    padding: 22px 32px;
+    padding: 1.375rem 2rem;
     z-index: 2;
 `;
 
 const Body = styled.div`
     position: relative;
     z-index: 2;
-    max-width: 720px;
-    margin: 60px auto;
-    padding: 32px;
+    max-width: 45rem;
+    margin: 3.75rem auto;
+    padding: 2rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
 `;
 
 const Title = styled.h1`
-    font-size: 44px;
-    margin: 8px 0;
+    font-size: 2.75rem;
+    margin: 0.5rem 0;
 
-    @media (min-width: 600px) {
-        font-size: 64px;
+    @media (min-width: 37.5rem) {
+        font-size: 4rem;
     }
 `;
 
 const Detail = styled.p`
     color: var(--ink-mute);
-    font-size: 16px;
-    max-width: 480px;
+    font-size: 1rem;
+    max-width: 30rem;
 `;
 
 const describe = (err: unknown): {title: string; detail: string} => {
@@ -64,7 +64,7 @@ export default function ErrorBoundary() {
                 <Title>{title}</Title>
                 <Detail>{detail}</Detail>
                 <Link to="/">
-                    <PrimaryButton type="button" style={{padding: '16px 24px', fontSize: 17}}>
+                    <PrimaryButton type="button" style={{padding: '1rem 1.5rem', fontSize: '1.0625rem'}}>
                         Take me home →
                     </PrimaryButton>
                 </Link>
