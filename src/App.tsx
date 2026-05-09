@@ -10,11 +10,13 @@ import QuestionPage from './pages/QuestionPage.tsx';
 import WelcomePage from "./pages/WelcomePage.tsx";
 import LeaderboardPage from "./pages/LeaderboardPage.tsx";
 import RootLayout from "./Components/RootLayout.tsx";
+import ErrorBoundary from "./Components/ErrorBoundary.tsx";
 import {homeLoader} from "./loaders.ts";
 
 const router = createBrowserRouter([
     {
         element: <RootLayout/>,
+        errorElement: <ErrorBoundary/>,
         children: [
             {path: '/', element: <WelcomePage/>},
             {
@@ -29,6 +31,7 @@ const router = createBrowserRouter([
             {path: '/startquiz', element: <StartQuizPage/>},
             {path: '/qspage', element: <QuestionPage/>},
             {path: '/leaderboard', element: <LeaderboardPage/>},
+            {path: '*', loader: () => {throw new Response('Not Found', {status: 404})}},
         ],
     },
 ]);
