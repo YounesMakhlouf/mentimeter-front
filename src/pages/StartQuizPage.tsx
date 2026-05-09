@@ -27,16 +27,16 @@ const Wrap = styled.div`
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr;
     gap: 32px;
-    padding: 16px 48px 32px;
+    padding: 16px 24px 24px;
     max-width: 1320px;
     margin: 0 auto;
     min-height: calc(100vh - 80px);
 
-    @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        padding: 16px 24px 24px;
+    @media (min-width: 900px) {
+        grid-template-columns: 1.2fr 1fr;
+        padding: 16px 48px 32px;
     }
 `;
 

@@ -13,11 +13,11 @@ const ALL_FILTER = 'All';
 type QuizWithTopic = Quiz & {topic?: string};
 
 const Outer = styled.div`
-    padding: 32px 48px;
+    padding: 24px;
     max-width: 1280px;
 
-    @media (max-width: 800px) {
-        padding: 24px;
+    @media (min-width: 800px) {
+        padding: 32px 48px;
     }
 `;
 
@@ -37,11 +37,11 @@ const DateLabel = styled.div`
 `;
 
 const Hi = styled.h1`
-    font-size: 56px;
+    font-size: 40px;
     margin-top: 6px;
 
-    @media (max-width: 600px) {
-        font-size: 40px;
+    @media (min-width: 600px) {
+        font-size: 56px;
     }
 `;
 

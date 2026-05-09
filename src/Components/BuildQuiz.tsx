@@ -29,14 +29,15 @@ const Page = styled.div`
 
 const TopBar = styled.header`
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 16px;
     padding: 14px 24px;
     border-bottom: 2.5px solid var(--ink);
     background: var(--card);
 
-    @media (max-width: 800px) {
-        flex-wrap: wrap;
+    @media (min-width: 800px) {
+        flex-wrap: nowrap;
     }
 `;
 
@@ -68,15 +69,16 @@ const Counter = styled.span`
 
 const Body = styled.div`
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
     overflow: hidden;
 
-    @media (max-width: 1100px) {
+    @media (min-width: 800px) {
         grid-template-columns: 220px 1fr;
+        grid-template-rows: none;
     }
-    @media (max-width: 800px) {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
+    @media (min-width: 1100px) {
+        grid-template-columns: 260px 1fr;
     }
 `;
 
@@ -186,12 +188,12 @@ const QuestionTextarea = styled.textarea`
 
 const OptionsGrid = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 14px;
     margin-top: 24px;
 
-    @media (max-width: 700px) {
-        grid-template-columns: 1fr;
+    @media (min-width: 700px) {
+        grid-template-columns: 1fr 1fr;
     }
 `;
 

@@ -29,11 +29,11 @@ const Body = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 64px;
+    font-size: 44px;
     margin: 8px 0;
 
-    @media (max-width: 600px) {
-        font-size: 44px;
+    @media (min-width: 600px) {
+        font-size: 64px;
     }
 `;
 

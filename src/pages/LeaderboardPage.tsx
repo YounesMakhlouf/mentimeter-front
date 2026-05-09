@@ -54,11 +54,11 @@ const TitleBlock = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 64px;
+    font-size: 44px;
     margin-top: 12px;
 
-    @media (max-width: 700px) {
-        font-size: 44px;
+    @media (min-width: 700px) {
+        font-size: 64px;
     }
 `;
 
