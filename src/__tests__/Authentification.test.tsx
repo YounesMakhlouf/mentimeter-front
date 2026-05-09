@@ -62,6 +62,16 @@ describe('Authentification', () => {
         expect(localStorage.getItem('token')).toBeNull();
     });
 
+    it('renders a connection error when the network rejects', async () => {
+        fetchMock.mockRejectedValueOnce(new TypeError('NetworkError'));
+        const user = userEvent.setup();
+        renderApp();
+        await fillSignIn(user, 'a@b.com', 'password');
+
+        await screen.findByText(/Couldn't reach the server/i);
+        expect(localStorage.getItem('token')).toBeNull();
+    });
+
     it('refuses a 200 response that omits accessToken', async () => {
         fetchMock.mockResolvedValueOnce({
             json: async () => ({email: 'a@b.com', username: 'a'}),

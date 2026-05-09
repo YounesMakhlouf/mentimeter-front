@@ -117,7 +117,12 @@ const Authentification = () => {
     const loginAction = async (_prev: string | null, formData: FormData): Promise<string | null> => {
         const email = formData.get('email');
         const password = formData.get('password');
-        const data = await post('login', {email, password});
+        let data;
+        try {
+            data = await post('login', {email, password});
+        } catch {
+            return "Couldn't reach the server. Check your connection and try again.";
+        }
         if (data.status || data.statusCode) return errorFrom(data);
         if (!data.accessToken) return 'Login response missing token. Please try again.';
         setAuth(data);
@@ -129,7 +134,12 @@ const Authentification = () => {
     const registerAction = async (_prev: string | null, formData: FormData): Promise<string | null> => {
         const email = formData.get('email');
         const password = formData.get('password');
-        const data = await post('register', {email, password});
+        let data;
+        try {
+            data = await post('register', {email, password});
+        } catch {
+            return "Couldn't reach the server. Check your connection and try again.";
+        }
         if (data.status || data.statusCode) return errorFrom(data);
         setSignIn(true);
         return null;
