@@ -1,8 +1,11 @@
+import {useState} from "react";
 import styled from "styled-components";
 import {socket} from '../socket.ts';
 import type {Quiz} from '../loaders.ts';
 import {Button, Card, Chip, OPT_META} from "../design";
 import {formatTopic} from "../topics.ts";
+import Modal from "./Modal.tsx";
+import EditQuizForm from "./EditQuizForm.tsx";
 
 const Article = styled(Card)`
     overflow: hidden;
@@ -111,27 +114,38 @@ interface Props {
 
 export default function QuizBox({quiz}: Props) {
     const {color, emoji} = decorate(quiz.topic);
+    const [editing, setEditing] = useState(false);
 
     const handleStart = () => {
         socket.emit('createQuizSession', {quizId: quiz.id});
     };
 
     return (
-        <Article as="article">
-            <CoverArea $color={color}>
-                {quiz.topic && (
-                    <TopicChip as="span">{formatTopic(quiz.topic)}</TopicChip>
-                )}
-                {emoji}
-            </CoverArea>
-            <Body>
-                <Title>{quiz.name}</Title>
-                <Meta>Tap start to host a session</Meta>
-                <Actions>
-                    <StartBtn type="button" onClick={handleStart}>▶ Start game</StartBtn>
-                    <ActionBtn type="button" disabled>Edit</ActionBtn>
-                </Actions>
-            </Body>
-        </Article>
+        <>
+            <Article as="article">
+                <CoverArea $color={color}>
+                    {quiz.topic && (
+                        <TopicChip as="span">{formatTopic(quiz.topic)}</TopicChip>
+                    )}
+                    {emoji}
+                </CoverArea>
+                <Body>
+                    <Title>{quiz.name}</Title>
+                    <Meta>Tap start to host a session</Meta>
+                    <Actions>
+                        <StartBtn type="button" onClick={handleStart}>▶ Start game</StartBtn>
+                        <ActionBtn type="button" onClick={() => setEditing(true)}>Edit</ActionBtn>
+                    </Actions>
+                </Body>
+            </Article>
+            <Modal open={editing} onClose={() => setEditing(false)}>
+                <EditQuizForm
+                    quizId={quiz.id}
+                    initialName={quiz.name}
+                    initialTopic={quiz.topic}
+                    onSaved={() => setEditing(false)}
+                />
+            </Modal>
+        </>
     );
 }
