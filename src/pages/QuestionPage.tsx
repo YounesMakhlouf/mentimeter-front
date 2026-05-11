@@ -2,9 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import {Navigate, useLocation, useNavigate} from "react-router";
 import {socket, QuestionPayload, Participant} from '../socket.ts';
-import {Card, Chip} from "../design/styled.ts";
-import {Avatar, ShapeIcon} from "../design/primitives.tsx";
-import {OPT_META} from "../design/tokens.ts";
+import {Avatar, Card, Chip, OPT_META, ShapeIcon} from "../design";
 
 const QUIZ_CODE_KEY = 'qspage:quizCode';
 const QUESTION_TIME = 10; // seconds — matches the existing 10s server fallback timeout

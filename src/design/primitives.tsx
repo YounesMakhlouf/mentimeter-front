@@ -1,7 +1,6 @@
 import {CSSProperties, ReactNode, useMemo} from 'react';
 import styled from 'styled-components';
-import {colorFor} from './avatars.ts';
-import {ShapeKind} from './tokens.ts';
+import {ShapeKind, colorFor} from './tokens.ts';
 import {buildConfetti, buildShapeField} from './decoration.ts';
 
 export function Logo({size = 32, mono = false}: {size?: number; mono?: boolean}) {

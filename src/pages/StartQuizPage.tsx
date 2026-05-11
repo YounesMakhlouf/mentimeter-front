@@ -2,17 +2,9 @@ import {useEffect, useState} from "react";
 import styled from "styled-components";
 import {socket, Participant} from "../socket.ts";
 import {Navigate, useLocation, useNavigate} from "react-router";
-import {Card, GhostButton, XLargeButton} from "../design/styled.ts";
-import {GameCode, Logo, ShapeField} from "../design/primitives.tsx";
+import {Button, Card, GameCode, Logo, Page, ShapeField} from "../design";
 
 const SESSION_KEY = 'startquiz:sessionCode';
-
-const Page = styled.div`
-    position: relative;
-    min-height: 100vh;
-    overflow-x: hidden;
-    background: var(--paper);
-`;
 
 const Header = styled.header`
     position: relative;
@@ -174,7 +166,7 @@ export default function StartQuizPage() {
             <Header>
                 <Logo size={26}/>
                 <div style={{display: 'flex', gap: 10}}>
-                    <GhostButton onClick={() => navigate('/home')}>End game</GhostButton>
+                    <Button $variant="ghost" onClick={() => navigate('/home')}>End game</Button>
                 </div>
             </Header>
             <Wrap>
@@ -191,17 +183,14 @@ export default function StartQuizPage() {
                         Players open <b style={{color: 'var(--ink)'}}>localhost:5173</b> and enter this code to join.
                     </p>
                     <div style={{flex: 1}}/>
-                    <XLargeButton
+                    <Button
+                        $variant="primary"
+                        $size="xl"
                         onClick={handleStartQuiz}
-                        style={{
-                            background: 'var(--brand)',
-                            color: 'var(--brand-ink)',
-                            width: '100%',
-                            justifyContent: 'center',
-                        }}
+                        style={{width: '100%', justifyContent: 'center'}}
                     >
                         Start now ({participants.length}) →
-                    </XLargeButton>
+                    </Button>
                 </CodePanel>
 
                 <ParticipantPanel>

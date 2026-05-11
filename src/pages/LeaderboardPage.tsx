@@ -1,8 +1,7 @@
 import {useEffect} from 'react';
 import styled from 'styled-components';
 import {Navigate, useLocation, useNavigate} from 'react-router';
-import {Card, GhostButton, PrimaryButton} from '../design/styled.ts';
-import {Confetti, Logo, ShapeField, Sticker} from '../design/primitives.tsx';
+import {Button, Card, Confetti, Logo, Page, ShapeField, Sticker} from '../design';
 
 const PAYLOAD_KEY = 'leaderboard:payload';
 
@@ -23,13 +22,6 @@ const readStored = (): ScoredParticipant[] | null => {
         return null;
     }
 };
-
-const Page = styled.div`
-    position: relative;
-    min-height: 100vh;
-    background: var(--paper);
-    overflow: hidden;
-`;
 
 const Header = styled.header`
     position: relative;
@@ -226,8 +218,8 @@ const LeaderboardPage = () => {
             <Header>
                 <Logo size={26}/>
                 <div style={{display: 'flex', gap: 10}}>
-                    <GhostButton onClick={() => navigate('/')}>Done</GhostButton>
-                    <PrimaryButton onClick={() => navigate('/home')}>↻ Host another</PrimaryButton>
+                    <Button $variant="ghost" onClick={() => navigate('/')}>Done</Button>
+                    <Button $variant="primary" onClick={() => navigate('/home')}>↻ Host another</Button>
                 </div>
             </Header>
 

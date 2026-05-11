@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import {socket} from '../socket.ts';
 import type {Quiz} from '../loaders.ts';
-import {Card, Chip, PrimaryButton} from "../design/styled.ts";
-import {OPT_META} from "../design/tokens.ts";
+import {Button, Card, Chip, OPT_META} from "../design";
 import {formatTopic} from "../topics.ts";
 
 const Article = styled(Card)`
@@ -75,7 +74,7 @@ const ActionBtn = styled.button`
     &:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
 `;
 
-const StartBtn = styled(PrimaryButton)`
+const StartBtn = styled(Button).attrs({$variant: 'primary'})`
     flex: 1;
     padding: 0.625rem 0.875rem;
     font-size: 0.875rem;

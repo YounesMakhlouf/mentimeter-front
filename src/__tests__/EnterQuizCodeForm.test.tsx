@@ -2,7 +2,7 @@ import {describe, expect, it, vi, beforeEach} from 'vitest';
 import {act, render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import EnterQuizCodeForm from '../Components/EnterQuizCodeForm';
-import {EMOJI_AVATARS} from '../design/avatars';
+import {EMOJI_AVATARS} from '../design';
 
 type Handler = (...args: unknown[]) => void;
 

@@ -1,6 +1,53 @@
 import styled, {css} from 'styled-components';
 
-const buttonBase = css`
+export type ButtonVariant = 'default' | 'primary' | 'ink' | 'ghost';
+export type ButtonSize = 'md' | 'lg' | 'xl';
+
+const sizeStyles = (size: ButtonSize) => {
+    switch (size) {
+        case 'lg':
+            return css`
+                padding: 1.125rem 1.75rem;
+                font-size: 1.125rem;
+                border-radius: var(--r-lg);
+            `;
+        case 'xl':
+            return css`
+                padding: 1.375rem 2.25rem;
+                font-size: 1.375rem;
+                border-radius: var(--r-lg);
+                box-shadow: var(--shadow-lg);
+            `;
+        default:
+            return null;
+    }
+};
+
+const variantStyles = (variant: ButtonVariant) => {
+    switch (variant) {
+        case 'primary':
+            return css`
+                background: var(--brand);
+                color: var(--brand-ink);
+            `;
+        case 'ink':
+            return css`
+                background: var(--ink);
+                color: var(--paper);
+            `;
+        case 'ghost':
+            return css`
+                background: transparent;
+                box-shadow: none;
+                border-color: transparent;
+                &:hover { background: rgba(0, 0, 0, .06); box-shadow: none; transform: none; }
+            `;
+        default:
+            return null;
+    }
+};
+
+export const Button = styled.button<{$variant?: ButtonVariant; $size?: ButtonSize}>`
     appearance: none;
     border: 2.5px solid var(--line);
     background: var(--card);
@@ -23,43 +70,17 @@ const buttonBase = css`
     &:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
     &:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
     &:disabled { cursor: not-allowed; }
+
+    ${({$size = 'md'}) => sizeStyles($size)}
+    ${({$variant = 'default'}) => variantStyles($variant)}
 `;
 
-export const Button = styled.button`${buttonBase}`;
-
-export const PrimaryButton = styled.button`
-    ${buttonBase}
-    background: var(--brand);
-    color: var(--brand-ink);
-`;
-
-export const InkButton = styled.button`
-    ${buttonBase}
-    background: var(--ink);
-    color: var(--paper);
-`;
-
-export const LargeButton = styled.button`
-    ${buttonBase}
-    padding: 1.125rem 1.75rem;
-    font-size: 1.125rem;
-    border-radius: var(--r-lg);
-`;
-
-export const XLargeButton = styled.button`
-    ${buttonBase}
-    padding: 1.375rem 2.25rem;
-    font-size: 1.375rem;
-    border-radius: var(--r-lg);
-    box-shadow: var(--shadow-lg);
-`;
-
-export const GhostButton = styled.button`
-    ${buttonBase}
-    background: transparent;
-    box-shadow: none;
-    border-color: transparent;
-    &:hover { background: rgba(0, 0, 0, .06); box-shadow: none; transform: none; }
+/** Full-page shell used by the public-facing routes. */
+export const Page = styled.div`
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: var(--paper);
 `;
 
 export const Card = styled.div`

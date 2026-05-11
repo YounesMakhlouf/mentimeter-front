@@ -4,15 +4,7 @@ import EnterQuizCodeForm from "../Components/EnterQuizCodeForm.tsx";
 import Modal from "../Components/Modal.tsx";
 import {socket, QuestionPayload} from "../socket.ts";
 import {Link, useNavigate} from "react-router";
-import {Card, GhostButton, InkButton, PrimaryButton} from "../design/styled.ts";
-import {Avatar, Logo, ShapeField, ShapeIcon, Sticker} from "../design/primitives.tsx";
-import {OPT_META} from "../design/tokens.ts";
-
-const Page = styled.div`
-    position: relative;
-    min-height: 100vh;
-    overflow-x: hidden;
-`;
+import {Avatar, Button, Card, Logo, OPT_META, Page, ShapeField, ShapeIcon, Sticker} from "../design";
 
 const TopNav = styled.header`
     position: relative;
@@ -99,7 +91,7 @@ const PinInput = styled.input`
     min-width: 0;
 `;
 
-const PinSubmit = styled(InkButton)`
+const PinSubmit = styled(Button).attrs({$variant: 'ink' as const})`
     border-radius: 999px;
     padding: 0.875rem 1.75rem;
 `;
@@ -184,8 +176,8 @@ function WelcomePage() {
             <TopNav>
                 <Logo size={28}/>
                 <NavActions>
-                    <Link to="/authentication"><GhostButton>Log in</GhostButton></Link>
-                    <Link to="/authentication"><PrimaryButton>Get started</PrimaryButton></Link>
+                    <Link to="/authentication"><Button $variant="ghost">Log in</Button></Link>
+                    <Link to="/authentication"><Button $variant="primary">Get started</Button></Link>
                 </NavActions>
             </TopNav>
 
