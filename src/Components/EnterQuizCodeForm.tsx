@@ -2,8 +2,7 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {socket} from '../socket.ts';
 import {randomPseudo} from "../utils/pseudoGenerator.ts";
-import {EMOJI_AVATARS} from "../design/avatars.ts";
-import {GhostButton, Input, LargeButton, PrimaryButton} from "../design/styled.ts";
+import {Button, EMOJI_AVATARS, Input} from "../design";
 
 type JoinStatus = 'idle' | 'submitting' | 'joined' | 'error';
 type Step = 'name' | 'avatar';
@@ -146,14 +145,15 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
                     {joinStatus === 'error' && <ErrorMessage>Ooopsie! looks like this quiz doesn't exist.</ErrorMessage>}
                     <Footer>
                         <span/>
-                        <PrimaryButton
+                        <Button
                             type="button"
+                            $variant="primary"
                             disabled={!playerName.trim() || quizCode.replace(/\D/g, '').length !== 6}
                             style={{opacity: !playerName.trim() || quizCode.replace(/\D/g, '').length !== 6 ? 0.5 : 1}}
                             onClick={() => setStep('avatar')}
                         >
                             Continue →
-                        </PrimaryButton>
+                        </Button>
                     </Footer>
                 </>
             )}
@@ -173,10 +173,10 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
                     </AvatarGrid>
                     {joinStatus === 'error' && <ErrorMessage>Ooopsie! looks like this quiz doesn't exist.</ErrorMessage>}
                     <Footer>
-                        <GhostButton type="button" onClick={() => setStep('name')}>← Back</GhostButton>
-                        <LargeButton type="button" onClick={submit} style={{background: 'var(--brand)', color: 'var(--brand-ink)'}}>
+                        <Button type="button" $variant="ghost" onClick={() => setStep('name')}>← Back</Button>
+                        <Button type="button" $variant="primary" $size="lg" onClick={submit}>
                             Join game →
-                        </LargeButton>
+                        </Button>
                     </Footer>
                 </>
             )}

@@ -5,7 +5,7 @@ import {socket} from "../socket.ts";
 import type {Quiz} from "../loaders.ts";
 import QuizBox from "./QuizBox.tsx";
 import CreateQuizPopup from "./CreateQuizPopup.tsx";
-import {Chip} from "../design/styled.ts";
+import {Chip} from "../design";
 import {formatTopic} from "../topics.ts";
 
 const ALL_FILTER = 'All';

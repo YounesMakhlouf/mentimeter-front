@@ -3,9 +3,7 @@ import {Navigate, useLocation, useNavigate} from "react-router";
 import {FaTrash} from "react-icons/fa";
 import styled from "styled-components";
 import {authFetch} from "../api.ts";
-import {Card, Chip, GhostButton, Input, PrimaryButton} from "../design/styled.ts";
-import {ShapeIcon} from "../design/primitives.tsx";
-import {OPT_META} from "../design/tokens.ts";
+import {Button, Card, Chip, Input, OPT_META, ShapeIcon} from "../design";
 import {TOPIC_KEYS, formatTopic} from "../topics.ts";
 
 interface QuestionDraft {
@@ -320,7 +318,7 @@ function BuildQuiz() {
     return (
         <Page>
             <TopBar>
-                <GhostButton type="button" onClick={() => navigate('/home')}>← Exit</GhostButton>
+                <Button $variant="ghost" type="button" onClick={() => navigate('/home')}>← Exit</Button>
                 <NameInput
                     value={quizName}
                     onChange={(e) => setQuizName(e.target.value)}
@@ -333,7 +331,7 @@ function BuildQuiz() {
                 </TopicSelect>
                 <Counter>{questions.length} question{questions.length === 1 ? '' : 's'}</Counter>
                 <div style={{flex: 1}}/>
-                <PrimaryButton type="button" onClick={handleSubmit}>▶ Save &amp; finish</PrimaryButton>
+                <Button $variant="primary" type="button" onClick={handleSubmit}>▶ Save &amp; finish</Button>
             </TopBar>
 
             <Body>
@@ -366,12 +364,13 @@ function BuildQuiz() {
                         <EditorHeader>
                             <StepLabel>Question {active + 1} of {questions.length}</StepLabel>
                             <div style={{flex: 1}}/>
-                            <GhostButton
+                            <Button
                                 type="button"
+                                $variant="ghost"
                                 onClick={() => deleteQuestion(active)}
                                 disabled={questions.length === 1}
                                 style={{opacity: questions.length === 1 ? 0.4 : 1}}
-                            ><FaTrash/></GhostButton>
+                            ><FaTrash/></Button>
                         </EditorHeader>
                         <QuestionTextarea
                             value={q.text}

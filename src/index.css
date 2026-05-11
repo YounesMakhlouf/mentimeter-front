@@ -38,6 +38,17 @@
 
     --display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
     --body: "Rubik", ui-sans-serif, system-ui, sans-serif;
+
+    /* Fluid type scale (Utopia) — 360px viewport @ 18px base → 1240px+ @ 20px base.
+       https://utopia.fyi/type/calculator */
+    --step--2: clamp(0.7813rem, 0.7736rem + 0.0341vw, 0.8rem);   /* caption */
+    --step--1: clamp(0.9375rem, 0.9119rem + 0.1136vw, 1rem);     /* small body */
+    --step-0:  clamp(1.125rem,  1.0739rem + 0.2273vw, 1.25rem);  /* body */
+    --step-1:  clamp(1.35rem,   1.2631rem + 0.3864vw, 1.5625rem);/* lead / h5 */
+    --step-2:  clamp(1.62rem,   1.4837rem + 0.6057vw, 1.9531rem);/* h4 */
+    --step-3:  clamp(1.944rem,  1.7405rem + 0.9044vw, 2.4414rem);/* h3 */
+    --step-4:  clamp(2.3328rem, 2.0387rem + 1.3072vw, 3.0518rem);/* h2 */
+    --step-5:  clamp(2.7994rem, 2.384rem  + 1.8461vw, 3.8147rem);/* h1 / hero */
 }
 
 *, *::before, *::after { box-sizing: border-box; }

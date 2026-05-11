@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import {Link, Navigate, useNavigate} from "react-router";
 import {reauthSocket} from "../socket.ts";
 import {API_URL, isTokenValid, setAuth} from "../api.ts";
-import {Card, GhostButton, Input, LargeButton, PrimaryButton} from "../design/styled.ts";
-import {Logo, ShapeField, ShapeIcon, Sticker} from "../design/primitives.tsx";
+import {Button, Card, Input, Logo, ShapeField, ShapeIcon, Sticker} from "../design";
 
 const post = async (path: string, body: unknown) => {
     const res = await fetch(`${API_URL}/authentication/${path}`, {
@@ -156,7 +155,7 @@ const Authentification = () => {
         <Page>
             <ShapeField density={10} opacity={0.16} seed={5}/>
             <Header>
-                <Link to="/"><GhostButton>← Back</GhostButton></Link>
+                <Link to="/"><Button $variant="ghost">← Back</Button></Link>
                 <Logo size={26}/>
                 <div style={{width: 80}}/>
             </Header>
@@ -196,11 +195,9 @@ const Authentification = () => {
                             <Input name="password" type="password" placeholder="••••••••" required/>
                         </Field>
                         {loginError && <ErrorBlock>{loginError}</ErrorBlock>}
-                        <LargeButton type="submit" disabled={loginPending} style={{
-                            background: 'var(--brand)', color: 'var(--brand-ink)', marginTop: '0.75rem',
-                        }}>
+                        <Button type="submit" $variant="primary" $size="lg" disabled={loginPending} style={{marginTop: '0.75rem'}}>
                             {loginPending ? 'Logging in…' : 'Log in →'}
-                        </LargeButton>
+                        </Button>
                         <Switch>
                             New to QuizUp?
                             <a onClick={() => setSignIn(false)}>Sign up</a>
@@ -221,11 +218,9 @@ const Authentification = () => {
                             <Input name="password" type="password" placeholder="••••••••" required/>
                         </Field>
                         {registerError && <ErrorBlock>{registerError}</ErrorBlock>}
-                        <PrimaryButton type="submit" disabled={registerPending} style={{
-                            padding: '1.125rem 1.75rem', fontSize: '1.125rem', borderRadius: 'var(--r-lg)', marginTop: '0.75rem',
-                        }}>
+                        <Button type="submit" $variant="primary" $size="lg" disabled={registerPending} style={{marginTop: '0.75rem'}}>
                             {registerPending ? 'Creating…' : 'Create account →'}
-                        </PrimaryButton>
+                        </Button>
                         <Switch>
                             Already have an account?
                             <a onClick={() => setSignIn(true)}>Log in</a>

@@ -1,13 +1,6 @@
 import styled from 'styled-components';
 import {Link, isRouteErrorResponse, useRouteError} from 'react-router';
-import {Logo, ShapeField, Sticker} from '../design/primitives.tsx';
-import {PrimaryButton} from '../design/styled.ts';
-
-const Page = styled.div`
-    position: relative;
-    min-height: 100vh;
-    overflow-x: hidden;
-`;
+import {Button, Logo, Page, ShapeField, Sticker} from '../design';
 
 const Header = styled.header`
     position: relative;
@@ -64,9 +57,9 @@ export default function ErrorBoundary() {
                 <Title>{title}</Title>
                 <Detail>{detail}</Detail>
                 <Link to="/">
-                    <PrimaryButton type="button" style={{padding: '1rem 1.5rem', fontSize: '1.0625rem'}}>
+                    <Button type="button" $variant="primary" $size="lg">
                         Take me home →
-                    </PrimaryButton>
+                    </Button>
                 </Link>
             </Body>
         </Page>

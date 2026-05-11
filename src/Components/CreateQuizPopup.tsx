@@ -1,13 +1,7 @@
 import {ReactNode, useState} from "react";
-import styled from "styled-components";
 import CreateQuizForm from "./CreateQuizForm.tsx";
 import Modal from "./Modal.tsx";
-import {XLargeButton} from "../design/styled.ts";
-
-const TriggerButton = styled(XLargeButton)`
-    background: var(--brand);
-    color: var(--brand-ink);
-`;
+import {Button} from "../design";
 
 interface Props {
     trigger?: (open: () => void) => ReactNode;
@@ -20,9 +14,9 @@ export default function CreateQuizPopup({trigger}: Props) {
     return (
         <>
             {trigger ? trigger(openModal) : (
-                <TriggerButton type="button" onClick={openModal}>
+                <Button type="button" $variant="primary" $size="xl" onClick={openModal}>
                     ＋ New quiz
-                </TriggerButton>
+                </Button>
             )}
             <Modal open={open} onClose={closeModal}>
                 <CreateQuizForm/>

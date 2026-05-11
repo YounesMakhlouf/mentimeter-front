@@ -2,7 +2,7 @@ import {ChangeEvent, FormEvent, useState} from "react";
 import styled from "styled-components";
 import {randomQuizName} from '../utils/quizname-generator.ts';
 import {useNavigate} from "react-router";
-import {Input, PrimaryButton} from "../design/styled.ts";
+import {Button, Input} from "../design";
 
 const Form = styled.form`
     display: flex;
@@ -47,9 +47,9 @@ export default function CreateQuizForm() {
                     placeholder={randomQuizName}
                     autoFocus
                 />
-                <PrimaryButton type="submit" style={{padding: '1rem 1.5rem', fontSize: '1.0625rem'}}>
+                <Button type="submit" $variant="primary" $size="lg">
                     Let's go →
-                </PrimaryButton>
+                </Button>
             </Form>
         </>
     );
