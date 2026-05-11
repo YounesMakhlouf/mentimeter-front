@@ -85,19 +85,19 @@ const Field = styled.label`
     flex-direction: column;
     gap: 0.375rem;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
 `;
 
 const ErrorBlock = styled.div`
     color: #bc2525;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
 `;
 
 const Switch = styled.div`
     text-align: center;
     color: var(--ink-mute);
-    font-size: 0.875rem;
+    font-size: var(--step--1);
     margin-top: 0.5rem;
 
     a {
@@ -163,10 +163,10 @@ const Authentification = () => {
                 <BrandPanel $mode={mode}>
                     <div>
                         <Sticker color="var(--opt-c)" rotate={-5}>{signIn ? 'Welcome back' : 'Hey, friend'}</Sticker>
-                        <h1 style={{fontSize: '3rem', marginTop: '1.5rem', color: '#fff'}}>
+                        <h1 style={{fontSize: 'var(--step-4)', marginTop: '1.5rem', color: '#fff'}}>
                             {signIn ? 'Pick up where you left off.' : "Let's get your classroom buzzing."}
                         </h1>
-                        <p style={{fontSize: '1rem', opacity: 0.85, marginTop: '1rem', lineHeight: 1.5}}>
+                        <p style={{fontSize: 'var(--step--1)', opacity: 0.85, marginTop: '1rem', lineHeight: 1.5}}>
                             {signIn
                                 ? 'Your quizzes, drafts, and class history are waiting.'
                                 : 'Free for teachers. Unlimited players per game. No credit card.'}
@@ -182,8 +182,8 @@ const Authentification = () => {
 
                 {signIn ? (
                     <FormPanel as="form" action={loginFormAction}>
-                        <h2 style={{fontSize: '2rem'}}>Log in</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: '0.9375rem', marginTop: '-0.5rem'}}>
+                        <h2>Log in</h2>
+                        <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', marginTop: '-0.5rem'}}>
                             Use your email and password.
                         </p>
                         <Field>
@@ -205,8 +205,8 @@ const Authentification = () => {
                     </FormPanel>
                 ) : (
                     <FormPanel as="form" action={registerFormAction}>
-                        <h2 style={{fontSize: '2rem'}}>Create account</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: '0.9375rem', marginTop: '-0.5rem'}}>
+                        <h2>Create account</h2>
+                        <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', marginTop: '-0.5rem'}}>
                             Just an email and a password — that's it.
                         </p>
                         <Field>

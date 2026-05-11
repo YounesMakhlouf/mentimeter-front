@@ -42,7 +42,7 @@ const CodePanel = styled(Card)`
 
 const SectionLabel = styled.div`
     font-weight: 700;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
     letter-spacing: .06em;
     text-transform: uppercase;
     color: var(--ink-mute);
@@ -50,7 +50,7 @@ const SectionLabel = styled.div`
 
 const PinLabel = styled.div`
     font-weight: 700;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
     color: var(--ink-mute);
 `;
 
@@ -71,14 +71,14 @@ const PanelHeader = styled.div`
 `;
 
 const PanelTitle = styled.h2`
-    font-size: 1.75rem;
+    font-size: var(--step-2);
     color: var(--paper);
 `;
 
 const Counter = styled.span`
     font-family: var(--display);
     font-variant-numeric: tabular-nums;
-    font-size: 2rem;
+    font-size: var(--step-3);
     font-weight: 800;
 `;
 
@@ -110,13 +110,13 @@ const PartFace = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.625rem;
+    font-size: var(--step-2);
     border: 2.5px solid var(--paper);
 `;
 
 const PartName = styled.div`
     font-weight: 600;
-    font-size: 0.8125rem;
+    font-size: var(--step--2);
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -179,7 +179,7 @@ export default function StartQuizPage() {
                             <GameCode code={sessionCode} size={64}/>
                         </div>
                     </div>
-                    <p style={{color: 'var(--ink-mute)', fontSize: '0.875rem', lineHeight: 1.4}}>
+                    <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', lineHeight: 1.4}}>
                         Players open <b style={{color: 'var(--ink)'}}>localhost:5173</b> and enter this code to join.
                     </p>
                     <div style={{flex: 1}}/>

@@ -46,17 +46,12 @@ const TitleBlock = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 2.75rem;
     margin-top: 0.75rem;
-
-    @media (min-width: 43.75rem) {
-        font-size: 4rem;
-    }
 `;
 
 const Subtitle = styled.p`
     color: var(--ink-mute);
-    font-size: 1rem;
+    font-size: var(--step--1);
     margin-top: 0.375rem;
 `;
 
@@ -138,7 +133,7 @@ const Rank = styled.span`
     width: 2.25rem;
     font-family: var(--display);
     font-variant-numeric: tabular-nums;
-    font-size: 1.25rem;
+    font-size: var(--step-0);
     color: var(--ink-mute);
 `;
 
@@ -151,7 +146,7 @@ const Face = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.375rem;
+    font-size: var(--step-1);
 `;
 
 const Bar = styled.div`
@@ -246,7 +241,7 @@ const LeaderboardPage = () => {
                                         $bg={colors[podiumIdx]}
                                         $ink={inks[podiumIdx]}
                                     >
-                                        <span style={{fontFamily: 'var(--display)', fontSize: '3.5rem', fontWeight: 800, lineHeight: 1}}>
+                                        <span style={{fontFamily: 'var(--display)', fontSize: 'var(--step-5)', fontWeight: 800, lineHeight: 1}}>
                                             {trophies[podiumIdx]}
                                         </span>
                                     </PodiumBlock>

@@ -42,7 +42,7 @@ const TopBar = styled.header`
 const NameInput = styled(Input)`
     max-width: 23.75rem;
     font-weight: 700;
-    font-size: 1.125rem;
+    font-size: var(--step-0);
     padding: 0.625rem 0.875rem;
 `;
 
@@ -53,7 +53,7 @@ const TopicSelect = styled.select`
     color: var(--ink);
     border-radius: var(--r-md);
     padding: 0.625rem 0.875rem;
-    font-size: 0.9375rem;
+    font-size: var(--step--1);
     font-weight: 600;
     font-family: var(--body);
     box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .06);
@@ -61,7 +61,7 @@ const TopicSelect = styled.select`
 
 const Counter = styled.span`
     color: var(--ink-mute);
-    font-size: 0.8125rem;
+    font-size: var(--step--2);
     font-weight: 600;
 `;
 
@@ -107,7 +107,7 @@ const QuestionTab = styled.button<{$active: boolean}>`
 
 const TabIndex = styled.span`
     font-family: var(--display);
-    font-size: 1.125rem;
+    font-size: var(--step-0);
     font-weight: 800;
     width: 1.375rem;
     flex: none;
@@ -115,7 +115,7 @@ const TabIndex = styled.span`
 
 const TabText = styled.span`
     flex: 1;
-    font-size: 0.8125rem;
+    font-size: var(--step--2);
     font-weight: 500;
     line-height: 1.3;
     overflow: hidden;
@@ -158,7 +158,7 @@ const EditorHeader = styled.div`
 
 const StepLabel = styled.span`
     font-family: var(--display);
-    font-size: 0.875rem;
+    font-size: var(--step--1);
     color: var(--ink-mute);
     font-weight: 700;
     letter-spacing: .06em;
@@ -175,7 +175,7 @@ const QuestionTextarea = styled.textarea`
     width: 100%;
     box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .06);
     outline: none;
-    font-size: 1.75rem;
+    font-size: var(--step-2);
     font-weight: 700;
     line-height: 1.25;
     resize: vertical;
@@ -212,7 +212,7 @@ const OptionInput = styled.input`
     border: none;
     outline: none;
     color: inherit;
-    font-size: 1.125rem;
+    font-size: var(--step-0);
     font-weight: 600;
     font-family: inherit;
     min-width: 0;
@@ -227,7 +227,7 @@ const CorrectToggle = styled.button<{$correct: boolean; $bg: string; $ink: strin
     color: ${({$correct, $bg}) => $correct ? $bg : 'inherit'};
     cursor: pointer;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: var(--step--1);
     line-height: 1;
     flex: none;
 `;
@@ -348,7 +348,7 @@ function BuildQuiz() {
                                 {qq.text || <span style={{opacity: 0.5}}>Untitled question</span>}
                             </TabText>
                             <Chip as="span" style={{
-                                fontSize: '0.625rem',
+                                fontSize: 'var(--step--2)',
                                 padding: '2px 0.5rem',
                                 flex: 'none',
                                 background: i === active ? 'var(--ink)' : 'var(--paper)',
