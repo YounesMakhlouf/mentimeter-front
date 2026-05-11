@@ -8,13 +8,13 @@ const sizeStyles = (size: ButtonSize) => {
         case 'lg':
             return css`
                 padding: 1.125rem 1.75rem;
-                font-size: 1.125rem;
+                font-size: var(--step-0);
                 border-radius: var(--r-lg);
             `;
         case 'xl':
             return css`
                 padding: 1.375rem 2.25rem;
-                font-size: 1.375rem;
+                font-size: var(--step-1);
                 border-radius: var(--r-lg);
                 box-shadow: var(--shadow-lg);
             `;
@@ -55,7 +55,7 @@ export const Button = styled.button<{$variant?: ButtonVariant; $size?: ButtonSiz
     border-radius: var(--r-md);
     padding: 0.875rem 1.375rem;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: var(--step--1);
     cursor: pointer;
     box-shadow: var(--shadow-md);
     transition: transform .12s ease, box-shadow .12s ease;
@@ -97,7 +97,7 @@ export const Input = styled.input`
     color: var(--ink);
     border-radius: var(--r-md);
     padding: 0.875rem 1.125rem;
-    font-size: 1.0625rem;
+    font-size: var(--step-0);
     font-family: var(--body);
     width: 100%;
     box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .06);
@@ -115,6 +115,6 @@ export const Chip = styled.span`
     border: 2px solid var(--line);
     background: var(--card);
     font-weight: 600;
-    font-size: 0.8125rem;
+    font-size: var(--step--2);
     color: var(--ink);
 `;

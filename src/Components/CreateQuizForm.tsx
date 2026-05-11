@@ -11,14 +11,13 @@ const Form = styled.form`
 `;
 
 const Heading = styled.h3`
-    font-size: 1.75rem;
     margin: 0;
 `;
 
 const Subtle = styled.p`
     color: var(--ink-mute);
     margin: 0;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
 `;
 
 export default function CreateQuizForm() {

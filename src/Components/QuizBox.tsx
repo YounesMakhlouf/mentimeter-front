@@ -19,14 +19,14 @@ const CoverArea = styled.div<{$color: string}>`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 4rem;
+    font-size: var(--step-5);
 `;
 
 const TopicChip = styled(Chip)`
     position: absolute;
     top: 0.625rem;
     left: 0.625rem;
-    font-size: 0.6875rem;
+    font-size: var(--step--2);
     padding: 3px 0.625rem;
 `;
 
@@ -39,7 +39,7 @@ const Body = styled.div`
 `;
 
 const Title = styled.h3`
-    font-size: 1.25rem;
+    font-size: var(--step-0);
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -49,7 +49,7 @@ const Title = styled.h3`
 
 const Meta = styled.div`
     color: var(--ink-mute);
-    font-size: 0.8125rem;
+    font-size: var(--step--2);
     font-weight: 500;
 `;
 
@@ -66,7 +66,7 @@ const ActionBtn = styled.button`
     color: var(--ink);
     border-radius: var(--r-md);
     padding: 0.625rem 0.875rem;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
     font-weight: 700;
     cursor: pointer;
     box-shadow: var(--shadow-sm);
@@ -77,7 +77,7 @@ const ActionBtn = styled.button`
 const StartBtn = styled(Button).attrs({$variant: 'primary'})`
     flex: 1;
     padding: 0.625rem 0.875rem;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
 `;
 
 const TOPIC_DEFAULTS: Record<string, {color: string; emoji: string}> = {

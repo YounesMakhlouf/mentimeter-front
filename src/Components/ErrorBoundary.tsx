@@ -22,17 +22,12 @@ const Body = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 2.75rem;
     margin: 0.5rem 0;
-
-    @media (min-width: 37.5rem) {
-        font-size: 4rem;
-    }
 `;
 
 const Detail = styled.p`
     color: var(--ink-mute);
-    font-size: 1rem;
+    font-size: var(--step--1);
     max-width: 30rem;
 `;
 

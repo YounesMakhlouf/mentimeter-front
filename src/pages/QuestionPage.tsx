@@ -73,7 +73,7 @@ const TimeChip = styled.div<{$low: boolean}>`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
+    font-size: var(--step-0);
     font-weight: 800;
     font-family: var(--display);
     font-variant-numeric: tabular-nums;
@@ -82,7 +82,7 @@ const TimeChip = styled.div<{$low: boolean}>`
 
 const QuestionHeading = styled.h2`
     font-family: var(--display);
-    font-size: 1.75rem;
+    font-size: var(--step-2);
     line-height: 1.15;
     margin-top: 0.75rem;
 `;
@@ -116,7 +116,7 @@ const OptionTile = styled.button<{$bg: string; $ink: string; $selected: boolean;
 `;
 
 const OptionLabel = styled.span`
-    font-size: 1.25rem;
+    font-size: var(--step-0);
     font-weight: 700;
     line-height: 1.2;
 `;
@@ -230,7 +230,7 @@ export default function QuestionPage() {
             <Page>
                 <Centered>
                     <Spinner/>
-                    <h2 style={{fontSize: '1.75rem'}}>Waiting for the host…</h2>
+                    <h2 style={{fontSize: 'var(--step-2)'}}>Waiting for the host…</h2>
                 </Centered>
             </Page>
         );
@@ -242,8 +242,8 @@ export default function QuestionPage() {
                 <PlayerInfo>
                     <Avatar name={playerName} emoji="🎲" size={36}/>
                     <div>
-                        <div style={{fontWeight: 700, fontSize: '0.875rem'}}>{playerName}</div>
-                        <div style={{color: 'var(--ink-mute)', fontSize: '0.6875rem'}}>Live game</div>
+                        <div style={{fontWeight: 700, fontSize: 'var(--step--1)'}}>{playerName}</div>
+                        <div style={{color: 'var(--ink-mute)', fontSize: 'var(--step--2)'}}>Live game</div>
                     </div>
                 </PlayerInfo>
                 <Chip>Q {(questionNumber + 1).toString().padStart(2, '0')}</Chip>
@@ -257,7 +257,7 @@ export default function QuestionPage() {
                             </TimeBar>
                             <div style={{display: 'flex', alignItems: 'center', gap: 10, marginBottom: '0.25rem', marginTop: '0.375rem'}}>
                                 <TimeChip $low={time < 6}>{time}</TimeChip>
-                                <span style={{color: 'var(--ink-mute)', fontSize: '0.8125rem', fontWeight: 600}}>seconds left</span>
+                                <span style={{color: 'var(--ink-mute)', fontSize: 'var(--step--2)', fontWeight: 600}}>seconds left</span>
                             </div>
                             <QuestionHeading>{questionText}</QuestionHeading>
                         </QuestionCard>
@@ -291,8 +291,8 @@ export default function QuestionPage() {
                 {phase === 'wait' && picked !== null && (
                     <Centered>
                         <Spinner/>
-                        <h2 style={{fontSize: '2rem'}}>Locked in!</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: '1rem', maxWidth: 320}}>
+                        <h2>Locked in!</h2>
+                        <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', maxWidth: 320}}>
                             Hang tight — we'll reveal the answer when everyone's in.
                         </p>
                         {options?.[picked] && (

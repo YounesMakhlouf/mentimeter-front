@@ -13,11 +13,11 @@ const ALL_FILTER = 'All';
 type QuizWithTopic = Quiz & {topic?: string};
 
 const Outer = styled.div`
-    padding: 1.5rem;
+    padding: 2rem 3rem;
     max-width: 80rem;
 
-    @media (min-width: 50rem) {
-        padding: 2rem 3rem;
+    @media (max-width: 50em) {
+        padding: 1.5rem;
     }
 `;
 
@@ -32,17 +32,12 @@ const Greeting = styled.div`
 
 const DateLabel = styled.div`
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
     color: var(--ink-mute);
 `;
 
 const Hi = styled.h1`
-    font-size: 2.5rem;
     margin-top: 0.375rem;
-
-    @media (min-width: 37.5rem) {
-        font-size: 3.5rem;
-    }
 `;
 
 const Wave = styled.span`
@@ -52,7 +47,6 @@ const Wave = styled.span`
 
 const Subtitle = styled.p`
     color: var(--ink-mute);
-    font-size: 1.125rem;
     margin-top: 0.375rem;
 `;
 
@@ -96,19 +90,19 @@ const NewQuizCard = styled.button`
 `;
 
 const NewQuizPlus = styled.div`
-    font-size: 3rem;
+    font-size: var(--step-4);
     line-height: 1;
 `;
 
 const NewQuizTitle = styled.div`
     font-family: var(--display);
-    font-size: 1.25rem;
+    font-size: var(--step-0);
     font-weight: 800;
 `;
 
 const NewQuizHint = styled.div`
     color: var(--ink-mute);
-    font-size: 0.8125rem;
+    font-size: var(--step--2);
 `;
 
 const TODAY_LABEL = (() => {

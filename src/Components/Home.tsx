@@ -43,14 +43,14 @@ const UserMeta = styled.div`
 
 const UserName = styled.div`
     font-weight: 700;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 `;
 
 const UserEmail = styled.div`
-    font-size: 0.6875rem;
+    font-size: var(--step--2);
     color: var(--ink-mute);
     white-space: nowrap;
     overflow: hidden;
@@ -65,7 +65,7 @@ const LogoutButton = styled(Link)`
     border-radius: var(--r-md);
     padding: 0.625rem 1rem;
     font-weight: 700;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
     cursor: pointer;
     box-shadow: var(--shadow-md);
     transition: transform .12s ease, box-shadow .12s ease;

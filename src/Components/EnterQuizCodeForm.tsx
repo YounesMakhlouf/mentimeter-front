@@ -14,14 +14,13 @@ const Stack = styled.div`
 `;
 
 const Title = styled.h2`
-    font-size: 2rem;
     margin: 0;
 `;
 
 const Subtle = styled.p`
     color: var(--ink-mute);
     margin: -0.5rem 0 0;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
 `;
 
 const Footer = styled.div`
@@ -42,7 +41,7 @@ const AvatarPick = styled.button<{$selected: boolean}>`
     border: ${({$selected}) => $selected ? '3px solid var(--brand)' : '2.5px solid var(--ink)'};
     background: var(--card);
     border-radius: 1rem;
-    font-size: 2rem;
+    font-size: var(--step-3);
     cursor: pointer;
     box-shadow: ${({$selected}) => $selected ? 'var(--shadow-md)' : 'var(--shadow-sm)'};
     transform: ${({$selected}) => $selected ? 'translateY(-2px)' : 'none'};
@@ -54,7 +53,7 @@ const AvatarPick = styled.button<{$selected: boolean}>`
 const ErrorMessage = styled.div`
     color: #bc2525;
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: var(--step--1);
 `;
 
 const SuccessLoader = styled.div`
@@ -111,7 +110,7 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
         return (
             <Stack>
                 <SuccessLoader>
-                    <div style={{fontSize: '4rem', animation: 'wiggle 0.8s ease-in-out infinite'}}>{EMOJI_AVATARS[emojiIdx]}</div>
+                    <div style={{fontSize: 'var(--step-5)', animation: 'wiggle 0.8s ease-in-out infinite'}}>{EMOJI_AVATARS[emojiIdx]}</div>
                     <Title>{joinStatus === 'joined' ? `You're in, ${playerName}!` : `Joining as ${playerName}…`}</Title>
                     <Subtle style={{margin: 0}}>Hang tight, the host will start soon.</Subtle>
                     <Spinner/>
