@@ -23,12 +23,14 @@ const readStored = (): ScoredParticipant[] | null => {
     }
 };
 
-const Header = styled.header`
+const Header = styled.header.attrs({className: 'wrapper'})`
+    --wrapper-max: 67.5rem;
     position: relative;
-    padding: 1.375rem 2rem;
+    padding-block: 1.375rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--gap-2);
     z-index: 2;
 `;
 
@@ -175,7 +177,21 @@ const ScoreCol = styled.span`
 
 const HeaderActions = styled.div`
     display: flex;
-    gap: var(--gap-3);
+    gap: var(--gap-2);
+    flex-shrink: 0;
+
+    button {
+        padding: 0.5rem 0.875rem;
+        font-size: var(--step--2);
+    }
+
+    @media (min-width: 30em) {
+        gap: var(--gap-3);
+        button {
+            padding: 0.875rem 1.375rem;
+            font-size: var(--step--1);
+        }
+    }
 `;
 
 const Trophy = styled.span`
