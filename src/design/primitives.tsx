@@ -127,7 +127,7 @@ export function GameCode({code, size = 96}: {code: string; size?: number}) {
         <div style={{
             fontFamily: 'var(--display)',
             fontVariantNumeric: 'tabular-nums',
-            fontSize: isShort ? size : Math.min(size, 28),
+            fontSize: isShort ? `clamp(${size * 0.45}px, 10vw, ${size}px)` : `${Math.min(size, 28)}px`,
             lineHeight: 1.1,
             fontWeight: 800,
             letterSpacing: isShort ? '0.04em' : '0.02em',

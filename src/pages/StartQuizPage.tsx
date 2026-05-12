@@ -6,9 +6,10 @@ import {Button, Card, GameCode, Logo, Page, ShapeField} from "../design";
 
 const SESSION_KEY = 'startquiz:sessionCode';
 
-const Header = styled.header`
+const Header = styled.header.attrs({className: 'wrapper'})`
+    --wrapper-max: 82.5rem;
     position: relative;
-    padding: 1.125rem 2rem;
+    padding-block: 1.125rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -32,11 +33,22 @@ const Wrap = styled.div.attrs({className: 'wrapper'})`
 `;
 
 const CodePanel = styled(Card)`
-    padding: 2.25rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.375rem;
+    gap: 1rem;
     background: var(--card);
+
+    @media (min-width: 30em) {
+        padding: 2.25rem;
+        gap: 1.375rem;
+    }
+`;
+
+const StartButton = styled(Button).attrs({$variant: 'primary' as const, $size: 'xl' as const})`
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
 `;
 
 const SectionLabel = styled.div`
@@ -171,21 +183,15 @@ export default function StartQuizPage() {
                         <PinLabel>Join at <span style={{color: 'var(--ink)'}}>quizup.live</span></PinLabel>
                         <div style={{marginTop: '0.375rem'}}>
                             <PinLabel>Game PIN</PinLabel>
-                            <GameCode code={sessionCode} size={64}/>
+                            <GameCode code={sessionCode}/>
                         </div>
                     </div>
                     <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', lineHeight: 1.4}}>
                         Players open <b style={{color: 'var(--ink)'}}>localhost:5173</b> and enter this code to join.
                     </p>
-                    <div style={{flex: 1}}/>
-                    <Button
-                        $variant="primary"
-                        $size="xl"
-                        onClick={handleStartQuiz}
-                        style={{width: '100%', justifyContent: 'center'}}
-                    >
+                    <StartButton onClick={handleStartQuiz}>
                         Start now ({participants.length}) →
-                    </Button>
+                    </StartButton>
                 </CodePanel>
 
                 <ParticipantPanel>
