@@ -237,12 +237,12 @@ const QuestionTextarea = styled.textarea`
 
 const OptionsGrid = styled.div`
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--gap-4);
     margin-top: 1.5rem;
 
     @media (min-width: 43.75rem) {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
 `;
 
