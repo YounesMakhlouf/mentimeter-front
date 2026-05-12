@@ -79,7 +79,6 @@ const TimeChip = styled.div<{$low: boolean}>`
 `;
 
 const QuestionHeading = styled.h2`
-    font-family: var(--display);
     font-size: var(--step-2);
     line-height: 1.15;
     margin-top: 0.75rem;

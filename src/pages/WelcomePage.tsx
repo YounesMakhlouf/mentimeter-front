@@ -55,7 +55,6 @@ const Hero = styled.div.attrs({className: 'wrapper'})`
 const Headline = styled.h1`
     font-size: clamp(2.5rem, 7.5vw + 0.5rem, 6.5rem);
     margin: 1.5rem 0;
-    font-weight: 800;
 `;
 
 const Highlight = styled.span`
