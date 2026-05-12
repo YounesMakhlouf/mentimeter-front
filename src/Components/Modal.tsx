@@ -4,7 +4,7 @@ import {FaRegCircleXmark} from 'react-icons/fa6';
 import styled from 'styled-components';
 
 const ModalBox = styled.div`
-    width: min(35rem, calc(100% - 2rem));
+    width: min(35rem, calc(100vw - 2rem));
     background: var(--card);
     border: 2.5px solid var(--ink);
     border-radius: var(--r-xl);
