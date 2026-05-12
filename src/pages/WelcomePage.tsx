@@ -4,7 +4,7 @@ import EnterQuizCodeForm from "../Components/EnterQuizCodeForm.tsx";
 import Modal from "../Components/Modal.tsx";
 import {socket, QuestionPayload} from "../socket.ts";
 import {Link, useNavigate} from "react-router";
-import {Avatar, Button, Card, Logo, OPT_META, Page, ShapeField, ShapeIcon, Sticker} from "../design";
+import {Avatar, Button, Card, Logo, OPT_META, Page, ShapeField, ShapeIcon} from "../design";
 
 const TopNav = styled.header`
     position: relative;
@@ -181,7 +181,6 @@ function WelcomePage() {
 
             <Hero>
                 <div>
-                    <Sticker color="var(--opt-c)" rotate={-4}>For teachers · Free forever</Sticker>
                     <Headline>
                         Make every <Highlight>question</Highlight><br/>count.
                     </Headline>
