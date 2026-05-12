@@ -12,20 +12,19 @@ import EditQuizForm from "./EditQuizForm.tsx";
 
 const Article = styled(Card)`
     overflow: hidden;
-    cursor: pointer;
     display: flex;
     flex-direction: column;
     padding: 0;
 `;
 
 const CoverArea = styled.div<{$color: string}>`
-    height: 8.125rem;
     background: ${({$color}) => $color};
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: var(--step-5);
+    padding: 1.75rem 1rem;
 `;
 
 const TopicChip = styled(Chip)`
@@ -46,11 +45,6 @@ const Body = styled.div`
 
 const Title = styled.h3`
     font-size: var(--step-0);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
 `;
 
 const Meta = styled.div`
@@ -87,7 +81,6 @@ const StartBtn = styled(Button).attrs({$variant: 'primary'})`
 `;
 
 const TrashBtn = styled.button`
-    flex: 0 0 auto;
     border: 2.5px solid var(--ink);
     background: var(--card);
     color: var(--ink);
@@ -95,9 +88,6 @@ const TrashBtn = styled.button`
     padding: 0.625rem 0.75rem;
     cursor: pointer;
     box-shadow: var(--shadow-sm);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     &:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
 `;
 
@@ -214,7 +204,7 @@ export default function QuizBox({quiz}: Props) {
                 <ConfirmStack>
                     <h3>Delete this quiz?</h3>
                     <Subtle>
-                        <b>{quiz.name}</b> will be removed from your dashboard. This can't be undone from the UI.
+                        <b>{quiz.name}</b> will be removed from your dashboard. This can't be undone.
                     </Subtle>
                     {deleteError && <ErrorText>{deleteError}</ErrorText>}
                     <ConfirmActions>

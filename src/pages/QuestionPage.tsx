@@ -37,7 +37,6 @@ const Body = styled.div`
     gap: 1.125rem;
     max-width: 50rem;
     margin: 0 auto;
-    width: 100%;
 `;
 
 const QuestionCard = styled(Card)`
@@ -112,7 +111,6 @@ const OptionTile = styled.button<{$bg: string; $ink: string; $selected: boolean;
     transform: ${({$selected}) => $selected ? 'scale(.98)' : 'none'};
     transition: all .15s ease;
     text-align: left;
-    min-height: 7.5rem;
 `;
 
 const OptionLabel = styled.span`

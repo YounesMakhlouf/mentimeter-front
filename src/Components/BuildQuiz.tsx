@@ -118,11 +118,7 @@ const TabText = styled.span`
     font-size: var(--step--2);
     font-weight: 500;
     line-height: 1.3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    word-break: break-word;
 `;
 
 const AddTabBtn = styled.button`
