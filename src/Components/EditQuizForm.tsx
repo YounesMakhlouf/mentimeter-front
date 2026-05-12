@@ -2,7 +2,7 @@ import {ChangeEvent, FormEvent, useState} from 'react';
 import styled from 'styled-components';
 import {useRevalidator} from 'react-router';
 import {authFetch} from '../api.ts';
-import {Button, Input} from '../design';
+import {Button, ErrorText, Input} from '../design';
 import {TOPIC_KEYS, formatTopic} from '../topics.ts';
 
 const Form = styled.form`
@@ -29,12 +29,6 @@ const Select = styled.select`
     font-size: var(--step-0);
     font-family: var(--body);
     box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .06);
-`;
-
-const ErrorMessage = styled.div`
-    color: #bc2525;
-    font-weight: 600;
-    font-size: var(--step--1);
 `;
 
 interface Props {
@@ -100,7 +94,7 @@ export default function EditQuizForm({quizId, initialName, initialTopic, onSaved
                         ))}
                     </Select>
                 </Field>
-                {error && <ErrorMessage>{error}</ErrorMessage>}
+                {error && <ErrorText>{error}</ErrorText>}
                 <Button type="submit" $variant="primary" $size="lg" disabled={pending}>
                     {pending ? 'Saving…' : 'Save changes'}
                 </Button>

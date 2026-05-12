@@ -106,6 +106,12 @@ export const Input = styled.input`
     &::placeholder { color: var(--ink-mute); }
 `;
 
+export const ErrorText = styled.div`
+    color: #bc2525;
+    font-weight: 600;
+    font-size: var(--step--1);
+`;
+
 export const Chip = styled.span`
     display: inline-flex;
     align-items: center;
