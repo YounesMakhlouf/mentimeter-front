@@ -1,6 +1,9 @@
 import {useState} from "react";
 import styled from "styled-components";
+import {FaTrash} from "react-icons/fa";
+import {useRevalidator} from "react-router";
 import {socket} from '../socket.ts';
+import {authFetch} from '../api.ts';
 import type {Quiz} from '../loaders.ts';
 import {Button, Card, Chip, OPT_META} from "../design";
 import {formatTopic} from "../topics.ts";
@@ -83,6 +86,44 @@ const StartBtn = styled(Button).attrs({$variant: 'primary'})`
     font-size: var(--step--1);
 `;
 
+const TrashBtn = styled.button`
+    flex: 0 0 auto;
+    border: 2.5px solid var(--ink);
+    background: var(--card);
+    color: var(--ink);
+    border-radius: var(--r-md);
+    padding: 0.625rem 0.75rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+`;
+
+const ConfirmStack = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
+
+const ConfirmActions = styled.div`
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+`;
+
+const Subtle = styled.p`
+    color: var(--ink-mute);
+    margin: 0;
+`;
+
+const ErrorText = styled.div`
+    color: #bc2525;
+    font-weight: 600;
+    font-size: var(--step--1);
+`;
+
 const TOPIC_DEFAULTS: Record<string, {color: string; emoji: string}> = {
     math: {color: 'var(--opt-c)', emoji: '➗'},
     science: {color: 'var(--opt-d)', emoji: '🔬'},
@@ -115,9 +156,27 @@ interface Props {
 export default function QuizBox({quiz}: Props) {
     const {color, emoji} = decorate(quiz.topic);
     const [editing, setEditing] = useState(false);
+    const [confirmingDelete, setConfirmingDelete] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+    const [deleteError, setDeleteError] = useState<string | null>(null);
+    const revalidator = useRevalidator();
 
     const handleStart = () => {
         socket.emit('createQuizSession', {quizId: quiz.id});
+    };
+
+    const handleDelete = async () => {
+        setDeleting(true);
+        setDeleteError(null);
+        try {
+            await authFetch(`/quizzes/${quiz.id}`, {method: 'DELETE'});
+            revalidator.revalidate();
+            setConfirmingDelete(false);
+        } catch (err) {
+            setDeleteError(err instanceof Error ? err.message : 'Failed to delete.');
+        } finally {
+            setDeleting(false);
+        }
     };
 
     return (
@@ -135,9 +194,13 @@ export default function QuizBox({quiz}: Props) {
                     <Actions>
                         <StartBtn type="button" onClick={handleStart}>▶ Start game</StartBtn>
                         <ActionBtn type="button" onClick={() => setEditing(true)}>Edit</ActionBtn>
+                        <TrashBtn type="button" onClick={() => setConfirmingDelete(true)} aria-label="Delete quiz">
+                            <FaTrash/>
+                        </TrashBtn>
                     </Actions>
                 </Body>
             </Article>
+
             <Modal open={editing} onClose={() => setEditing(false)}>
                 <EditQuizForm
                     quizId={quiz.id}
@@ -145,6 +208,30 @@ export default function QuizBox({quiz}: Props) {
                     initialTopic={quiz.topic}
                     onSaved={() => setEditing(false)}
                 />
+            </Modal>
+
+            <Modal open={confirmingDelete} onClose={() => !deleting && setConfirmingDelete(false)}>
+                <ConfirmStack>
+                    <h3>Delete this quiz?</h3>
+                    <Subtle>
+                        <b>{quiz.name}</b> will be removed from your dashboard. This can't be undone from the UI.
+                    </Subtle>
+                    {deleteError && <ErrorText>{deleteError}</ErrorText>}
+                    <ConfirmActions>
+                        <Button type="button" $variant="ghost" onClick={() => setConfirmingDelete(false)} disabled={deleting}>
+                            Cancel
+                        </Button>
+                        <Button
+                            type="button"
+                            $variant="ink"
+                            onClick={handleDelete}
+                            disabled={deleting}
+                            style={{background: '#bc2525', borderColor: '#bc2525'}}
+                        >
+                            {deleting ? 'Deleting…' : 'Delete'}
+                        </Button>
+                    </ConfirmActions>
+                </ConfirmStack>
             </Modal>
         </>
     );
