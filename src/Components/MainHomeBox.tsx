@@ -63,7 +63,7 @@ const FilterChip = styled(Chip)<{$active?: boolean}>`
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
-    gap: 1.125rem;
+    gap: 1rem;
 `;
 
 const NewQuizCard = styled.button`
@@ -75,7 +75,7 @@ const NewQuizCard = styled.button`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.625rem;
+    gap: 0.75rem;
     color: var(--ink);
     padding: 2rem 1.5rem;
 

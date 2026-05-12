@@ -94,7 +94,7 @@ const QuestionTab = styled.button<{$active: boolean}>`
     padding: 0.75rem;
     text-align: left;
     display: flex;
-    gap: 0.625rem;
+    gap: 0.75rem;
     align-items: flex-start;
     cursor: pointer;
     background: ${({$active}) => $active ? 'var(--brand)' : 'var(--card)'};
@@ -146,7 +146,7 @@ const EditorInner = styled.div.attrs({className: 'wrapper'})`
 
 const EditorHeader = styled.div`
     display: flex;
-    gap: 0.625rem;
+    gap: 0.75rem;
     align-items: center;
     margin-bottom: 1.125rem;
 `;
@@ -182,7 +182,7 @@ const QuestionTextarea = styled.textarea`
 const OptionsGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.875rem;
+    gap: 1rem;
     margin-top: 1.5rem;
 
     @media (min-width: 43.75rem) {
@@ -240,7 +240,6 @@ const Placeholder = styled.span`
 `;
 
 const CorrectMarker = styled(Chip)<{$active: boolean}>`
-    font-size: var(--step--2);
     padding: 2px 0.5rem;
     flex: none;
     background: ${({$active}) => $active ? 'var(--ink)' : 'var(--paper)'};

@@ -13,11 +13,11 @@ const ModalBox = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 1.125rem;
+    gap: 1rem;
 
     @media (min-width: 30em) {
         padding: 1.75rem 2rem 2rem;
-        gap: 1.25rem;
+        gap: 1.5rem;
     }
 `;
 

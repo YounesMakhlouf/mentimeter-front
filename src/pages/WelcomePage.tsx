@@ -28,7 +28,7 @@ const NavActions = styled.div`
     }
 
     @media (min-width: 30em) {
-        gap: 0.625rem;
+        gap: 0.75rem;
         button {
             padding: 0.875rem 1.375rem;
             font-size: var(--step--1);
@@ -83,14 +83,14 @@ const Phrase = styled.p`
 const PinRow = styled(Card)`
     padding: 0.5rem;
     display: flex;
-    gap: 0.375rem;
+    gap: 0.5rem;
     align-items: center;
     max-width: 33.75rem;
     border-radius: 999px;
 
     @media (min-width: 30em) {
         padding: 0.75rem;
-        gap: 0.625rem;
+        gap: 0.75rem;
     }
 `;
 
@@ -173,7 +173,7 @@ const StreakPreview = styled(Card)`
     transform: rotate(-2deg);
     display: flex;
     align-items: center;
-    gap: 0.875rem;
+    gap: 1rem;
     animation-delay: 0.2s;
     background: var(--opt-d);
 `;

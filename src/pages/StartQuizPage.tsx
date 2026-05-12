@@ -41,7 +41,7 @@ const CodePanel = styled(Card)`
 
     @media (min-width: 30em) {
         padding: 2.25rem;
-        gap: 1.375rem;
+        gap: 1.5rem;
     }
 `;
 
@@ -53,7 +53,7 @@ const StartButton = styled(Button).attrs({$variant: 'primary' as const, $size: '
 
 const HeaderActions = styled.div`
     display: flex;
-    gap: 0.625rem;
+    gap: 0.75rem;
 `;
 
 const JoinHint = styled.p`
@@ -124,7 +124,7 @@ const PartCell = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.375rem;
+    gap: 0.5rem;
 `;
 
 const PartFace = styled.div`

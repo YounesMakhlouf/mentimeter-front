@@ -10,7 +10,7 @@ type Step = 'name' | 'avatar';
 const Stack = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1.125rem;
+    gap: 1rem;
 `;
 
 const Title = styled.h2`
@@ -63,7 +63,7 @@ const SuccessLoader = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.875rem;
+    gap: 1rem;
     text-align: center;
     padding: 0.75rem 0;
 `;

@@ -57,7 +57,7 @@ const Subtitle = styled.p`
 const PodiumRow = styled.div`
     display: grid;
     grid-template-columns: 1fr 1.2fr 1fr;
-    gap: 0.875rem;
+    gap: 1rem;
     align-items: flex-end;
     margin-bottom: 1.75rem;
     max-width: 45rem;
@@ -121,7 +121,7 @@ const RestList = styled(Card)`
 const RestRow = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.875rem;
+    gap: 1rem;
     padding: 0.875rem 1.125rem;
     border-bottom: 1.5px solid rgba(0, 0, 0, .07);
 
@@ -175,13 +175,11 @@ const ScoreCol = styled.span`
 
 const HeaderActions = styled.div`
     display: flex;
-    gap: 0.625rem;
+    gap: 0.75rem;
 `;
 
 const Trophy = styled.span`
-    font-family: var(--display);
     font-size: var(--step-5);
-    font-weight: 800;
     line-height: 1;
 `;
 

@@ -63,7 +63,7 @@ export const Button = styled.button<{$variant?: ButtonVariant; $size?: ButtonSiz
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.625rem;
+    gap: 0.75rem;
     white-space: nowrap;
     line-height: 1;
 
@@ -115,7 +115,7 @@ export const ErrorText = styled.div`
 export const Chip = styled.span`
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
+    gap: 0.5rem;
     padding: 0.375rem 0.75rem;
     border-radius: 999px;
     border: 2px solid var(--line);

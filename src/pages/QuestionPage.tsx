@@ -26,7 +26,7 @@ const TopBar = styled.header`
 const PlayerInfo = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 0.75rem;
 `;
 
 const Body = styled.div.attrs({className: 'wrapper'})`
@@ -35,7 +35,7 @@ const Body = styled.div.attrs({className: 'wrapper'})`
     padding-block: 0.75rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.125rem;
+    gap: 1rem;
 `;
 
 const QuestionCard = styled(Card)`
@@ -132,7 +132,7 @@ const Centered = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.125rem;
+    gap: 1rem;
     text-align: center;
 `;
 
@@ -153,7 +153,7 @@ const PlayerSub = styled.div`
 const TimeRow = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 0.75rem;
     margin: 0.375rem 0 0.25rem;
 `;
 
@@ -173,7 +173,7 @@ const PickedCard = styled(Card)`
     padding: 0.625rem 1.125rem;
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 0.75rem;
 `;
 
 const PickedLabel = styled.span`
