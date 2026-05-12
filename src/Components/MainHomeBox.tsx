@@ -74,8 +74,6 @@ const NewQuizCard = styled.button`
     border: 2.5px dashed var(--ink);
     background: transparent;
     cursor: pointer;
-    box-shadow: none;
-    min-height: 17.5rem;
     border-radius: var(--r-lg);
     display: flex;
     flex-direction: column;
@@ -83,8 +81,7 @@ const NewQuizCard = styled.button`
     justify-content: center;
     gap: 0.625rem;
     color: var(--ink);
-    font-family: var(--body);
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
 
     &:hover { background: rgba(0, 0, 0, .03); }
 `;

@@ -118,10 +118,6 @@ const PartName = styled.div`
     font-weight: 600;
     font-size: var(--step--2);
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-    white-space: nowrap;
 `;
 
 const Empty = styled.div`
