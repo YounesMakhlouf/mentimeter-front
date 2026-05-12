@@ -29,24 +29,42 @@ const TopBar = styled.header`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--gap-4);
-    padding: 0.875rem 1.5rem;
+    gap: var(--gap-2);
+    padding: 0.625rem 1rem;
     border-bottom: 2.5px solid var(--ink);
     background: var(--card);
 
     @media (min-width: 50rem) {
         flex-wrap: nowrap;
+        padding: 0.875rem 1.5rem;
+        gap: var(--gap-4);
+    }
+`;
+
+const SaveButton = styled(Button).attrs({type: 'button', $variant: 'primary' as const})`
+    order: 2;
+    margin-left: auto;
+
+    @media (min-width: 50rem) {
+        order: 99;
     }
 `;
 
 const NameInput = styled(Input)`
+    order: 3;
+    flex: 1 1 100%;
     max-width: 23.75rem;
     font-weight: 700;
     font-size: var(--step-0);
     padding: 0.625rem 0.875rem;
+
+    @media (min-width: 50rem) {
+        flex: 1 1 auto;
+    }
 `;
 
 const TopicSelect = styled.select`
+    order: 4;
     appearance: none;
     border: 2.5px solid var(--line);
     background: var(--card);
@@ -60,9 +78,15 @@ const TopicSelect = styled.select`
 `;
 
 const Counter = styled.span`
+    order: 5;
     color: var(--ink-mute);
     font-size: var(--step--2);
     font-weight: 600;
+    display: none;
+
+    @media (min-width: 50rem) {
+        display: inline;
+    }
 `;
 
 const Body = styled.div`
@@ -136,8 +160,12 @@ const AddTabBtn = styled.button`
 
 const Editor = styled.section`
     overflow: auto;
-    padding: 2rem;
+    padding: 1rem;
     background: var(--paper);
+
+    @media (min-width: 50rem) {
+        padding: 2rem;
+    }
 `;
 
 const EditorInner = styled.div.attrs({className: 'wrapper'})`
@@ -338,8 +366,7 @@ function BuildQuiz() {
                     ))}
                 </TopicSelect>
                 <Counter>{questions.length} question{questions.length === 1 ? '' : 's'}</Counter>
-                <Spacer/>
-                <Button $variant="primary" type="button" onClick={handleSubmit}>▶ Save &amp; finish</Button>
+                <SaveButton onClick={handleSubmit}>▶ Save &amp; finish</SaveButton>
             </TopBar>
 
             <Body>
