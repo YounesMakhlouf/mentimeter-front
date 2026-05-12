@@ -180,11 +180,8 @@ export default function StartQuizPage() {
                 <CodePanel>
                     <SectionLabel>Quiz session</SectionLabel>
                     <div>
-                        <PinLabel>Join at <span style={{color: 'var(--ink)'}}>quizup.live</span></PinLabel>
-                        <div style={{marginTop: '0.375rem'}}>
-                            <PinLabel>Game PIN</PinLabel>
-                            <GameCode code={sessionCode}/>
-                        </div>
+                        <PinLabel>Game PIN</PinLabel>
+                        <GameCode code={sessionCode}/>
                     </div>
                     <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', lineHeight: 1.4}}>
                         Players open <b style={{color: 'var(--ink)'}}>localhost:5173</b> and enter this code to join.
