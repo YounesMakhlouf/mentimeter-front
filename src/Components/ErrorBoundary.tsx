@@ -8,17 +8,11 @@ const Header = styled.header`
     z-index: 2;
 `;
 
-const Body = styled.div`
+const Body = styled.div.attrs({className: 'wrapper flow'})`
     position: relative;
     z-index: 2;
-    max-width: 45rem;
-    margin: 3.75rem auto;
-    padding: 2rem;
+    margin-block: 3.75rem;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
 `;
 
 const Title = styled.h1`
