@@ -29,24 +29,42 @@ const TopBar = styled.header`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--gap-4);
-    padding: 0.875rem 1.5rem;
+    gap: var(--gap-2);
+    padding: 0.625rem 1rem;
     border-bottom: 2.5px solid var(--ink);
     background: var(--card);
 
     @media (min-width: 50rem) {
         flex-wrap: nowrap;
+        padding: 0.875rem 1.5rem;
+        gap: var(--gap-4);
+    }
+`;
+
+const SaveButton = styled(Button).attrs({type: 'button', $variant: 'primary' as const})`
+    order: 2;
+    margin-left: auto;
+
+    @media (min-width: 50rem) {
+        order: 99;
     }
 `;
 
 const NameInput = styled(Input)`
+    order: 3;
+    flex: 1 1 100%;
     max-width: 23.75rem;
     font-weight: 700;
     font-size: var(--step-0);
     padding: 0.625rem 0.875rem;
+
+    @media (min-width: 50rem) {
+        flex: 1 1 auto;
+    }
 `;
 
 const TopicSelect = styled.select`
+    order: 4;
     appearance: none;
     border: 2.5px solid var(--line);
     background: var(--card);
@@ -60,9 +78,15 @@ const TopicSelect = styled.select`
 `;
 
 const Counter = styled.span`
+    order: 5;
     color: var(--ink-mute);
     font-size: var(--step--2);
     font-weight: 600;
+    display: none;
+
+    @media (min-width: 50rem) {
+        display: inline;
+    }
 `;
 
 const Body = styled.div`
@@ -81,21 +105,32 @@ const Body = styled.div`
 `;
 
 const QuestionList = styled.aside`
-    border-right: 2.5px solid var(--ink);
     background: var(--card);
-    padding: 0.75rem;
+    padding: 0.5rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: var(--gap-2);
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom: 2.5px solid var(--ink);
+
+    @media (min-width: 50rem) {
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0.75rem;
+        border-bottom: none;
+        border-right: 2.5px solid var(--ink);
+    }
 `;
 
 const QuestionTab = styled.button<{$active: boolean}>`
-    padding: 0.75rem;
+    flex: none;
+    padding: 0.5rem 0.75rem;
     text-align: left;
     display: flex;
-    gap: var(--gap-3);
-    align-items: flex-start;
+    gap: var(--gap-2);
+    align-items: center;
     cursor: pointer;
     background: ${({$active}) => $active ? 'var(--brand)' : 'var(--card)'};
     color: ${({$active}) => $active ? '#fff' : 'var(--ink)'};
@@ -103,6 +138,12 @@ const QuestionTab = styled.button<{$active: boolean}>`
     border: 2.5px solid var(--ink);
     border-radius: var(--r-lg);
     font-family: inherit;
+
+    @media (min-width: 50rem) {
+        padding: 0.75rem;
+        gap: var(--gap-3);
+        align-items: flex-start;
+    }
 `;
 
 const TabIndex = styled.span`
@@ -114,30 +155,45 @@ const TabIndex = styled.span`
 `;
 
 const TabText = styled.span`
-    flex: 1;
-    font-size: var(--step--2);
-    font-weight: 500;
-    line-height: 1.3;
-    word-break: break-word;
+    display: none;
+
+    @media (min-width: 50rem) {
+        display: inline;
+        flex: 1;
+        font-size: var(--step--2);
+        font-weight: 500;
+        line-height: 1.3;
+        word-break: break-word;
+    }
 `;
 
 const AddTabBtn = styled.button`
+    flex: none;
     border: 2.5px dashed var(--ink);
     background: transparent;
     box-shadow: none;
-    padding: 0.875rem 0.75rem;
-    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
     color: var(--ink);
     font-weight: 700;
     font-family: var(--body);
     border-radius: var(--r-md);
     cursor: pointer;
+    white-space: nowrap;
+
+    @media (min-width: 50rem) {
+        padding: 0.875rem 0.75rem;
+        margin-top: 0.25rem;
+    }
 `;
 
 const Editor = styled.section`
     overflow: auto;
-    padding: 2rem;
+    padding: 1rem;
     background: var(--paper);
+
+    @media (min-width: 50rem) {
+        padding: 2rem;
+    }
 `;
 
 const EditorInner = styled.div.attrs({className: 'wrapper'})`
@@ -181,12 +237,12 @@ const QuestionTextarea = styled.textarea`
 
 const OptionsGrid = styled.div`
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--gap-4);
     margin-top: 1.5rem;
 
     @media (min-width: 43.75rem) {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
 `;
 
@@ -338,8 +394,7 @@ function BuildQuiz() {
                     ))}
                 </TopicSelect>
                 <Counter>{questions.length} question{questions.length === 1 ? '' : 's'}</Counter>
-                <Spacer/>
-                <Button $variant="primary" type="button" onClick={handleSubmit}>▶ Save &amp; finish</Button>
+                <SaveButton onClick={handleSubmit}>▶ Save &amp; finish</SaveButton>
             </TopBar>
 
             <Body>
