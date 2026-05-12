@@ -3,7 +3,7 @@ import {Navigate, useLocation, useNavigate} from "react-router";
 import {FaTrash} from "react-icons/fa";
 import styled from "styled-components";
 import {authFetch} from "../api.ts";
-import {Button, Card, Chip, Input, OPT_META, ShapeIcon} from "../design";
+import {Button, Card, Chip, ErrorText, Input, OPT_META, ShapeIcon} from "../design";
 import {TOPIC_KEYS, formatTopic} from "../topics.ts";
 
 interface QuestionDraft {
@@ -140,9 +140,8 @@ const Editor = styled.section`
     background: var(--paper);
 `;
 
-const EditorInner = styled.div`
-    max-width: 45rem;
-    margin: 0 auto;
+const EditorInner = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 45rem;
 `;
 
 const EditorHeader = styled.div`
@@ -228,9 +227,7 @@ const CorrectToggle = styled.button<{$correct: boolean; $bg: string; $ink: strin
     flex: none;
 `;
 
-const ErrorBlock = styled.div`
-    color: #bc2525;
-    font-weight: 600;
+const ErrorBlock = styled(ErrorText)`
     margin-top: 0.875rem;
 `;
 

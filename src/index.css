@@ -80,15 +80,31 @@ small { font-size: var(--step--1); }
 
 a { color: inherit; text-decoration: none; cursor: pointer; }
 
+/* Responsive centered container. Side gutter holds at 1.5rem each side,
+   max-width per-instance via --wrapper-max (default 50ch for text). */
+.wrapper {
+    width: min(100% - 3rem, var(--wrapper-max, 50ch));
+    margin-inline: auto;
+}
+
+/* Vertical rhythm — fluid spacing between adjacent siblings.
+   Override per-child or per-container with --flow-space. */
+.flow > * + * {
+    margin-top: var(--flow-space, clamp(1em, 10%, 3em));
+}
+
 @keyframes pop-in {
     0% { transform: scale(.6); opacity: 0; }
     60% { transform: scale(1.08); opacity: 1; }
     100% { transform: scale(1); }
 }
+.pop-in { animation: pop-in .6s cubic-bezier(.34, 1.56, .64, 1) both; }
+
 @keyframes slide-up {
     from { transform: translateY(16px); opacity: 0; }
     to { transform: none; opacity: 1; }
 }
+.slide-up { animation: slide-up .4s ease-out both; }
 @keyframes wiggle {
     0%, 100% { transform: rotate(0); }
     25% { transform: rotate(-2.5deg); }

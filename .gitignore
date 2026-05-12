@@ -13,6 +13,9 @@ dist-ssr
 *.local
 .env
 
+# Claude Code runtime state
+.claude
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

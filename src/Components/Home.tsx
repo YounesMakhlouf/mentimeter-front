@@ -12,16 +12,20 @@ const Layout = styled.div`
 `;
 
 const TopBar = styled.header`
+    border-bottom: 2.5px solid var(--ink);
+    background: var(--card);
+`;
+
+const TopBarInner = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 80rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding: 0.75rem 1.25rem;
-    border-bottom: 2.5px solid var(--ink);
-    background: var(--card);
+    padding-block: 0.75rem;
 
     @media (min-width: 37.5em) {
-        padding: 1rem 2rem;
+        padding-block: 1rem;
     }
 `;
 
@@ -58,15 +62,17 @@ function Home() {
     return (
         <Layout>
             <TopBar>
-                <Logo size={26}/>
-                <UserCluster>
-                    <UserMeta>
-                        <UserName>{displayName}</UserName>
-                        {email && <UserEmail>{email}</UserEmail>}
-                    </UserMeta>
-                    <Avatar name={displayName} size={36}/>
-                    <Button as={Link} to="/logout">Log out ↗</Button>
-                </UserCluster>
+                <TopBarInner>
+                    <Logo size={26}/>
+                    <UserCluster>
+                        <UserMeta>
+                            <UserName>{displayName}</UserName>
+                            {email && <UserEmail>{email}</UserEmail>}
+                        </UserMeta>
+                        <Avatar name={displayName} size={36}/>
+                        <Button as={Link} to="/logout">Log out ↗</Button>
+                    </UserCluster>
+                </TopBarInner>
             </TopBar>
             <MainHomeBox name={displayName}/>
         </Layout>

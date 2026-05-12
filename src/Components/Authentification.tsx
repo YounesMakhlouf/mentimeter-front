@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {Link, Navigate, useNavigate} from "react-router";
 import {reauthSocket} from "../socket.ts";
 import {API_URL, isTokenValid, setAuth} from "../api.ts";
-import {Button, Card, Input, Logo, Page, ShapeField, ShapeIcon, Sticker} from "../design";
+import {Button, Card, ErrorText, Input, Logo, Page, ShapeField, ShapeIcon, Sticker} from "../design";
 
 const post = async (path: string, body: unknown) => {
     const res = await fetch(`${API_URL}/authentication/${path}`, {
@@ -20,23 +20,23 @@ const errorFrom = (data: {message?: string | string[]}): string => {
     return msg ?? 'Authentication failed.';
 };
 
-const Header = styled.header`
+const Header = styled.header.attrs({className: 'wrapper'})`
+    --wrapper-max: 67.5rem;
     position: relative;
-    padding: 1.375rem 3rem;
+    padding-block: 1.375rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 2;
 `;
 
-const Wrap = styled.div`
+const Wrap = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 67.5rem;
     position: relative;
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
-    max-width: 67.5rem;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
+    margin-block: 2rem;
 
     @media (min-width: 50rem) {
         grid-template-columns: 1fr 1fr;
@@ -44,24 +44,24 @@ const Wrap = styled.div`
 `;
 
 const BrandPanel = styled(Card)<{$mode: 'login' | 'register'}>`
-    background: ${({$mode}) => $mode === 'login' ? 'var(--brand)' : 'var(--ink)'};
-    color: #fff;
-    border-radius: var(--r-lg) var(--r-lg) 0 0;
-    padding: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: background .4s ease;
-    min-height: 32.5rem;
+    display: none;
 
     @media (min-width: 50rem) {
+        display: flex;
+        background: ${({$mode}) => $mode === 'login' ? 'var(--brand)' : 'var(--ink)'};
+        color: #fff;
         border-radius: var(--r-lg) 0 0 var(--r-lg);
+        padding: 3rem;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: background .4s ease;
+        min-height: 32.5rem;
     }
 `;
 
 const FormPanel = styled(Card)`
-    border-radius: 0 0 var(--r-lg) var(--r-lg);
-    padding: 2.25rem;
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -77,12 +77,6 @@ const Field = styled.label`
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
-    font-weight: 600;
-    font-size: var(--step--1);
-`;
-
-const ErrorBlock = styled.div`
-    color: #bc2525;
     font-weight: 600;
     font-size: var(--step--1);
 `;
@@ -187,7 +181,7 @@ const Authentification = () => {
                             <span>Password</span>
                             <Input name="password" type="password" placeholder="••••••••" required/>
                         </Field>
-                        {loginError && <ErrorBlock>{loginError}</ErrorBlock>}
+                        {loginError && <ErrorText>{loginError}</ErrorText>}
                         <Button type="submit" $variant="primary" $size="lg" disabled={loginPending} style={{marginTop: '0.75rem'}}>
                             {loginPending ? 'Logging in…' : 'Log in →'}
                         </Button>
@@ -210,7 +204,7 @@ const Authentification = () => {
                             <span>Password</span>
                             <Input name="password" type="password" placeholder="••••••••" required/>
                         </Field>
-                        {registerError && <ErrorBlock>{registerError}</ErrorBlock>}
+                        {registerError && <ErrorText>{registerError}</ErrorText>}
                         <Button type="submit" $variant="primary" $size="lg" disabled={registerPending} style={{marginTop: '0.75rem'}}>
                             {registerPending ? 'Creating…' : 'Create account →'}
                         </Button>

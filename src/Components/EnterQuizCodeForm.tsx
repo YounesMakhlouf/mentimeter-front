@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {socket} from '../socket.ts';
 import {randomPseudo} from "../utils/pseudoGenerator.ts";
-import {Button, EMOJI_AVATARS, Input} from "../design";
+import {Button, EMOJI_AVATARS, ErrorText, Input} from "../design";
 
 type JoinStatus = 'idle' | 'submitting' | 'joined' | 'error';
 type Step = 'name' | 'avatar';
@@ -48,12 +48,6 @@ const AvatarPick = styled.button<{$selected: boolean}>`
     transition: all .15s ease;
     line-height: 1;
     padding: 0;
-`;
-
-const ErrorMessage = styled.div`
-    color: #bc2525;
-    font-weight: 600;
-    font-size: var(--step--1);
 `;
 
 const SuccessLoader = styled.div`
@@ -141,7 +135,7 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
                         onChange={(e) => setPlayerName(e.target.value)}
                         maxLength={20}
                     />
-                    {joinStatus === 'error' && <ErrorMessage>Ooopsie! looks like this quiz doesn't exist.</ErrorMessage>}
+                    {joinStatus === 'error' && <ErrorText>Ooopsie! looks like this quiz doesn't exist.</ErrorText>}
                     <Footer>
                         <span/>
                         <Button
@@ -170,10 +164,10 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
                             >{e}</AvatarPick>
                         ))}
                     </AvatarGrid>
-                    {joinStatus === 'error' && <ErrorMessage>Ooopsie! looks like this quiz doesn't exist.</ErrorMessage>}
+                    {joinStatus === 'error' && <ErrorText>Ooopsie! looks like this quiz doesn't exist.</ErrorText>}
                     <Footer>
                         <Button type="button" $variant="ghost" onClick={() => setStep('name')}>← Back</Button>
-                        <Button type="button" $variant="primary" $size="lg" onClick={submit}>
+                        <Button type="button" $variant="primary" onClick={submit}>
                             Join game →
                         </Button>
                     </Footer>

@@ -2,7 +2,6 @@ import {createBrowserRouter, RouterProvider} from 'react-router';
 import Home from "./Components/Home.tsx";
 import Authentification from './Components/Authentification.tsx';
 import LogoutComponent from "./Components/LogoutComponent.tsx"
-import './App.css'
 import PrivateRoutes from "./Components/PrivateRoutes.tsx";
 import BuildQuiz from "./Components/BuildQuiz.tsx";
 import StartQuizPage from "./pages/StartQuizPage.tsx";

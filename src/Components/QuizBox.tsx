@@ -5,7 +5,7 @@ import {useRevalidator} from "react-router";
 import {socket} from '../socket.ts';
 import {authFetch} from '../api.ts';
 import type {Quiz} from '../loaders.ts';
-import {Button, Card, Chip, OPT_META} from "../design";
+import {Button, Card, Chip, ErrorText, OPT_META} from "../design";
 import {formatTopic} from "../topics.ts";
 import Modal from "./Modal.tsx";
 import EditQuizForm from "./EditQuizForm.tsx";
@@ -106,12 +106,6 @@ const ConfirmActions = styled.div`
 const Subtle = styled.p`
     color: var(--ink-mute);
     margin: 0;
-`;
-
-const ErrorText = styled.div`
-    color: #bc2525;
-    font-weight: 600;
-    font-size: var(--step--1);
 `;
 
 const TOPIC_DEFAULTS: Record<string, {color: string; emoji: string}> = {
