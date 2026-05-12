@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, SyntheticEvent, useState} from "react";
 import styled from "styled-components";
 import {randomQuizName} from '../utils/quizname-generator.ts';
 import {useNavigate} from "react-router";
@@ -24,7 +24,7 @@ export default function CreateQuizForm() {
     const [name, setName] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
         navigate('/build', {state: {quizName: name || randomQuizName}});
     };
