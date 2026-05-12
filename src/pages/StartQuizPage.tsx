@@ -15,20 +15,19 @@ const Header = styled.header`
     z-index: 2;
 `;
 
-const Wrap = styled.div`
+const Wrap = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 82.5rem;
     position: relative;
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 1rem 1.5rem 1.5rem;
-    max-width: 82.5rem;
-    margin: 0 auto;
+    padding-block: 1rem 1.5rem;
     min-height: calc(100vh - 5rem);
 
     @media (min-width: 56.25rem) {
         grid-template-columns: 1.2fr 1fr;
-        padding: 1rem 3rem 2rem;
+        padding-block: 1rem 2rem;
     }
 `;
 

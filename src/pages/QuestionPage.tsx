@@ -29,14 +29,13 @@ const PlayerInfo = styled.div`
     gap: 0.625rem;
 `;
 
-const Body = styled.div`
+const Body = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 50rem;
     flex: 1;
-    padding: 0.75rem 1.5rem 1.5rem;
+    padding-block: 0.75rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.125rem;
-    max-width: 50rem;
-    margin: 0 auto;
 `;
 
 const QuestionCard = styled(Card)`

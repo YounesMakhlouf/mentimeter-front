@@ -12,13 +12,9 @@ const ALL_FILTER = 'All';
 
 type QuizWithTopic = Quiz & {topic?: string};
 
-const Outer = styled.div`
-    padding: 2rem 3rem;
-    max-width: 80rem;
-
-    @media (max-width: 50em) {
-        padding: 1.5rem;
-    }
+const Outer = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 80rem;
+    padding-block: 2rem;
 `;
 
 const Greeting = styled.div`

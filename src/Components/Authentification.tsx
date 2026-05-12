@@ -29,14 +29,13 @@ const Header = styled.header`
     z-index: 2;
 `;
 
-const Wrap = styled.div`
+const Wrap = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 67.5rem;
     position: relative;
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
-    max-width: 67.5rem;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
+    margin-block: 2rem;
 
     @media (min-width: 50rem) {
         grid-template-columns: 1fr 1fr;

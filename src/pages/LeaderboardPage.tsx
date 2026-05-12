@@ -32,11 +32,10 @@ const Header = styled.header`
     z-index: 2;
 `;
 
-const Wrap = styled.div`
+const Wrap = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 67.5rem;
     position: relative;
-    max-width: 67.5rem;
-    margin: 0 auto;
-    padding: 0.5rem 2rem 2rem;
+    padding-block: 0.5rem 2rem;
     z-index: 2;
 `;
 

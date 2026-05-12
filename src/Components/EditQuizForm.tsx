@@ -5,10 +5,8 @@ import {authFetch} from '../api.ts';
 import {Button, ErrorText, Input} from '../design';
 import {TOPIC_KEYS, formatTopic} from '../topics.ts';
 
-const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+const Form = styled.form.attrs({className: 'flow'})`
+    --flow-space: 1rem;
 `;
 
 const Field = styled.label`

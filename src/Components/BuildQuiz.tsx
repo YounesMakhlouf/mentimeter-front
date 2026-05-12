@@ -140,9 +140,8 @@ const Editor = styled.section`
     background: var(--paper);
 `;
 
-const EditorInner = styled.div`
-    max-width: 45rem;
-    margin: 0 auto;
+const EditorInner = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 45rem;
 `;
 
 const EditorHeader = styled.div`

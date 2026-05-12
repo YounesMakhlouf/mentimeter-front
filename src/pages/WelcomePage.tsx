@@ -20,20 +20,19 @@ const NavActions = styled.div`
     gap: 0.625rem;
 `;
 
-const Hero = styled.div`
+const Hero = styled.div.attrs({className: 'wrapper'})`
+    --wrapper-max: 80rem;
     position: relative;
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
     gap: 4rem;
-    padding: 1.5rem;
-    max-width: 80rem;
-    margin: 0 auto;
+    padding-block: 1.5rem;
     align-items: center;
 
     @media (min-width: 56.25rem) {
         grid-template-columns: 1.15fr 1fr;
-        padding: 2rem 4rem 4rem;
+        padding-block: 2rem 4rem;
     }
 `;
 
