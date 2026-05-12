@@ -22,7 +22,7 @@ const Wrap = styled.div.attrs({className: 'wrapper'})`
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: var(--gap-6);
     padding-block: 1rem 1.5rem;
     min-height: calc(100vh - 5rem);
 
@@ -36,12 +36,12 @@ const CodePanel = styled(Card)`
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--gap-4);
     background: var(--card);
 
     @media (min-width: 30em) {
         padding: 2.25rem;
-        gap: 1.375rem;
+        gap: var(--gap-5);
     }
 `;
 
@@ -49,6 +49,21 @@ const StartButton = styled(Button).attrs({$variant: 'primary' as const, $size: '
     width: 100%;
     justify-content: center;
     margin-top: auto;
+`;
+
+const HeaderActions = styled.div`
+    display: flex;
+    gap: var(--gap-3);
+`;
+
+const JoinHint = styled.p`
+    color: var(--ink-mute);
+    font-size: var(--step--1);
+    line-height: 1.4;
+
+    b {
+        color: var(--ink);
+    }
 `;
 
 const SectionLabel = styled.div`
@@ -98,7 +113,7 @@ const PartGrid = styled.div`
     overflow: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(6.875rem, 1fr));
-    gap: 0.75rem;
+    gap: var(--gap-3);
     align-content: flex-start;
 `;
 
@@ -109,7 +124,7 @@ const PartCell = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.375rem;
+    gap: var(--gap-2);
 `;
 
 const PartFace = styled.div`
@@ -172,9 +187,9 @@ export default function StartQuizPage() {
             <ShapeField density={10} opacity={0.12} seed={11}/>
             <Header>
                 <Logo size={26}/>
-                <div style={{display: 'flex', gap: 10}}>
+                <HeaderActions>
                     <Button $variant="ghost" onClick={() => navigate('/home')}>End game</Button>
-                </div>
+                </HeaderActions>
             </Header>
             <Wrap>
                 <CodePanel>
@@ -183,9 +198,9 @@ export default function StartQuizPage() {
                         <PinLabel>Game PIN</PinLabel>
                         <GameCode code={sessionCode}/>
                     </div>
-                    <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', lineHeight: 1.4}}>
-                        Players open <b style={{color: 'var(--ink)'}}>localhost:5173</b> and enter this code to join.
-                    </p>
+                    <JoinHint>
+                        Players open <b>localhost:5173</b> and enter this code to join.
+                    </JoinHint>
                     <StartButton onClick={handleStartQuiz}>
                         Start now ({participants.length}) →
                     </StartButton>

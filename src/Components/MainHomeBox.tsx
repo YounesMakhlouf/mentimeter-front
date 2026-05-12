@@ -21,7 +21,7 @@ const Greeting = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: var(--gap-5);
     margin-bottom: 1.75rem;
     flex-wrap: wrap;
 `;
@@ -48,7 +48,7 @@ const Subtitle = styled.p`
 
 const FilterRow = styled.div`
     display: flex;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     margin-bottom: 1rem;
     flex-wrap: wrap;
 `;
@@ -63,7 +63,7 @@ const FilterChip = styled(Chip)<{$active?: boolean}>`
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
-    gap: 1.125rem;
+    gap: var(--gap-4);
 `;
 
 const NewQuizCard = styled.button`
@@ -75,7 +75,7 @@ const NewQuizCard = styled.button`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.625rem;
+    gap: var(--gap-3);
     color: var(--ink);
     padding: 2rem 1.5rem;
 
@@ -96,6 +96,12 @@ const NewQuizTitle = styled.div`
 const NewQuizHint = styled.div`
     color: var(--ink-mute);
     font-size: var(--step--2);
+`;
+
+const EmptyState = styled.div`
+    text-align: center;
+    padding: 3.75rem 0;
+    color: var(--ink-mute);
 `;
 
 const TODAY_LABEL = (() => {
@@ -183,9 +189,9 @@ export default function MainHomeBox({name}: MainHomeBoxProps) {
             </Grid>
 
             {quizzes.length === 0 && (
-                <div style={{textAlign: 'center', padding: '3.75rem 0', color: 'var(--ink-mute)'}}>
+                <EmptyState>
                     No quizzes yet. Hit “New quiz” to create your first one.
-                </div>
+                </EmptyState>
             )}
         </Outer>
     );

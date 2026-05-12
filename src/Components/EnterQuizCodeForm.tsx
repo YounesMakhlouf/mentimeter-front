@@ -2,16 +2,10 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {socket} from '../socket.ts';
 import {randomPseudo} from "../utils/pseudoGenerator.ts";
-import {Button, EMOJI_AVATARS, ErrorText, Input} from "../design";
+import {Button, EMOJI_AVATARS, ErrorText, Input, Stack} from "../design";
 
 type JoinStatus = 'idle' | 'submitting' | 'joined' | 'error';
 type Step = 'name' | 'avatar';
-
-const Stack = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.125rem;
-`;
 
 const Title = styled.h2`
     margin: 0;
@@ -19,21 +13,30 @@ const Title = styled.h2`
 
 const Subtle = styled.p`
     color: var(--ink-mute);
-    margin: -0.5rem 0 0;
+    margin: 0;
     font-size: var(--step--1);
+`;
+
+const TitleSubtle = styled(Subtle)`
+    margin-top: -0.5rem;
+`;
+
+const AvatarPreview = styled.div`
+    font-size: var(--step-5);
+    animation: wiggle 0.8s ease-in-out infinite;
 `;
 
 const Footer = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 0.5rem;
-    gap: 0.75rem;
+    gap: var(--gap-3);
 `;
 
 const AvatarGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.75rem;
+    gap: var(--gap-3);
 `;
 
 const AvatarPick = styled.button<{$selected: boolean}>`
@@ -54,7 +57,7 @@ const SuccessLoader = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.875rem;
+    gap: var(--gap-4);
     text-align: center;
     padding: 0.75rem 0;
 `;
@@ -104,9 +107,9 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
         return (
             <Stack>
                 <SuccessLoader>
-                    <div style={{fontSize: 'var(--step-5)', animation: 'wiggle 0.8s ease-in-out infinite'}}>{EMOJI_AVATARS[emojiIdx]}</div>
+                    <AvatarPreview>{EMOJI_AVATARS[emojiIdx]}</AvatarPreview>
                     <Title>{joinStatus === 'joined' ? `You're in, ${playerName}!` : `Joining as ${playerName}…`}</Title>
-                    <Subtle style={{margin: 0}}>Hang tight, the host will start soon.</Subtle>
+                    <Subtle>Hang tight, the host will start soon.</Subtle>
                     <Spinner/>
                 </SuccessLoader>
             </Stack>
@@ -118,7 +121,7 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
             {step === 'name' && (
                 <>
                     <Title>What should we call you?</Title>
-                    <Subtle>Your classmates will see this on the leaderboard.</Subtle>
+                    <TitleSubtle>Your classmates will see this on the leaderboard.</TitleSubtle>
                     <Input
                         type="text"
                         inputMode="numeric"
@@ -142,7 +145,6 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
                             type="button"
                             $variant="primary"
                             disabled={!playerName.trim() || quizCode.replace(/\D/g, '').length !== 6}
-                            style={{opacity: !playerName.trim() || quizCode.replace(/\D/g, '').length !== 6 ? 0.5 : 1}}
                             onClick={() => setStep('avatar')}
                         >
                             Continue →
@@ -153,7 +155,7 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
             {step === 'avatar' && (
                 <>
                     <Title>Pick your buddy</Title>
-                    <Subtle>You can change this later.</Subtle>
+                    <TitleSubtle>You can change this later.</TitleSubtle>
                     <AvatarGrid>
                         {EMOJI_AVATARS.map((e, i) => (
                             <AvatarPick

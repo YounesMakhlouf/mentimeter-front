@@ -5,11 +5,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 - `npm run dev` — start Vite dev server.
-- `npm run build` — `tsc && vite build` (type-checks the whole project before bundling, so type errors fail the build even though `tsconfig.json` has `strict: false`).
+- `npm run build` — `tsc && vite build` (type-checks the whole project before bundling, so any type error fails the build; `tsconfig.json` has `strict: true`).
 - `npm run lint` — ESLint with `--max-warnings 0`; any warning is a failure.
 - `npm run preview` — preview the production build.
-
-There is no test runner configured.
+- `npm test` — Vitest run; `npm run test:watch` for watch mode.
 
 ## Backend dependencies (must be running locally)
 
@@ -42,6 +41,6 @@ Socket event names that cross the boundary: `joinQuiz`, `playerJoined`, `errorMs
 ### Conventions to be aware of
 
 - `src/Components/` mixes routed views (e.g. `Home`, `BuildQuiz`) with leaf components. `src/pages/` only holds a few routed views. Don't assume the folder reflects the role.
-- `src/socket.js` is plain JS; everything else is TS/TSX. TS config is loose (`strict: false`), and many event handlers/props are implicitly `any` — match the surrounding style rather than tightening types in passing.
+- TypeScript is strict (`strict: true`, `noUnusedLocals`, `noUnusedParameters`). The socket layer (`src/socket.ts`) exports typed `ServerToClientEvents` / `ClientToServerEvents` maps; prefer those over re-typing event payloads inline.
 - Styling is inconsistent: `styled-components` (`src/Components/Component.tsx` exports the auth-screen styled primitives), inline `CSSProperties` objects, per-component `<style>{styles}</style>` blocks (see `BuildQuiz.tsx`), and global CSS in `src/App.css` / `src/index.css`. New components typically inline a `CSSProperties` object near the top of the file.
 - `EnterQuizCodeForm.tsx` reaches into the DOM with `document.querySelector('.successJoining' / '.errorJoining')` to toggle visibility from socket handlers. If you touch those class names, update both places.
