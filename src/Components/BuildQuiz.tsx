@@ -105,21 +105,32 @@ const Body = styled.div`
 `;
 
 const QuestionList = styled.aside`
-    border-right: 2.5px solid var(--ink);
     background: var(--card);
-    padding: 0.75rem;
+    padding: 0.5rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: var(--gap-2);
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom: 2.5px solid var(--ink);
+
+    @media (min-width: 50rem) {
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0.75rem;
+        border-bottom: none;
+        border-right: 2.5px solid var(--ink);
+    }
 `;
 
 const QuestionTab = styled.button<{$active: boolean}>`
-    padding: 0.75rem;
+    flex: none;
+    padding: 0.5rem 0.75rem;
     text-align: left;
     display: flex;
-    gap: var(--gap-3);
-    align-items: flex-start;
+    gap: var(--gap-2);
+    align-items: center;
     cursor: pointer;
     background: ${({$active}) => $active ? 'var(--brand)' : 'var(--card)'};
     color: ${({$active}) => $active ? '#fff' : 'var(--ink)'};
@@ -127,6 +138,12 @@ const QuestionTab = styled.button<{$active: boolean}>`
     border: 2.5px solid var(--ink);
     border-radius: var(--r-lg);
     font-family: inherit;
+
+    @media (min-width: 50rem) {
+        padding: 0.75rem;
+        gap: var(--gap-3);
+        align-items: flex-start;
+    }
 `;
 
 const TabIndex = styled.span`
@@ -138,24 +155,35 @@ const TabIndex = styled.span`
 `;
 
 const TabText = styled.span`
-    flex: 1;
-    font-size: var(--step--2);
-    font-weight: 500;
-    line-height: 1.3;
-    word-break: break-word;
+    display: none;
+
+    @media (min-width: 50rem) {
+        display: inline;
+        flex: 1;
+        font-size: var(--step--2);
+        font-weight: 500;
+        line-height: 1.3;
+        word-break: break-word;
+    }
 `;
 
 const AddTabBtn = styled.button`
+    flex: none;
     border: 2.5px dashed var(--ink);
     background: transparent;
     box-shadow: none;
-    padding: 0.875rem 0.75rem;
-    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
     color: var(--ink);
     font-weight: 700;
     font-family: var(--body);
     border-radius: var(--r-md);
     cursor: pointer;
+    white-space: nowrap;
+
+    @media (min-width: 50rem) {
+        padding: 0.875rem 0.75rem;
+        margin-top: 0.25rem;
+    }
 `;
 
 const Editor = styled.section`
