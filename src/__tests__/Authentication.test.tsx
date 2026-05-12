@@ -2,7 +2,7 @@ import {describe, expect, it, vi, beforeEach} from 'vitest';
 import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter, Route, Routes} from 'react-router';
-import Authentification from '../Components/Authentification';
+import Authentication from '../Components/Authentication';
 import {futureJwt} from '../test/helpers';
 
 vi.mock('../socket.ts', () => ({
@@ -17,7 +17,7 @@ const renderApp = () =>
     render(
         <MemoryRouter initialEntries={['/authentication']}>
             <Routes>
-                <Route path="/authentication" element={<Authentification/>}/>
+                <Route path="/authentication" element={<Authentication/>}/>
                 <Route path="/home" element={<div>home page</div>}/>
             </Routes>
         </MemoryRouter>,
@@ -29,7 +29,7 @@ const fillSignIn = async (user: ReturnType<typeof userEvent.setup>, email: strin
     await user.click(screen.getByRole('button', {name: /^log in/i}));
 };
 
-describe('Authentification', () => {
+describe('Authentication', () => {
     beforeEach(() => {
         localStorage.clear();
         fetchMock.mockReset();
