@@ -6,18 +6,34 @@ import {socket, QuestionPayload} from "../socket.ts";
 import {Link, useNavigate} from "react-router";
 import {Avatar, Button, Card, Logo, OPT_META, Page, ShapeField, ShapeIcon} from "../design";
 
-const TopNav = styled.header`
+const TopNav = styled.header.attrs({className: 'wrapper'})`
+    --wrapper-max: 80rem;
     position: relative;
     z-index: 2;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.375rem 3rem;
+    gap: 0.5rem;
+    padding-block: 1.375rem;
 `;
 
 const NavActions = styled.div`
     display: flex;
-    gap: 0.625rem;
+    gap: 0.5rem;
+    flex-shrink: 0;
+
+    button {
+        padding: 0.5rem 0.875rem;
+        font-size: var(--step--2);
+    }
+
+    @media (min-width: 30em) {
+        gap: 0.625rem;
+        button {
+            padding: 0.875rem 1.375rem;
+            font-size: var(--step--1);
+        }
+    }
 `;
 
 const Hero = styled.div.attrs({className: 'wrapper'})`
@@ -37,7 +53,7 @@ const Hero = styled.div.attrs({className: 'wrapper'})`
 `;
 
 const Headline = styled.h1`
-    font-size: clamp(3.5rem, 7.2vw, 6.5rem);
+    font-size: clamp(2.5rem, 7.5vw + 0.5rem, 6.5rem);
     margin: 1.5rem 0;
     font-weight: 800;
 `;
@@ -62,36 +78,57 @@ const Phrase = styled.p`
 `;
 
 const PinRow = styled(Card)`
-    padding: 0.75rem;
+    padding: 0.5rem;
     display: flex;
-    gap: 0.625rem;
+    gap: 0.375rem;
     align-items: center;
     max-width: 33.75rem;
     border-radius: 999px;
+
+    @media (min-width: 30em) {
+        padding: 0.75rem;
+        gap: 0.625rem;
+    }
 `;
 
 const PinLabel = styled.span`
-    padding-left: 0.875rem;
+    padding-left: 0.625rem;
     font-weight: 700;
     color: var(--ink-mute);
+    font-size: var(--step--1);
+    white-space: nowrap;
+
+    @media (min-width: 30em) {
+        padding-left: 0.875rem;
+        font-size: var(--step-0);
+    }
 `;
 
 const PinInput = styled.input`
     flex: 1;
     border: none;
     outline: none;
-    font-size: var(--step-1);
+    font-size: var(--step-0);
     font-weight: 700;
     padding: 0.625rem 0.25rem;
     font-family: var(--body);
     background: transparent;
     color: var(--ink);
     min-width: 0;
+
+    @media (min-width: 30em) {
+        font-size: var(--step-1);
+    }
 `;
 
 const PinSubmit = styled(Button).attrs({$variant: 'ink' as const})`
     border-radius: 999px;
-    padding: 0.875rem 1.75rem;
+    padding: 0.625rem 1rem;
+    flex-shrink: 0;
+
+    @media (min-width: 30em) {
+        padding: 0.875rem 1.75rem;
+    }
 `;
 
 const PreviewArea = styled.div`
