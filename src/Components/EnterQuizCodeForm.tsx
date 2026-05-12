@@ -167,7 +167,7 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
                     {joinStatus === 'error' && <ErrorText>Ooopsie! looks like this quiz doesn't exist.</ErrorText>}
                     <Footer>
                         <Button type="button" $variant="ghost" onClick={() => setStep('name')}>← Back</Button>
-                        <Button type="button" $variant="primary" $size="lg" onClick={submit}>
+                        <Button type="button" $variant="primary" onClick={submit}>
                             Join game →
                         </Button>
                     </Footer>
