@@ -182,14 +182,12 @@ const HeaderActions = styled.div`
 
     button {
         padding: 0.5rem 0.875rem;
-        font-size: var(--step--2);
     }
 
     @media (min-width: 30em) {
         gap: var(--gap-3);
         button {
             padding: 0.875rem 1.375rem;
-            font-size: var(--step--1);
         }
     }
 `;

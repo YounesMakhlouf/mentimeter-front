@@ -24,14 +24,12 @@ const NavActions = styled.div`
 
     button {
         padding: 0.5rem 0.875rem;
-        font-size: var(--step--2);
     }
 
     @media (min-width: 30em) {
         gap: var(--gap-3);
         button {
             padding: 0.875rem 1.375rem;
-            font-size: var(--step--1);
         }
     }
 `;
@@ -98,12 +96,11 @@ const PinLabel = styled.span`
     padding-left: 0.625rem;
     font-weight: 700;
     color: var(--ink-mute);
-    font-size: var(--step--1);
+    font-size: var(--step-0);
     white-space: nowrap;
 
     @media (min-width: 30em) {
         padding-left: 0.875rem;
-        font-size: var(--step-0);
     }
 `;
 
@@ -111,17 +108,13 @@ const PinInput = styled.input`
     flex: 1;
     border: none;
     outline: none;
-    font-size: var(--step-0);
+    font-size: var(--step-1);
     font-weight: 700;
     padding: 0.625rem 0.25rem;
     font-family: var(--body);
     background: transparent;
     color: var(--ink);
     min-width: 0;
-
-    @media (min-width: 30em) {
-        font-size: var(--step-1);
-    }
 `;
 
 const PinSubmit = styled(Button).attrs({$variant: 'ink' as const})`
