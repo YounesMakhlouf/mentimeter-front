@@ -33,13 +33,6 @@ const CloseBtn = styled.button`
     line-height: 0;
 `;
 
-const overlayStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '1rem',
-};
-
 interface ModalProps {
     open: boolean;
     onClose: () => void;
@@ -48,7 +41,7 @@ interface ModalProps {
 
 export default function Modal({open, onClose, children}: ModalProps) {
     return (
-        <Popup open={open} closeOnDocumentClick onClose={onClose} modal overlayStyle={overlayStyle}>
+        <Popup open={open} closeOnDocumentClick onClose={onClose} modal>
             <ModalBox>
                 <CloseBtn onClick={onClose} aria-label="Close" type="button">
                     <FaRegCircleXmark size={24}/>
