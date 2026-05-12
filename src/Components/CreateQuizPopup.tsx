@@ -14,7 +14,7 @@ export default function CreateQuizPopup({trigger}: Props) {
     return (
         <>
             {trigger ? trigger(openModal) : (
-                <Button type="button" $variant="primary" $size="xl" onClick={openModal}>
+                <Button type="button" $variant="primary" $size="lg" onClick={openModal}>
                     ＋ New quiz
                 </Button>
             )}
