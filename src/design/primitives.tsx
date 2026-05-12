@@ -118,13 +118,13 @@ export function ShapeField({density = 18, opacity = 0.18, seed = 1}: {
     );
 }
 
-export function GameCode({code, size = 96}: {code: string; size?: number}) {
+export function GameCode({code}: {code: string}) {
     const display = String(code).replace(/\s/g, '').replace(/(.{3})/g, '$1 ').trim();
     return (
         <div style={{
             fontFamily: 'var(--display)',
             fontVariantNumeric: 'tabular-nums',
-            fontSize: `clamp(${size * 0.45}px, 10vw, ${size}px)`,
+            fontSize: 'var(--step-5)',
             lineHeight: 1.1,
             fontWeight: 800,
             letterSpacing: '0.04em',
