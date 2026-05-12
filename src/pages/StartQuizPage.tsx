@@ -201,8 +201,10 @@ export default function StartQuizPage() {
                     <JoinHint>
                         Players open <b>localhost:5173</b> and enter this code to join.
                     </JoinHint>
-                    <StartButton onClick={handleStartQuiz}>
-                        Start now ({participants.length}) →
+                    <StartButton onClick={handleStartQuiz} disabled={participants.length === 0}>
+                        {participants.length === 0
+                            ? 'Waiting for players…'
+                            : `Start now (${participants.length}) →`}
                     </StartButton>
                 </CodePanel>
 
