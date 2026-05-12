@@ -41,13 +41,13 @@ const Hero = styled.div.attrs({className: 'wrapper'})`
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 4rem;
     padding-block: 1.5rem;
     align-items: center;
 
     @media (min-width: 56.25rem) {
-        grid-template-columns: 1.15fr 1fr;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
         padding-block: 2rem 4rem;
     }
 `;
@@ -60,12 +60,16 @@ const Headline = styled.h1`
 const Highlight = styled.span`
     background: var(--opt-a);
     color: #fff;
-    padding: 0 0.875rem;
+    padding: 0 0.5rem;
     border-radius: 0.875rem;
     display: inline-block;
     transform: rotate(-1.5deg);
     border: 3px solid var(--ink);
     box-shadow: var(--shadow-sm);
+
+    @media (min-width: 30em) {
+        padding: 0 0.875rem;
+    }
 `;
 
 const Phrase = styled.p`
