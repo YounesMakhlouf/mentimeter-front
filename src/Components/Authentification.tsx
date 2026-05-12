@@ -20,9 +20,10 @@ const errorFrom = (data: {message?: string | string[]}): string => {
     return msg ?? 'Authentication failed.';
 };
 
-const Header = styled.header`
+const Header = styled.header.attrs({className: 'wrapper'})`
+    --wrapper-max: 67.5rem;
     position: relative;
-    padding: 1.375rem 3rem;
+    padding-block: 1.375rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,24 +44,24 @@ const Wrap = styled.div.attrs({className: 'wrapper'})`
 `;
 
 const BrandPanel = styled(Card)<{$mode: 'login' | 'register'}>`
-    background: ${({$mode}) => $mode === 'login' ? 'var(--brand)' : 'var(--ink)'};
-    color: #fff;
-    border-radius: var(--r-lg) var(--r-lg) 0 0;
-    padding: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: background .4s ease;
-    min-height: 32.5rem;
+    display: none;
 
     @media (min-width: 50rem) {
+        display: flex;
+        background: ${({$mode}) => $mode === 'login' ? 'var(--brand)' : 'var(--ink)'};
+        color: #fff;
         border-radius: var(--r-lg) 0 0 var(--r-lg);
+        padding: 3rem;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: background .4s ease;
+        min-height: 32.5rem;
     }
 `;
 
 const FormPanel = styled(Card)`
-    border-radius: 0 0 var(--r-lg) var(--r-lg);
-    padding: 2.25rem;
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
