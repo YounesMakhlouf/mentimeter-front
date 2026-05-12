@@ -119,20 +119,16 @@ export function ShapeField({density = 18, opacity = 0.18, seed = 1}: {
 }
 
 export function GameCode({code, size = 96}: {code: string; size?: number}) {
-    const raw = String(code).replace(/\s/g, '');
-    // Short PINs get the 3-grouped display; long IDs (UUIDs, etc.) render compact, in one line.
-    const isShort = raw.length <= 9 && !raw.includes('-');
-    const display = isShort ? raw.replace(/(.{3})/g, '$1 ').trim() : raw;
+    const display = String(code).replace(/\s/g, '').replace(/(.{3})/g, '$1 ').trim();
     return (
         <div style={{
             fontFamily: 'var(--display)',
             fontVariantNumeric: 'tabular-nums',
-            fontSize: isShort ? `clamp(${size * 0.45}px, 10vw, ${size}px)` : `${Math.min(size, 28)}px`,
+            fontSize: `clamp(${size * 0.45}px, 10vw, ${size}px)`,
             lineHeight: 1.1,
             fontWeight: 800,
-            letterSpacing: isShort ? '0.04em' : '0.02em',
+            letterSpacing: '0.04em',
             color: 'var(--ink)',
-            wordBreak: isShort ? 'normal' : 'break-all',
             userSelect: 'all',
         }}>{display}</div>
     );
