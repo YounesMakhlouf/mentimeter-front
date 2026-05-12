@@ -22,7 +22,7 @@ const Wrap = styled.div.attrs({className: 'wrapper'})`
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: var(--gap-6);
     padding-block: 1rem 1.5rem;
     min-height: calc(100vh - 5rem);
 
@@ -36,12 +36,12 @@ const CodePanel = styled(Card)`
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--gap-4);
     background: var(--card);
 
     @media (min-width: 30em) {
         padding: 2.25rem;
-        gap: 1.5rem;
+        gap: var(--gap-5);
     }
 `;
 
@@ -53,7 +53,7 @@ const StartButton = styled(Button).attrs({$variant: 'primary' as const, $size: '
 
 const HeaderActions = styled.div`
     display: flex;
-    gap: 0.75rem;
+    gap: var(--gap-3);
 `;
 
 const JoinHint = styled.p`
@@ -113,7 +113,7 @@ const PartGrid = styled.div`
     overflow: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(6.875rem, 1fr));
-    gap: 0.75rem;
+    gap: var(--gap-3);
     align-content: flex-start;
 `;
 
@@ -124,7 +124,7 @@ const PartCell = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--gap-2);
 `;
 
 const PartFace = styled.div`

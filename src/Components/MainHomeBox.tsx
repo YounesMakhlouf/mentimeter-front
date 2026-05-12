@@ -21,7 +21,7 @@ const Greeting = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: var(--gap-5);
     margin-bottom: 1.75rem;
     flex-wrap: wrap;
 `;
@@ -48,7 +48,7 @@ const Subtitle = styled.p`
 
 const FilterRow = styled.div`
     display: flex;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     margin-bottom: 1rem;
     flex-wrap: wrap;
 `;
@@ -63,7 +63,7 @@ const FilterChip = styled(Chip)<{$active?: boolean}>`
 const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
-    gap: 1rem;
+    gap: var(--gap-4);
 `;
 
 const NewQuizCard = styled.button`
@@ -75,7 +75,7 @@ const NewQuizCard = styled.button`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     color: var(--ink);
     padding: 2rem 1.5rem;
 

@@ -26,7 +26,7 @@ const TopBar = styled.header`
 const PlayerInfo = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--gap-3);
 `;
 
 const Body = styled.div.attrs({className: 'wrapper'})`
@@ -35,7 +35,7 @@ const Body = styled.div.attrs({className: 'wrapper'})`
     padding-block: 0.75rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--gap-4);
 `;
 
 const QuestionCard = styled(Card)`
@@ -87,7 +87,7 @@ const QuestionHeading = styled.h2`
 const OptionsGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     flex: 1;
 `;
 
@@ -102,7 +102,7 @@ const OptionTile = styled.button<{$bg: string; $ink: string; $selected: boolean;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     padding: 1.125rem;
     box-shadow: var(--shadow-md);
     opacity: ${({$dim}) => $dim ? 0.35 : 1};
@@ -132,7 +132,7 @@ const Centered = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: var(--gap-4);
     text-align: center;
 `;
 
@@ -153,7 +153,7 @@ const PlayerSub = styled.div`
 const TimeRow = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     margin: 0.375rem 0 0.25rem;
 `;
 
@@ -173,7 +173,7 @@ const PickedCard = styled(Card)`
     padding: 0.625rem 1.125rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--gap-3);
 `;
 
 const PickedLabel = styled.span`

@@ -21,7 +21,7 @@ const TopBarInner = styled.div.attrs({className: 'wrapper'})`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     padding-block: 0.75rem;
 
     @media (min-width: 37.5em) {
@@ -32,7 +32,7 @@ const TopBarInner = styled.div.attrs({className: 'wrapper'})`
 const UserCluster = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--gap-3);
 `;
 
 const UserMeta = styled.div`

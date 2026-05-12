@@ -64,7 +64,7 @@ const FormPanel = styled(Card)`
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--gap-4);
     background: var(--card);
 
     @media (min-width: 50rem) {
@@ -76,7 +76,7 @@ const FormPanel = styled(Card)`
 const Field = styled.label`
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     font-weight: 600;
     font-size: var(--step--1);
 `;
@@ -100,7 +100,7 @@ const BrandBlurb = styled.p`
 
 const ShapeRow = styled.div`
     display: flex;
-    gap: 1rem;
+    gap: var(--gap-4);
     align-items: flex-end;
 `;
 

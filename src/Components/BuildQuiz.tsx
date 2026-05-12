@@ -29,7 +29,7 @@ const TopBar = styled.header`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
+    gap: var(--gap-4);
     padding: 0.875rem 1.5rem;
     border-bottom: 2.5px solid var(--ink);
     background: var(--card);
@@ -86,7 +86,7 @@ const QuestionList = styled.aside`
     padding: 0.75rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     overflow: auto;
 `;
 
@@ -94,7 +94,7 @@ const QuestionTab = styled.button<{$active: boolean}>`
     padding: 0.75rem;
     text-align: left;
     display: flex;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     align-items: flex-start;
     cursor: pointer;
     background: ${({$active}) => $active ? 'var(--brand)' : 'var(--card)'};
@@ -146,7 +146,7 @@ const EditorInner = styled.div.attrs({className: 'wrapper'})`
 
 const EditorHeader = styled.div`
     display: flex;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     align-items: center;
     margin-bottom: 1.125rem;
 `;
@@ -182,7 +182,7 @@ const QuestionTextarea = styled.textarea`
 const OptionsGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: var(--gap-4);
     margin-top: 1.5rem;
 
     @media (min-width: 43.75rem) {
@@ -196,7 +196,7 @@ const OptionTile = styled(Card)<{$bg: string; $ink: string; $correct: boolean}>`
     padding: 1.125rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     outline: ${({$correct}) => $correct ? '0.25rem solid var(--ink)' : 'none'};
     outline-offset: 2px;
 `;

@@ -63,7 +63,7 @@ export const Button = styled.button<{$variant?: ButtonVariant; $size?: ButtonSiz
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: var(--gap-3);
     white-space: nowrap;
     line-height: 1;
 
@@ -81,6 +81,23 @@ export const Page = styled.div`
     min-height: 100vh;
     overflow-x: hidden;
     background: var(--paper);
+`;
+
+/**
+ * Flex column with a gap from the --gap-N scale. Default $gap=4 (1rem).
+ * Pass $gap as 2|3|4|5|6|8 to pick the corresponding --gap-N token.
+ * Extend with `styled(Stack)` when more props are needed.
+ */
+export const Stack = styled.div<{$gap?: 2 | 3 | 4 | 5 | 6 | 8}>`
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-${({$gap = 4}) => $gap});
+`;
+
+/** Flex row with a gap from the --gap-N scale. Default $gap=3 (0.75rem). */
+export const Row = styled.div<{$gap?: 2 | 3 | 4 | 5 | 6 | 8}>`
+    display: flex;
+    gap: var(--gap-${({$gap = 3}) => $gap});
 `;
 
 export const Card = styled.div`
@@ -115,7 +132,7 @@ export const ErrorText = styled.div`
 export const Chip = styled.span`
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     padding: 0.375rem 0.75rem;
     border-radius: 999px;
     border: 2px solid var(--line);

@@ -2,16 +2,10 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {socket} from '../socket.ts';
 import {randomPseudo} from "../utils/pseudoGenerator.ts";
-import {Button, EMOJI_AVATARS, ErrorText, Input} from "../design";
+import {Button, EMOJI_AVATARS, ErrorText, Input, Stack} from "../design";
 
 type JoinStatus = 'idle' | 'submitting' | 'joined' | 'error';
 type Step = 'name' | 'avatar';
-
-const Stack = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
 
 const Title = styled.h2`
     margin: 0;
@@ -36,13 +30,13 @@ const Footer = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 0.5rem;
-    gap: 0.75rem;
+    gap: var(--gap-3);
 `;
 
 const AvatarGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.75rem;
+    gap: var(--gap-3);
 `;
 
 const AvatarPick = styled.button<{$selected: boolean}>`
@@ -63,7 +57,7 @@ const SuccessLoader = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: var(--gap-4);
     text-align: center;
     padding: 0.75rem 0;
 `;

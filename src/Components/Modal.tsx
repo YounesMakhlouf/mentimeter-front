@@ -2,8 +2,9 @@ import {ReactNode} from 'react';
 import Popup from 'reactjs-popup';
 import {FaRegCircleXmark} from 'react-icons/fa6';
 import styled from 'styled-components';
+import {Stack} from '../design';
 
-const ModalBox = styled.div`
+const ModalBox = styled(Stack)`
     width: min(35rem, calc(100vw - 2rem));
     background: var(--card);
     border: 2.5px solid var(--ink);
@@ -11,13 +12,10 @@ const ModalBox = styled.div`
     box-shadow: var(--shadow-xl);
     padding: 1.5rem 1.5rem 1.75rem;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
 
     @media (min-width: 30em) {
         padding: 1.75rem 2rem 2rem;
-        gap: 1.5rem;
+        gap: var(--gap-5);
     }
 `;
 

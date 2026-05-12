@@ -13,13 +13,13 @@ const TopNav = styled.header.attrs({className: 'wrapper'})`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     padding-block: 1.375rem;
 `;
 
 const NavActions = styled.div`
     display: flex;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     flex-shrink: 0;
 
     button {
@@ -28,7 +28,7 @@ const NavActions = styled.div`
     }
 
     @media (min-width: 30em) {
-        gap: 0.75rem;
+        gap: var(--gap-3);
         button {
             padding: 0.875rem 1.375rem;
             font-size: var(--step--1);
@@ -42,7 +42,7 @@ const Hero = styled.div.attrs({className: 'wrapper'})`
     z-index: 2;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 4rem;
+    gap: var(--gap-8);
     padding-block: 1.5rem;
     align-items: center;
 
@@ -83,14 +83,14 @@ const Phrase = styled.p`
 const PinRow = styled(Card)`
     padding: 0.5rem;
     display: flex;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     align-items: center;
     max-width: 33.75rem;
     border-radius: 999px;
 
     @media (min-width: 30em) {
         padding: 0.75rem;
-        gap: 0.75rem;
+        gap: var(--gap-3);
     }
 `;
 
@@ -173,7 +173,7 @@ const StreakPreview = styled(Card)`
     transform: rotate(-2deg);
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: var(--gap-4);
     animation-delay: 0.2s;
     background: var(--opt-d);
 `;

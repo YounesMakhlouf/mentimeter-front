@@ -5,7 +5,7 @@ import {useRevalidator} from "react-router";
 import {socket} from '../socket.ts';
 import {authFetch} from '../api.ts';
 import type {Quiz} from '../loaders.ts';
-import {Button, Card, Chip, ErrorText, OPT_META} from "../design";
+import {Button, Card, Chip, ErrorText, OPT_META, Stack} from "../design";
 import {formatTopic} from "../topics.ts";
 import Modal from "./Modal.tsx";
 import EditQuizForm from "./EditQuizForm.tsx";
@@ -39,7 +39,7 @@ const Body = styled.div`
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     flex: 1;
 `;
 
@@ -55,7 +55,7 @@ const Meta = styled.div`
 
 const Actions = styled.div`
     display: flex;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     margin-top: 0.375rem;
 `;
 
@@ -91,15 +91,9 @@ const TrashBtn = styled.button`
     &:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
 `;
 
-const ConfirmStack = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
-
 const ConfirmActions = styled.div`
     display: flex;
-    gap: 0.5rem;
+    gap: var(--gap-2);
     justify-content: flex-end;
 `;
 
@@ -200,7 +194,7 @@ export default function QuizBox({quiz}: Props) {
             </Modal>
 
             <Modal open={confirmingDelete} onClose={() => !deleting && setConfirmingDelete(false)}>
-                <ConfirmStack>
+                <Stack>
                     <h3>Delete this quiz?</h3>
                     <Subtle>
                         <b>{quiz.name}</b> will be removed from your dashboard. This can't be undone.
@@ -214,7 +208,7 @@ export default function QuizBox({quiz}: Props) {
                             {deleting ? 'Deleting…' : 'Delete'}
                         </DangerButton>
                     </ConfirmActions>
-                </ConfirmStack>
+                </Stack>
             </Modal>
         </>
     );
