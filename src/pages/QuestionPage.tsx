@@ -181,14 +181,15 @@ const PickedLabel = styled.span`
 `;
 
 export default function QuestionPage() {
-    const [questions, setQuestions] = useState<QuestionPayload[]>([]);
-    const [questionNumber, setQuestionNumber] = useState(0);
+    const location = useLocation();
+    const initialQuestion: QuestionPayload | undefined = location.state?.payload;
+    const [questions, setQuestions] = useState<QuestionPayload[]>(initialQuestion ? [initialQuestion] : []);
+    const [questionNumber, setQuestionNumber] = useState(initialQuestion?.questionNumber ?? 0);
     const [picked, setPicked] = useState<number | null>(null);
     const [time, setTime] = useState(QUESTION_TIME);
     const [phase, setPhase] = useState<'answer' | 'wait'>('answer');
     const isAnsweringRef = useRef(false);
     const navigate = useNavigate();
-    const location = useLocation();
     const code: string | null = location.state?.payload?.quizCode ?? sessionStorage.getItem(QUIZ_CODE_KEY);
     const playerName = localStorage.getItem('name') || 'Player';
 
@@ -198,9 +199,22 @@ export default function QuestionPage() {
 
     useEffect(() => {
         if (!code) return;
-        socket.emit("sendQuestion", {quizCode: code, questionNumber: 0});
 
         let timer: ReturnType<typeof setTimeout> | undefined;
+
+        const startAutoSubmit = (qNum: number) => {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (!isAnsweringRef.current) {
+                    socket.emit("getAnswer", {
+                        quizCode: code,
+                        answer: "",
+                        questionNumber: qNum,
+                        playerPseudo: playerName,
+                    });
+                }
+            }, QUESTION_TIME * 1000);
+        };
 
         const onQuestion = (q: QuestionPayload) => {
             isAnsweringRef.current = false;
@@ -209,18 +223,7 @@ export default function QuestionPage() {
             setTime(QUESTION_TIME);
             setQuestions((prev) => [...prev, q]);
             setQuestionNumber(q.questionNumber);
-
-            if (timer) clearTimeout(timer);
-            timer = setTimeout(() => {
-                if (!isAnsweringRef.current) {
-                    socket.emit("getAnswer", {
-                        quizCode: code,
-                        answer: "",
-                        questionNumber: q.questionNumber,
-                        playerPseudo: playerName,
-                    });
-                }
-            }, QUESTION_TIME * 1000);
+            startAutoSubmit(q.questionNumber);
         };
 
         const onEndQuiz = (payload: Participant[]) => {
@@ -230,12 +233,16 @@ export default function QuestionPage() {
         socket.on('question', onQuestion);
         socket.on('endQuiz', onEndQuiz);
 
+        // WelcomePage consumed the first 'question' event during navigation,
+        // so we seeded it into state above; kick off its auto-submit timer.
+        if (initialQuestion) startAutoSubmit(initialQuestion.questionNumber);
+
         return () => {
             if (timer) clearTimeout(timer);
             socket.off('question', onQuestion);
             socket.off('endQuiz', onEndQuiz);
         };
-    }, [code, navigate, playerName]);
+    }, [code, navigate, playerName, initialQuestion]);
 
     // Countdown ticker
     useEffect(() => {
