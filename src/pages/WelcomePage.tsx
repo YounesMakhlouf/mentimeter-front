@@ -58,7 +58,6 @@ const Phrase = styled.p`
     font-size: var(--step-1);
     line-height: 1.4;
     color: var(--ink-soft);
-    max-width: 33.75rem;
     margin-bottom: 2.25rem;
     min-height: 4rem;
 `;

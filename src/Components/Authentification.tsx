@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {Link, Navigate, useNavigate} from "react-router";
 import {reauthSocket} from "../socket.ts";
 import {API_URL, isTokenValid, setAuth} from "../api.ts";
-import {Button, Card, Input, Logo, ShapeField, ShapeIcon, Sticker} from "../design";
+import {Button, Card, Input, Logo, Page, ShapeField, ShapeIcon, Sticker} from "../design";
 
 const post = async (path: string, body: unknown) => {
     const res = await fetch(`${API_URL}/authentication/${path}`, {
@@ -19,13 +19,6 @@ const errorFrom = (data: {message?: string | string[]}): string => {
     if (Array.isArray(msg)) return msg[0] ?? 'Authentication failed.';
     return msg ?? 'Authentication failed.';
 };
-
-const Page = styled.div`
-    position: relative;
-    height: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
-`;
 
 const Header = styled.header`
     position: relative;
