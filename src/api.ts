@@ -47,5 +47,8 @@ export async function authFetch<T = unknown>(path: string, init: RequestInit = {
         const body = await res.text();
         throw new Error(`${res.status} ${res.statusText}: ${body}`);
     }
-    return res.status === 204 ? (undefined as T) : res.json();
+    // Some endpoints (e.g. DELETE) reply 200/204 with an empty body — `res.json()`
+    // throws "Unexpected end of JSON input" on that. Read as text and only parse if non-empty.
+    const text = await res.text();
+    return (text ? JSON.parse(text) : undefined) as T;
 }
