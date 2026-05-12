@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useState} from 'react';
+import {ChangeEvent, SyntheticEvent, useState} from 'react';
 import styled from 'styled-components';
 import {useRevalidator} from 'react-router';
 import {authFetch} from '../api.ts';
@@ -46,7 +46,7 @@ export default function EditQuizForm({quizId, initialName, initialTopic, onSaved
     const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => setName(e.target.value);
     const handleTopicChange = (e: ChangeEvent<HTMLSelectElement>) => setTopic(e.target.value);
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
         const trimmed = name.trim();
         if (!trimmed) {
