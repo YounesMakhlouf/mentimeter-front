@@ -94,7 +94,7 @@ const Switch = styled.div`
     }
 `;
 
-const Authentification = () => {
+const Authentication = () => {
     const [signIn, setSignIn] = useState(true);
     const navigate = useNavigate();
 
@@ -219,4 +219,4 @@ const Authentification = () => {
     );
 };
 
-export default Authentification;
+export default Authentication;

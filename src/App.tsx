@@ -1,6 +1,6 @@
 import {createBrowserRouter, RouterProvider} from 'react-router';
 import Home from "./Components/Home.tsx";
-import Authentification from './Components/Authentification.tsx';
+import Authentication from './Components/Authentication.tsx';
 import LogoutComponent from "./Components/LogoutComponent.tsx"
 import PrivateRoutes from "./Components/PrivateRoutes.tsx";
 import BuildQuiz from "./Components/BuildQuiz.tsx";
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
                 ],
             },
             {path: '/logout', element: <LogoutComponent/>},
-            {path: '/authentication', element: <Authentification/>},
+            {path: '/authentication', element: <Authentication/>},
             {path: '/startquiz', element: <StartQuizPage/>},
             {path: '/qspage', element: <QuestionPage/>},
             {path: '/leaderboard', element: <LeaderboardPage/>},
