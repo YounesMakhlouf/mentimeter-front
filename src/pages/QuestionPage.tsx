@@ -136,6 +136,50 @@ const Centered = styled.div`
     text-align: center;
 `;
 
+const WaitingTitle = styled.h2`
+    font-size: var(--step-2);
+`;
+
+const PlayerName = styled.div`
+    font-weight: 700;
+    font-size: var(--step--1);
+`;
+
+const PlayerSub = styled.div`
+    color: var(--ink-mute);
+    font-size: var(--step--2);
+`;
+
+const TimeRow = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin: 0.375rem 0 0.25rem;
+`;
+
+const SecondsLabel = styled.span`
+    color: var(--ink-mute);
+    font-size: var(--step--2);
+    font-weight: 600;
+`;
+
+const WaitHint = styled.p`
+    color: var(--ink-mute);
+    font-size: var(--step--1);
+    max-width: 20rem;
+`;
+
+const PickedCard = styled(Card)`
+    padding: 0.625rem 1.125rem;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+`;
+
+const PickedLabel = styled.span`
+    font-weight: 700;
+`;
+
 export default function QuestionPage() {
     const [questions, setQuestions] = useState<QuestionPayload[]>([]);
     const [questionNumber, setQuestionNumber] = useState(0);
@@ -226,7 +270,7 @@ export default function QuestionPage() {
             <Page>
                 <Centered>
                     <Spinner/>
-                    <h2 style={{fontSize: 'var(--step-2)'}}>Waiting for the host…</h2>
+                    <WaitingTitle>Waiting for the host…</WaitingTitle>
                 </Centered>
             </Page>
         );
@@ -238,8 +282,8 @@ export default function QuestionPage() {
                 <PlayerInfo>
                     <Avatar name={playerName} emoji="🎲" size={36}/>
                     <div>
-                        <div style={{fontWeight: 700, fontSize: 'var(--step--1)'}}>{playerName}</div>
-                        <div style={{color: 'var(--ink-mute)', fontSize: 'var(--step--2)'}}>Live game</div>
+                        <PlayerName>{playerName}</PlayerName>
+                        <PlayerSub>Live game</PlayerSub>
                     </div>
                 </PlayerInfo>
                 <Chip>Q {(questionNumber + 1).toString().padStart(2, '0')}</Chip>
@@ -251,10 +295,10 @@ export default function QuestionPage() {
                             <TimeBar>
                                 <TimeFill $pct={time / QUESTION_TIME} $low={time < 6}/>
                             </TimeBar>
-                            <div style={{display: 'flex', alignItems: 'center', gap: 10, marginBottom: '0.25rem', marginTop: '0.375rem'}}>
+                            <TimeRow>
                                 <TimeChip $low={time < 6}>{time}</TimeChip>
-                                <span style={{color: 'var(--ink-mute)', fontSize: 'var(--step--2)', fontWeight: 600}}>seconds left</span>
-                            </div>
+                                <SecondsLabel>seconds left</SecondsLabel>
+                            </TimeRow>
                             <QuestionHeading>{questionText}</QuestionHeading>
                         </QuestionCard>
                         <OptionsGrid>
@@ -288,14 +332,14 @@ export default function QuestionPage() {
                     <Centered>
                         <Spinner/>
                         <h2>Locked in!</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', maxWidth: 320}}>
+                        <WaitHint>
                             Hang tight — we'll reveal the answer when everyone's in.
-                        </p>
+                        </WaitHint>
                         {options?.[picked] && (
-                            <Card style={{padding: '0.625rem 1.125rem', display: 'flex', alignItems: 'center', gap: 10}}>
+                            <PickedCard>
                                 <ShapeIcon kind={OPT_META[picked].shape} size={24} color={OPT_META[picked].colorVar}/>
-                                <span style={{fontWeight: 700}}>You picked: {options[picked].label}</span>
-                            </Card>
+                                <PickedLabel>You picked: {options[picked].label}</PickedLabel>
+                            </PickedCard>
                         )}
                     </Centered>
                 )}

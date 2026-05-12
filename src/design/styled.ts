@@ -69,7 +69,7 @@ export const Button = styled.button<{$variant?: ButtonVariant; $size?: ButtonSiz
 
     &:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
     &:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
-    &:disabled { cursor: not-allowed; }
+    &:disabled { cursor: not-allowed; opacity: 0.5; }
 
     ${({$size = 'md'}) => sizeStyles($size)}
     ${({$variant = 'default'}) => variantStyles($variant)}

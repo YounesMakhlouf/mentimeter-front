@@ -231,6 +231,22 @@ const ErrorBlock = styled(ErrorText)`
     margin-top: 0.875rem;
 `;
 
+const Spacer = styled.div`
+    flex: 1;
+`;
+
+const Placeholder = styled.span`
+    opacity: 0.5;
+`;
+
+const CorrectMarker = styled(Chip)<{$active: boolean}>`
+    font-size: var(--step--2);
+    padding: 2px 0.5rem;
+    flex: none;
+    background: ${({$active}) => $active ? 'var(--ink)' : 'var(--paper)'};
+    color: ${({$active}) => $active ? 'var(--paper)' : 'var(--ink)'};
+`;
+
 function BuildQuiz() {
     const location = useLocation();
     const navigate = useNavigate();
@@ -323,7 +339,7 @@ function BuildQuiz() {
                     ))}
                 </TopicSelect>
                 <Counter>{questions.length} question{questions.length === 1 ? '' : 's'}</Counter>
-                <div style={{flex: 1}}/>
+                <Spacer/>
                 <Button $variant="primary" type="button" onClick={handleSubmit}>▶ Save &amp; finish</Button>
             </TopBar>
 
@@ -338,15 +354,11 @@ function BuildQuiz() {
                         >
                             <TabIndex>{i + 1}</TabIndex>
                             <TabText>
-                                {qq.text || <span style={{opacity: 0.5}}>Untitled question</span>}
+                                {qq.text || <Placeholder>Untitled question</Placeholder>}
                             </TabText>
-                            <Chip as="span" style={{
-                                fontSize: 'var(--step--2)',
-                                padding: '2px 0.5rem',
-                                flex: 'none',
-                                background: i === active ? 'var(--ink)' : 'var(--paper)',
-                                color: i === active ? 'var(--paper)' : 'var(--ink)',
-                            }}>{qq.correctIndex !== null ? '✓' : '·'}</Chip>
+                            <CorrectMarker as="span" $active={i === active}>
+                                {qq.correctIndex !== null ? '✓' : '·'}
+                            </CorrectMarker>
                         </QuestionTab>
                     ))}
                     <AddTabBtn type="button" onClick={addQuestion}>＋ Add question</AddTabBtn>
@@ -356,13 +368,12 @@ function BuildQuiz() {
                     <EditorInner>
                         <EditorHeader>
                             <StepLabel>Question {active + 1} of {questions.length}</StepLabel>
-                            <div style={{flex: 1}}/>
+                            <Spacer/>
                             <Button
                                 type="button"
                                 $variant="ghost"
                                 onClick={() => deleteQuestion(active)}
                                 disabled={questions.length === 1}
-                                style={{opacity: questions.length === 1 ? 0.4 : 1}}
                             ><FaTrash/></Button>
                         </EditorHeader>
                         <QuestionTextarea
@@ -391,7 +402,6 @@ function BuildQuiz() {
                                             value={opt}
                                             placeholder={`Answer ${m.letter}`}
                                             onChange={(e) => handleOptionChange(active, i, e)}
-                                            style={{color: m.inkVar}}
                                         />
                                         <CorrectToggle
                                             type="button"

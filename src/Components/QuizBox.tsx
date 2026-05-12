@@ -108,6 +108,11 @@ const Subtle = styled.p`
     margin: 0;
 `;
 
+const DangerButton = styled(Button).attrs({type: 'button', $variant: 'ink' as const})`
+    background: #bc2525;
+    border-color: #bc2525;
+`;
+
 const TOPIC_DEFAULTS: Record<string, {color: string; emoji: string}> = {
     math: {color: 'var(--opt-c)', emoji: '➗'},
     science: {color: 'var(--opt-d)', emoji: '🔬'},
@@ -205,15 +210,9 @@ export default function QuizBox({quiz}: Props) {
                         <Button type="button" $variant="ghost" onClick={() => setConfirmingDelete(false)} disabled={deleting}>
                             Cancel
                         </Button>
-                        <Button
-                            type="button"
-                            $variant="ink"
-                            onClick={handleDelete}
-                            disabled={deleting}
-                            style={{background: '#bc2525', borderColor: '#bc2525'}}
-                        >
+                        <DangerButton onClick={handleDelete} disabled={deleting}>
                             {deleting ? 'Deleting…' : 'Delete'}
-                        </Button>
+                        </DangerButton>
                     </ConfirmActions>
                 </ConfirmStack>
             </Modal>

@@ -51,6 +51,21 @@ const StartButton = styled(Button).attrs({$variant: 'primary' as const, $size: '
     margin-top: auto;
 `;
 
+const HeaderActions = styled.div`
+    display: flex;
+    gap: 0.625rem;
+`;
+
+const JoinHint = styled.p`
+    color: var(--ink-mute);
+    font-size: var(--step--1);
+    line-height: 1.4;
+
+    b {
+        color: var(--ink);
+    }
+`;
+
 const SectionLabel = styled.div`
     font-weight: 700;
     font-size: var(--step--1);
@@ -172,9 +187,9 @@ export default function StartQuizPage() {
             <ShapeField density={10} opacity={0.12} seed={11}/>
             <Header>
                 <Logo size={26}/>
-                <div style={{display: 'flex', gap: 10}}>
+                <HeaderActions>
                     <Button $variant="ghost" onClick={() => navigate('/home')}>End game</Button>
-                </div>
+                </HeaderActions>
             </Header>
             <Wrap>
                 <CodePanel>
@@ -183,9 +198,9 @@ export default function StartQuizPage() {
                         <PinLabel>Game PIN</PinLabel>
                         <GameCode code={sessionCode}/>
                     </div>
-                    <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', lineHeight: 1.4}}>
-                        Players open <b style={{color: 'var(--ink)'}}>localhost:5173</b> and enter this code to join.
-                    </p>
+                    <JoinHint>
+                        Players open <b>localhost:5173</b> and enter this code to join.
+                    </JoinHint>
                     <StartButton onClick={handleStartQuiz}>
                         Start now ({participants.length}) →
                     </StartButton>

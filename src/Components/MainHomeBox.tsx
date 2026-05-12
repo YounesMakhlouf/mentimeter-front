@@ -98,6 +98,12 @@ const NewQuizHint = styled.div`
     font-size: var(--step--2);
 `;
 
+const EmptyState = styled.div`
+    text-align: center;
+    padding: 3.75rem 0;
+    color: var(--ink-mute);
+`;
+
 const TODAY_LABEL = (() => {
     try {
         return new Date().toLocaleDateString(undefined, {weekday: 'long', month: 'short', day: 'numeric'});
@@ -183,9 +189,9 @@ export default function MainHomeBox({name}: MainHomeBoxProps) {
             </Grid>
 
             {quizzes.length === 0 && (
-                <div style={{textAlign: 'center', padding: '3.75rem 0', color: 'var(--ink-mute)'}}>
+                <EmptyState>
                     No quizzes yet. Hit “New quiz” to create your first one.
-                </div>
+                </EmptyState>
             )}
         </Outer>
     );

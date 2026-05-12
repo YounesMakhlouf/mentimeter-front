@@ -173,6 +173,23 @@ const ScoreCol = styled.span`
     font-weight: 700;
 `;
 
+const HeaderActions = styled.div`
+    display: flex;
+    gap: 0.625rem;
+`;
+
+const Trophy = styled.span`
+    font-family: var(--display);
+    font-size: var(--step-5);
+    font-weight: 800;
+    line-height: 1;
+`;
+
+const RestName = styled.span`
+    flex: 1;
+    font-weight: 600;
+`;
+
 const displayName = (p: ScoredParticipant) => p.playerName || p.name || 'Player';
 
 const LeaderboardPage = () => {
@@ -211,10 +228,10 @@ const LeaderboardPage = () => {
 
             <Header>
                 <Logo size={26}/>
-                <div style={{display: 'flex', gap: 10}}>
+                <HeaderActions>
                     <Button $variant="ghost" onClick={() => navigate('/')}>Done</Button>
                     <Button $variant="primary" onClick={() => navigate('/home')}>↻ Host another</Button>
-                </div>
+                </HeaderActions>
             </Header>
 
             <Wrap>
@@ -240,9 +257,7 @@ const LeaderboardPage = () => {
                                         $bg={colors[podiumIdx]}
                                         $ink={inks[podiumIdx]}
                                     >
-                                        <span style={{fontFamily: 'var(--display)', fontSize: 'var(--step-5)', fontWeight: 800, lineHeight: 1}}>
-                                            {trophies[podiumIdx]}
-                                        </span>
+                                        <Trophy>{trophies[podiumIdx]}</Trophy>
                                     </PodiumBlock>
                                 </PodiumCol>
                             );
@@ -258,7 +273,7 @@ const LeaderboardPage = () => {
                                 <RestRow key={i}>
                                     <Rank>{place}</Rank>
                                     <Face>{p.avatar || '🎲'}</Face>
-                                    <span style={{flex: 1, fontWeight: 600}}>{displayName(p)}</span>
+                                    <RestName>{displayName(p)}</RestName>
                                     <Bar>
                                         <BarFill $pct={p.score / max} $delay={0.05 * i}/>
                                     </Bar>

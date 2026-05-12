@@ -81,6 +81,39 @@ const Field = styled.label`
     font-size: var(--step--1);
 `;
 
+const HeaderSpacer = styled.div`
+    width: 5rem;
+`;
+
+const BrandTitle = styled.h1`
+    font-size: var(--step-4);
+    margin-top: 1.5rem;
+    color: #fff;
+`;
+
+const BrandBlurb = styled.p`
+    font-size: var(--step--1);
+    opacity: 0.85;
+    margin-top: 1rem;
+    line-height: 1.5;
+`;
+
+const ShapeRow = styled.div`
+    display: flex;
+    gap: 0.875rem;
+    align-items: flex-end;
+`;
+
+const FormSubtle = styled.p`
+    color: var(--ink-mute);
+    font-size: var(--step--1);
+    margin-top: -0.5rem;
+`;
+
+const SubmitButton = styled(Button).attrs({type: 'submit', $variant: 'primary' as const, $size: 'lg' as const})`
+    margin-top: 0.75rem;
+`;
+
 const Switch = styled.div`
     text-align: center;
     color: var(--ink-mute);
@@ -144,35 +177,33 @@ const Authentication = () => {
             <Header>
                 <Link to="/"><Button $variant="ghost">← Back</Button></Link>
                 <Logo size={26}/>
-                <div style={{width: 80}}/>
+                <HeaderSpacer/>
             </Header>
             <Wrap>
                 <BrandPanel $mode={mode}>
                     <div>
                         <Sticker color="var(--opt-c)" rotate={-5}>{signIn ? 'Welcome back' : 'Hey, friend'}</Sticker>
-                        <h1 style={{fontSize: 'var(--step-4)', marginTop: '1.5rem', color: '#fff'}}>
+                        <BrandTitle>
                             {signIn ? 'Pick up where you left off.' : "Let's get your classroom buzzing."}
-                        </h1>
-                        <p style={{fontSize: 'var(--step--1)', opacity: 0.85, marginTop: '1rem', lineHeight: 1.5}}>
+                        </BrandTitle>
+                        <BrandBlurb>
                             {signIn
                                 ? 'Your quizzes, drafts, and class history are waiting.'
                                 : 'Free for teachers. Unlimited players per game. No credit card.'}
-                        </p>
+                        </BrandBlurb>
                     </div>
-                    <div style={{display: 'flex', gap: 14, alignItems: 'flex-end'}}>
+                    <ShapeRow>
                         <ShapeIcon kind="circle" size={56} color="var(--opt-a)"/>
                         <ShapeIcon kind="square" size={48} color="var(--opt-b)"/>
                         <ShapeIcon kind="triangle" size={64} color="var(--opt-c)"/>
                         <ShapeIcon kind="diamond" size={52} color="var(--opt-d)"/>
-                    </div>
+                    </ShapeRow>
                 </BrandPanel>
 
                 {signIn ? (
                     <FormPanel as="form" action={loginFormAction}>
                         <h2>Log in</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', marginTop: '-0.5rem'}}>
-                            Use your email and password.
-                        </p>
+                        <FormSubtle>Use your email and password.</FormSubtle>
                         <Field>
                             <span>Email</span>
                             <Input name="email" type="email" placeholder="you@school.edu" required/>
@@ -182,9 +213,9 @@ const Authentication = () => {
                             <Input name="password" type="password" placeholder="••••••••" required/>
                         </Field>
                         {loginError && <ErrorText>{loginError}</ErrorText>}
-                        <Button type="submit" $variant="primary" $size="lg" disabled={loginPending} style={{marginTop: '0.75rem'}}>
+                        <SubmitButton disabled={loginPending}>
                             {loginPending ? 'Logging in…' : 'Log in →'}
-                        </Button>
+                        </SubmitButton>
                         <Switch>
                             New to QuizUp?
                             <a onClick={() => setSignIn(false)}>Sign up</a>
@@ -193,9 +224,7 @@ const Authentication = () => {
                 ) : (
                     <FormPanel as="form" action={registerFormAction}>
                         <h2>Create account</h2>
-                        <p style={{color: 'var(--ink-mute)', fontSize: 'var(--step--1)', marginTop: '-0.5rem'}}>
-                            Just an email and a password — that's it.
-                        </p>
+                        <FormSubtle>Just an email and a password — that's it.</FormSubtle>
                         <Field>
                             <span>Email</span>
                             <Input name="email" type="email" placeholder="you@school.edu" required/>
@@ -205,9 +234,9 @@ const Authentication = () => {
                             <Input name="password" type="password" placeholder="••••••••" required/>
                         </Field>
                         {registerError && <ErrorText>{registerError}</ErrorText>}
-                        <Button type="submit" $variant="primary" $size="lg" disabled={registerPending} style={{marginTop: '0.75rem'}}>
+                        <SubmitButton disabled={registerPending}>
                             {registerPending ? 'Creating…' : 'Create account →'}
-                        </Button>
+                        </SubmitButton>
                         <Switch>
                             Already have an account?
                             <a onClick={() => setSignIn(true)}>Log in</a>
