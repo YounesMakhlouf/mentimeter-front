@@ -1,10 +1,12 @@
 import {describe, expect, it, beforeEach} from 'vitest';
 import {clearAuth, getToken, isTokenValid, setAuth} from '../api';
+import {local, session} from '../storage';
 import {expiredJwt, futureJwt} from '../test/helpers';
 
 describe('api', () => {
     beforeEach(() => {
         localStorage.clear();
+        sessionStorage.clear();
     });
 
     describe('getToken', () => {
@@ -51,20 +53,22 @@ describe('api', () => {
         });
 
         it('clearAuth wipes every storage key the app uses', () => {
-            setAuth({email: 'a@b.com', username: 'a', accessToken: 'xyz'});
-            localStorage.setItem('name', 'Alice');
-            sessionStorage.setItem('startquiz:sessionCode', '123456');
-            sessionStorage.setItem('qspage:quizCode', '654321');
-            sessionStorage.setItem('leaderboard:payload', '[]');
+            // Seed and assert by iterating over the centralized key maps from
+            // storage.ts — adding a new key there automatically gets covered
+            // here, so the test can't drift like the old hand-rolled clearAuth
+            // body did. (That drift is what let the participant's display
+            // 'name' survive logout, which a future user then inherited.)
+            for (const key of Object.values(local)) localStorage.setItem(key, 'seed');
+            for (const key of Object.values(session)) sessionStorage.setItem(key, 'seed');
 
             clearAuth();
 
-            expect(localStorage.getItem('token')).toBeNull();
-            expect(localStorage.getItem('loginInfo')).toBeNull();
-            expect(localStorage.getItem('name')).toBeNull();
-            expect(sessionStorage.getItem('startquiz:sessionCode')).toBeNull();
-            expect(sessionStorage.getItem('qspage:quizCode')).toBeNull();
-            expect(sessionStorage.getItem('leaderboard:payload')).toBeNull();
+            for (const key of Object.values(local)) {
+                expect(localStorage.getItem(key)).toBeNull();
+            }
+            for (const key of Object.values(session)) {
+                expect(sessionStorage.getItem(key)).toBeNull();
+            }
         });
     });
 });
