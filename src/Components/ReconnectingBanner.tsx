@@ -8,6 +8,7 @@ const Banner = styled.div`
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+    pointer-events: none;
     display: flex;
     align-items: center;
     gap: var(--gap-2);
