@@ -29,6 +29,7 @@ const trigger = (event: string, ...args: unknown[]) => {
 };
 
 const buildQuestion = (n: number, text: string, options: string[], correctIdx: number): QuestionPayload => ({
+    quizCode: '748215',
     questionNumber: n,
     question: {
         question: text,
