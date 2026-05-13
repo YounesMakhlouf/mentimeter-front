@@ -81,17 +81,27 @@ describe('StartQuizPage', () => {
         expect(startBtn).toBeEnabled();
     });
 
-    it('emits sendQuestion with questionNumber 0 and navigates to the presenter when Start is clicked', async () => {
+    it('emits sendQuestion and navigates to the presenter only after the first question event arrives', async () => {
         const user = userEvent.setup();
         renderAt({sessionCode: '789012'});
         trigger('playerJoined', player('Alice'));
 
         await user.click(screen.getByRole('button', {name: /start now/i}));
 
+        // sendQuestion went out immediately…
         expect(socket.emit).toHaveBeenCalledWith('sendQuestion', {
             quizCode: '789012',
             questionNumber: 0,
         });
+        // …but navigation waits for the server's 'question' response so we
+        // can hand the payload to PresenterPage via location.state.
+        expect(screen.queryByText('presenter route')).not.toBeInTheDocument();
+
+        trigger('question', {
+            questionNumber: 0,
+            question: {question: 'Q?', options: [{label: 'a', isCorrect: true}]},
+        });
+
         expect(screen.getByText('presenter route')).toBeInTheDocument();
     });
 

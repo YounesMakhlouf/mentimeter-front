@@ -74,6 +74,15 @@ describe('PresenterPage', () => {
         expect(screen.getByText(/waiting for the first question/i)).toBeInTheDocument();
     });
 
+    it('renders the seeded initial question from route state immediately (no socket round-trip)', () => {
+        renderAt({
+            sessionCode: '748215',
+            payload: buildQuestion(0, 'Seeded question?', ['a', 'b', 'c', 'd'], 0),
+        });
+        expect(screen.getByText('Seeded question?')).toBeInTheDocument();
+        expect(screen.queryByText(/waiting for the first question/i)).not.toBeInTheDocument();
+    });
+
     it('renders the question and option labels when a question event fires', () => {
         renderAt({sessionCode: '748215'});
 

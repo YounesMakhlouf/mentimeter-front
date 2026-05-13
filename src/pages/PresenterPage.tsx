@@ -254,8 +254,9 @@ export default function PresenterPage() {
     const navigate = useNavigate();
     const sessionCode: string | null = location.state?.sessionCode ?? sessionStorage.getItem(SESSION_KEY);
     const initialPlayerCount: number = location.state?.playerCount ?? 0;
+    const initialQuestion: QuestionPayload | undefined = location.state?.payload;
 
-    const [currentQuestion, setCurrentQuestion] = useState<QuestionPayload | null>(null);
+    const [currentQuestion, setCurrentQuestion] = useState<QuestionPayload | null>(initialQuestion ?? null);
     const [counts, setCounts] = useState<Record<string, number>>({});
     const [playerCount, setPlayerCount] = useState(initialPlayerCount);
     const [time, setTime] = useState(QUESTION_TIME);
