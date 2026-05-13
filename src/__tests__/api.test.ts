@@ -51,8 +51,6 @@ describe('api', () => {
         });
 
         it('clearAuth wipes every storage key the app uses', () => {
-            // Seed everything — auth, the participant's chosen name, and every
-            // quiz-session sessionStorage key.
             setAuth({email: 'a@b.com', username: 'a', accessToken: 'xyz'});
             localStorage.setItem('name', 'Alice');
             sessionStorage.setItem('startquiz:sessionCode', '123456');
@@ -61,13 +59,9 @@ describe('api', () => {
 
             clearAuth();
 
-            // Auth gone.
             expect(localStorage.getItem('token')).toBeNull();
             expect(localStorage.getItem('loginInfo')).toBeNull();
-            // Participant identity gone — regression: previously persisted after
-            // logout so a fresh login inherited the previous user's display name.
             expect(localStorage.getItem('name')).toBeNull();
-            // Every quiz-flow session key gone.
             expect(sessionStorage.getItem('startquiz:sessionCode')).toBeNull();
             expect(sessionStorage.getItem('qspage:quizCode')).toBeNull();
             expect(sessionStorage.getItem('leaderboard:payload')).toBeNull();
