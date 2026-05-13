@@ -7,6 +7,7 @@ export interface QuestionOption {
 }
 
 export interface QuestionPayload {
+    quizCode: string;
     questionNumber: number;
     question: {
         question: string;

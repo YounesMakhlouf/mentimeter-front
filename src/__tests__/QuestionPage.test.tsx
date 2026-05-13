@@ -34,7 +34,7 @@ const buildPayload = (
     questionText: string,
     options: string[],
     correctIdx: number,
-): QuestionPayload & {quizCode: string} => ({
+): QuestionPayload => ({
     questionNumber,
     quizCode: '123456',
     question: {
