@@ -3,8 +3,8 @@ import styled from "styled-components";
 import {Navigate, useLocation, useNavigate} from "react-router";
 import {socket, QuestionPayload, Participant} from '../socket.ts';
 import {Avatar, Card, Chip, OPT_META, ShapeIcon} from "../design";
+import {local, session} from '../storage';
 
-const QUIZ_CODE_KEY = 'qspage:quizCode';
 const QUESTION_TIME = 10; // seconds — matches the existing 10s server fallback timeout
 
 const Page = styled.div`
@@ -190,11 +190,11 @@ export default function QuestionPage() {
     const [phase, setPhase] = useState<'answer' | 'wait'>('answer');
     const isAnsweringRef = useRef(false);
     const navigate = useNavigate();
-    const code: string | null = location.state?.payload?.quizCode ?? sessionStorage.getItem(QUIZ_CODE_KEY);
-    const playerName = localStorage.getItem('name') || 'Player';
+    const code: string | null = location.state?.payload?.quizCode ?? sessionStorage.getItem(session.playerCode);
+    const playerName = localStorage.getItem(local.name) || 'Player';
 
     useEffect(() => {
-        if (code) sessionStorage.setItem(QUIZ_CODE_KEY, code);
+        if (code) sessionStorage.setItem(session.playerCode, code);
     }, [code]);
 
     useEffect(() => {

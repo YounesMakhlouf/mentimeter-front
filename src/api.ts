@@ -1,8 +1,9 @@
 import { jwtDecode } from 'jwt-decode';
+import { local, wipeStoredState } from './storage';
 
 export const API_URL = import.meta.env.VITE_API_URL;
 
-export const getToken = () => localStorage.getItem('token');
+export const getToken = () => localStorage.getItem(local.token);
 
 export const isTokenValid = () => {
     const token = getToken();
@@ -15,17 +16,16 @@ export const isTokenValid = () => {
     }
 };
 
-export const clearAuth = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('loginInfo');
-    sessionStorage.removeItem('startquiz:sessionCode');
-    sessionStorage.removeItem('qspage:quizCode');
-    sessionStorage.removeItem('leaderboard:payload');
-};
+/**
+ * Logout / 401 handler. Wipes every stored bit of user state — auth tokens,
+ * the participant's display name, and any in-flight quiz session keys —
+ * so a new user landing in the same tab can't resume the previous one.
+ */
+export const clearAuth = wipeStoredState;
 
 export const setAuth = (loginInfo: { email: string; username: string; accessToken: string }) => {
-    localStorage.setItem('loginInfo', JSON.stringify(loginInfo));
-    localStorage.setItem('token', loginInfo.accessToken);
+    localStorage.setItem(local.loginInfo, JSON.stringify(loginInfo));
+    localStorage.setItem(local.token, loginInfo.accessToken);
 };
 
 export async function authFetch<T = unknown>(path: string, init: RequestInit = {}): Promise<T> {

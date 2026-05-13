@@ -2,8 +2,7 @@ import {useEffect} from 'react';
 import styled from 'styled-components';
 import {Navigate, useLocation, useNavigate} from 'react-router';
 import {Button, Card, Confetti, Logo, Page, ShapeField, Sticker} from '../design';
-
-const PAYLOAD_KEY = 'leaderboard:payload';
+import {session} from '../storage';
 
 interface ScoredParticipant {
     id?: string;
@@ -14,7 +13,7 @@ interface ScoredParticipant {
 }
 
 const readStored = (): ScoredParticipant[] | null => {
-    const raw = sessionStorage.getItem(PAYLOAD_KEY);
+    const raw = sessionStorage.getItem(session.leaderboardPayload);
     if (!raw) return null;
     try {
         return JSON.parse(raw) as ScoredParticipant[];
@@ -210,7 +209,7 @@ const LeaderboardPage = () => {
     const participants: ScoredParticipant[] | null = state?.payload ?? readStored();
 
     useEffect(() => {
-        if (participants) sessionStorage.setItem(PAYLOAD_KEY, JSON.stringify(participants));
+        if (participants) sessionStorage.setItem(session.leaderboardPayload, JSON.stringify(participants));
     }, [participants]);
 
     if (!participants) {

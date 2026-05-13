@@ -3,8 +3,7 @@ import styled from "styled-components";
 import {socket, Participant} from "../socket.ts";
 import {Navigate, useLocation, useNavigate} from "react-router";
 import {Button, Card, GameCode, Logo, Page, ShapeField} from "../design";
-
-const SESSION_KEY = 'startquiz:sessionCode';
+import {session} from '../storage';
 
 const Header = styled.header.attrs({className: 'wrapper'})`
     --wrapper-max: 82.5rem;
@@ -157,10 +156,10 @@ export default function StartQuizPage() {
     const location = useLocation();
     const navigate = useNavigate();
     const [participants, setParticipants] = useState<Participant[]>([]);
-    const sessionCode: string | null = location.state?.sessionCode ?? sessionStorage.getItem(SESSION_KEY);
+    const sessionCode: string | null = location.state?.sessionCode ?? sessionStorage.getItem(session.lobbyCode);
 
     useEffect(() => {
-        if (sessionCode) sessionStorage.setItem(SESSION_KEY, sessionCode);
+        if (sessionCode) sessionStorage.setItem(session.lobbyCode, sessionCode);
     }, [sessionCode]);
 
     useEffect(() => {

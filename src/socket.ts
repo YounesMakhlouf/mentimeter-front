@@ -1,4 +1,5 @@
 import {io, Socket} from 'socket.io-client';
+import {local} from './storage';
 
 export interface QuestionOption {
     label: string;
@@ -60,7 +61,7 @@ export interface ClientToServerEvents {
 export type AppSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
 export const socket: AppSocket = io(import.meta.env.VITE_SOCKET_URL, {
-    auth: (cb) => cb({token: localStorage.getItem('token') || null}),
+    auth: (cb) => cb({token: localStorage.getItem(local.token) || null}),
 });
 
 export const reauthSocket = () => {

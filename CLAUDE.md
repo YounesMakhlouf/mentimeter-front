@@ -22,7 +22,7 @@ The frontend is hard-coded against two local backends — nothing will work with
 
 ### Routing and auth gate
 
-`src/App.tsx` defines all routes under `createBrowserRouter` + `<RouterProvider>`. `src/Components/PrivateRoutes.tsx` is the only auth gate: it checks `isTokenValid()` (JWT `exp` claim via `jwt-decode`) and either renders `<Outlet/>` or clears auth and redirects to `/authentication`. The `useAuth` hook in `src/hooks/useAuth.ts` is the canonical way to read the logged-in user's `email` / `username`; it returns a `{email, username, token, isAuthenticated}` shape. The participant's display name (set during the join-quiz flow) lives under a separate key, `localStorage.getItem('name')`.
+`src/App.tsx` defines all routes under `createBrowserRouter` + `<RouterProvider>`. `src/Components/PrivateRoutes.tsx` is the only auth gate: it checks `isTokenValid()` (JWT `exp` claim via `jwt-decode`) and either renders `<Outlet/>` or clears auth and redirects to `/authentication`. The `useAuth` hook in `src/hooks/useAuth.ts` is the canonical way to read the logged-in user's `email` / `username`; it returns a `{email, username, token, isAuthenticated}` shape. The participant's display name (set during the join-quiz flow) lives under a separate key. All browser-storage keys are declared in `src/storage.ts` (`local` / `session` maps); `clearAuth` iterates over them, so adding a new key auto-wipes on logout.
 
 Only `/home` and `/build` are gated. `/startquiz`, `/qspage`, and `/leaderboard` are public — they are reached via `navigate(..., { state })`, so refreshing those pages loses the state they depend on (the pages fall back to `sessionStorage` keys like `startquiz:sessionCode`).
 
