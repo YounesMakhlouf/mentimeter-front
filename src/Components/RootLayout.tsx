@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import {Outlet, useNavigate} from 'react-router';
+import {ReconnectingBanner} from './ReconnectingBanner.tsx';
 
 export default function RootLayout() {
     const navigate = useNavigate();
@@ -10,5 +11,10 @@ export default function RootLayout() {
         return () => window.removeEventListener('app:unauthorized', onUnauthorized);
     }, [navigate]);
 
-    return <Outlet/>;
+    return (
+        <>
+            <ReconnectingBanner/>
+            <Outlet/>
+        </>
+    );
 }
