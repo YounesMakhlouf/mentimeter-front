@@ -35,6 +35,7 @@ const renderAt = (state: unknown) =>
             <Routes>
                 <Route path="/startquiz" element={<StartQuizPage/>}/>
                 <Route path="/home" element={<div>home route</div>}/>
+                <Route path="/present" element={<div>presenter route</div>}/>
             </Routes>
         </MemoryRouter>,
     );
@@ -80,7 +81,7 @@ describe('StartQuizPage', () => {
         expect(startBtn).toBeEnabled();
     });
 
-    it('emits sendQuestion with questionNumber 0 when the host clicks Start', async () => {
+    it('emits sendQuestion with questionNumber 0 and navigates to the presenter when Start is clicked', async () => {
         const user = userEvent.setup();
         renderAt({sessionCode: '789012'});
         trigger('playerJoined', player('Alice'));
@@ -91,6 +92,7 @@ describe('StartQuizPage', () => {
             quizCode: '789012',
             questionNumber: 0,
         });
+        expect(screen.getByText('presenter route')).toBeInTheDocument();
     });
 
     it('navigates to /home when End game is clicked', async () => {

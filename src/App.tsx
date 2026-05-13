@@ -5,6 +5,7 @@ import LogoutComponent from "./Components/LogoutComponent.tsx"
 import PrivateRoutes from "./Components/PrivateRoutes.tsx";
 import BuildQuiz from "./Components/BuildQuiz.tsx";
 import StartQuizPage from "./pages/StartQuizPage.tsx";
+import PresenterPage from "./pages/PresenterPage.tsx";
 import QuestionPage from './pages/QuestionPage.tsx';
 import WelcomePage from "./pages/WelcomePage.tsx";
 import LeaderboardPage from "./pages/LeaderboardPage.tsx";
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
             {path: '/logout', element: <LogoutComponent/>},
             {path: '/authentication', element: <Authentication/>},
             {path: '/startquiz', element: <StartQuizPage/>},
+            {path: '/present', element: <PresenterPage/>},
             {path: '/qspage', element: <QuestionPage/>},
             {path: '/leaderboard', element: <LeaderboardPage/>},
             {path: '*', loader: () => {throw new Response('Not Found', {status: 404})}},

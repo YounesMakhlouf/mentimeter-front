@@ -42,11 +42,18 @@ export interface GetAnswerPayload {
     playerPseudo: string | null;
 }
 
+export interface AnswerReceivedPayload {
+    questionNumber: number;
+    answer: string;
+    playerPseudo: string | null;
+}
+
 export interface ServerToClientEvents {
     playerJoined: (participant: Participant) => void;
     errorMsg: (message: string) => void;
     QuizCreationSuccess: (sessionCode: string) => void;
     question: (payload: QuestionPayload) => void;
+    answerReceived: (payload: AnswerReceivedPayload) => void;
     endQuiz: (participants: Participant[]) => void;
 }
 

@@ -176,6 +176,7 @@ export default function StartQuizPage() {
     function handleStartQuiz() {
         if (!sessionCode) return;
         socket.emit('sendQuestion', {quizCode: sessionCode, questionNumber: 0});
+        navigate('/present', {state: {sessionCode, playerCount: participants.length}});
     }
 
     if (!sessionCode) {
