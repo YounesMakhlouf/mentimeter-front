@@ -260,7 +260,7 @@ const LeaderboardPage = () => {
                             if (!p) return <div key={slot}/>;
                             const isWinner = podiumIdx === 0;
                             return (
-                                <PodiumCol key={podiumIdx} className="pop-in" style={{animationDelay: `${slot * 0.18}s`}}>
+                                <PodiumCol key={slot} className="pop-in" style={{animationDelay: `${slot * 0.18}s`}}>
                                     <PodiumFace $size={sizes[podiumIdx]}>{p.avatar || '🎲'}</PodiumFace>
                                     <PodiumName $big={isWinner}>{displayName(p)}</PodiumName>
                                     <PodiumScore $big={isWinner}>{p.score.toLocaleString()}</PodiumScore>

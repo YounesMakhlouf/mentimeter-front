@@ -35,6 +35,7 @@ const renderAt = (state: unknown) =>
             <Routes>
                 <Route path="/startquiz" element={<StartQuizPage/>}/>
                 <Route path="/home" element={<div>home route</div>}/>
+                <Route path="/present" element={<div>presenter route</div>}/>
             </Routes>
         </MemoryRouter>,
     );
@@ -80,17 +81,18 @@ describe('StartQuizPage', () => {
         expect(startBtn).toBeEnabled();
     });
 
-    it('emits sendQuestion with questionNumber 0 when the host clicks Start', async () => {
+    it('navigates to /present when Start is clicked (PresenterPage emits sendQuestion to avoid racing the response)', async () => {
         const user = userEvent.setup();
         renderAt({sessionCode: '789012'});
         trigger('playerJoined', player('Alice'));
 
         await user.click(screen.getByRole('button', {name: /start now/i}));
 
-        expect(socket.emit).toHaveBeenCalledWith('sendQuestion', {
-            quizCode: '789012',
-            questionNumber: 0,
-        });
+        expect(screen.getByText('presenter route')).toBeInTheDocument();
+        // The lobby intentionally does NOT emit sendQuestion. If it did, the
+        // server's 'question' broadcast would race the navigation and the
+        // host's PresenterPage would mount too late to hear it.
+        expect(socket.emit).not.toHaveBeenCalledWith('sendQuestion', expect.anything());
     });
 
     it('navigates to /home when End game is clicked', async () => {

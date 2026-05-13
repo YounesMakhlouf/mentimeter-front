@@ -175,7 +175,10 @@ export default function StartQuizPage() {
 
     function handleStartQuiz() {
         if (!sessionCode) return;
-        socket.emit('sendQuestion', {quizCode: sessionCode, questionNumber: 0});
+        // PresenterPage emits sendQuestion after subscribing to the 'question'
+        // event — if we emitted here, the server's response would race the
+        // navigation and the first question would be dropped on the floor.
+        navigate('/present', {state: {sessionCode, playerCount: participants.length}});
     }
 
     if (!sessionCode) {

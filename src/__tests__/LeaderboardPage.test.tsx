@@ -1,7 +1,7 @@
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter, Route, Routes} from 'react-router';
-import {beforeEach, describe, expect, it} from 'vitest';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import LeaderboardPage from '../pages/LeaderboardPage';
 
 interface ScoredParticipant {
@@ -48,6 +48,21 @@ describe('LeaderboardPage', () => {
     it('uses the singular "1 player" when there is exactly one participant', () => {
         renderAt({payload: [{playerName: 'Solo', avatar: '🦊', score: 0}]});
         expect(screen.getByText(/1 player\b/)).toBeInTheDocument();
+    });
+
+    it('renders cleanly with a single participant (regression: duplicate podium keys)', () => {
+        // With 1 player, podiumOrder=[1,0,2] produces two empty slots and one
+        // PodiumCol. Keying by podiumIdx used to collide with the empty <div
+        // key={slot}/> at slot 0. Keying by slot fixes it; React would warn
+        // about duplicate keys if it didn't.
+        const warn = vi.spyOn(console, 'error').mockImplementation(() => {});
+        renderAt({payload: [{playerName: 'Solo', avatar: '🦊', score: 42}]});
+        expect(screen.getByText('Solo')).toBeInTheDocument();
+        const dupKeyWarning = warn.mock.calls.find(
+            (args: unknown[]) => typeof args[0] === 'string' && args[0].includes('two children with the same key'),
+        );
+        expect(dupKeyWarning).toBeUndefined();
+        warn.mockRestore();
     });
 
     it('sorts participants by score descending — top 3 on the podium, rest in the list', () => {
