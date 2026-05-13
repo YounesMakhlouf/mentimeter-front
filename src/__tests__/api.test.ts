@@ -53,11 +53,6 @@ describe('api', () => {
         });
 
         it('clearAuth wipes every storage key the app uses', () => {
-            // Seed and assert by iterating over the centralized key maps from
-            // storage.ts — adding a new key there automatically gets covered
-            // here, so the test can't drift like the old hand-rolled clearAuth
-            // body did. (That drift is what let the participant's display
-            // 'name' survive logout, which a future user then inherited.)
             for (const key of Object.values(local)) localStorage.setItem(key, 'seed');
             for (const key of Object.values(session)) sessionStorage.setItem(key, 'seed');
 
