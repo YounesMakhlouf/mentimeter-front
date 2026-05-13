@@ -7,11 +7,6 @@ export interface QuestionOption {
 }
 
 export interface QuestionPayload {
-    /** Server includes this on every emit so the participant can echo it back
-     *  in `getAnswer`. The `quizCode` field used to be silently undeclared
-     *  here — `QuestionPage` read `payload.quizCode` at runtime against an
-     *  intersection cast in tests, and TypeScript happily accepted the
-     *  undeclared access via `location.state`'s `unknown` shape. */
     quizCode: string;
     questionNumber: number;
     question: {
