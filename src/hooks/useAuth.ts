@@ -1,4 +1,5 @@
 import { getToken, isTokenValid } from '../api';
+import { local } from '../storage';
 
 interface LoginInfo {
     email: string;
@@ -7,7 +8,7 @@ interface LoginInfo {
 }
 
 const readLoginInfo = (): LoginInfo | null => {
-    const raw = localStorage.getItem('loginInfo');
+    const raw = localStorage.getItem(local.loginInfo);
     if (!raw) return null;
     try {
         return JSON.parse(raw) as LoginInfo;

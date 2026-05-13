@@ -1,10 +1,12 @@
 import {describe, expect, it, beforeEach} from 'vitest';
 import {clearAuth, getToken, isTokenValid, setAuth} from '../api';
+import {local, session} from '../storage';
 import {expiredJwt, futureJwt} from '../test/helpers';
 
 describe('api', () => {
     beforeEach(() => {
         localStorage.clear();
+        sessionStorage.clear();
     });
 
     describe('getToken', () => {
@@ -50,11 +52,18 @@ describe('api', () => {
             });
         });
 
-        it('clearAuth removes both keys', () => {
-            setAuth({email: 'a@b.com', username: 'a', accessToken: 'xyz'});
+        it('clearAuth wipes every storage key the app uses', () => {
+            for (const key of Object.values(local)) localStorage.setItem(key, 'seed');
+            for (const key of Object.values(session)) sessionStorage.setItem(key, 'seed');
+
             clearAuth();
-            expect(localStorage.getItem('token')).toBeNull();
-            expect(localStorage.getItem('loginInfo')).toBeNull();
+
+            for (const key of Object.values(local)) {
+                expect(localStorage.getItem(key)).toBeNull();
+            }
+            for (const key of Object.values(session)) {
+                expect(sessionStorage.getItem(key)).toBeNull();
+            }
         });
     });
 });

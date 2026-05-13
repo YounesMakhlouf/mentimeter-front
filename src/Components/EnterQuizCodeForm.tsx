@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {socket} from '../socket.ts';
 import {randomPseudo} from "../utils/pseudoGenerator.ts";
 import {Button, EMOJI_AVATARS, ErrorText, Input, Stack} from "../design";
+import {local} from '../storage';
 
 type JoinStatus = 'idle' | 'submitting' | 'joined' | 'error';
 type Step = 'name' | 'avatar';
@@ -99,7 +100,7 @@ const QuizJoinForm = ({initialCode = ''}: Props) => {
         if (!name || pin.length !== 6) return;
         const avatar = EMOJI_AVATARS[emojiIdx];
         socket.emit('joinQuiz', {quizCode: pin, playerName: name, avatar});
-        localStorage.setItem('name', name);
+        localStorage.setItem(local.name, name);
         setJoinStatus('submitting');
     };
 
