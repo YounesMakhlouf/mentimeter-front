@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import styled from "styled-components";
-import {socket, type Participant, type QuestionPayload} from "../socket.ts";
+import {socket, Participant} from "../socket.ts";
 import {Navigate, useLocation, useNavigate} from "react-router";
 import {Button, Card, GameCode, Logo, Page, ShapeField} from "../design";
 
@@ -175,17 +175,10 @@ export default function StartQuizPage() {
 
     function handleStartQuiz() {
         if (!sessionCode) return;
-        // Capture the first 'question' event here so PresenterPage gets the
-        // payload via location.state — without this, the event fires before
-        // PresenterPage has mounted its listener and the question is lost.
-        const onFirstQuestion = (payload: QuestionPayload) => {
-            socket.off('question', onFirstQuestion);
-            navigate('/present', {
-                state: {sessionCode, playerCount: participants.length, payload},
-            });
-        };
-        socket.on('question', onFirstQuestion);
-        socket.emit('sendQuestion', {quizCode: sessionCode, questionNumber: 0});
+        // PresenterPage emits sendQuestion after subscribing to the 'question'
+        // event — if we emitted here, the server's response would race the
+        // navigation and the first question would be dropped on the floor.
+        navigate('/present', {state: {sessionCode, playerCount: participants.length}});
     }
 
     if (!sessionCode) {

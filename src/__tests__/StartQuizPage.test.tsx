@@ -81,28 +81,18 @@ describe('StartQuizPage', () => {
         expect(startBtn).toBeEnabled();
     });
 
-    it('emits sendQuestion and navigates to the presenter only after the first question event arrives', async () => {
+    it('navigates to /present when Start is clicked (PresenterPage emits sendQuestion to avoid racing the response)', async () => {
         const user = userEvent.setup();
         renderAt({sessionCode: '789012'});
         trigger('playerJoined', player('Alice'));
 
         await user.click(screen.getByRole('button', {name: /start now/i}));
 
-        // sendQuestion went out immediately…
-        expect(socket.emit).toHaveBeenCalledWith('sendQuestion', {
-            quizCode: '789012',
-            questionNumber: 0,
-        });
-        // …but navigation waits for the server's 'question' response so we
-        // can hand the payload to PresenterPage via location.state.
-        expect(screen.queryByText('presenter route')).not.toBeInTheDocument();
-
-        trigger('question', {
-            questionNumber: 0,
-            question: {question: 'Q?', options: [{label: 'a', isCorrect: true}]},
-        });
-
         expect(screen.getByText('presenter route')).toBeInTheDocument();
+        // The lobby intentionally does NOT emit sendQuestion. If it did, the
+        // server's 'question' broadcast would race the navigation and the
+        // host's PresenterPage would mount too late to hear it.
+        expect(socket.emit).not.toHaveBeenCalledWith('sendQuestion', expect.anything());
     });
 
     it('navigates to /home when End game is clicked', async () => {

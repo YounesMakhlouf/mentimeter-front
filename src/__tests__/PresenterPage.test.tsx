@@ -69,18 +69,22 @@ describe('PresenterPage', () => {
         expect(sessionStorage.getItem('present:sessionCode')).toBe('748215');
     });
 
+    it('emits sendQuestion(0) on mount, after subscribing to the question listener', () => {
+        renderAt({sessionCode: '748215'});
+
+        expect(socket.emit).toHaveBeenCalledWith('sendQuestion', {
+            quizCode: '748215',
+            questionNumber: 0,
+        });
+        // The kick-off emit must happen *after* the question listener is
+        // registered — otherwise the server's response would race the mount
+        // and the first question would be dropped.
+        expect(handlers.question?.length ?? 0).toBeGreaterThan(0);
+    });
+
     it('shows the waiting state until the first question event arrives', () => {
         renderAt({sessionCode: '748215'});
         expect(screen.getByText(/waiting for the first question/i)).toBeInTheDocument();
-    });
-
-    it('renders the seeded initial question from route state immediately (no socket round-trip)', () => {
-        renderAt({
-            sessionCode: '748215',
-            payload: buildQuestion(0, 'Seeded question?', ['a', 'b', 'c', 'd'], 0),
-        });
-        expect(screen.getByText('Seeded question?')).toBeInTheDocument();
-        expect(screen.queryByText(/waiting for the first question/i)).not.toBeInTheDocument();
     });
 
     it('renders the question and option labels when a question event fires', () => {

@@ -254,9 +254,8 @@ export default function PresenterPage() {
     const navigate = useNavigate();
     const sessionCode: string | null = location.state?.sessionCode ?? sessionStorage.getItem(SESSION_KEY);
     const initialPlayerCount: number = location.state?.playerCount ?? 0;
-    const initialQuestion: QuestionPayload | undefined = location.state?.payload;
 
-    const [currentQuestion, setCurrentQuestion] = useState<QuestionPayload | null>(initialQuestion ?? null);
+    const [currentQuestion, setCurrentQuestion] = useState<QuestionPayload | null>(null);
     const [counts, setCounts] = useState<Record<string, number>>({});
     const [playerCount, setPlayerCount] = useState(initialPlayerCount);
     const [time, setTime] = useState(QUESTION_TIME);
@@ -294,6 +293,11 @@ export default function PresenterPage() {
         socket.on('answerReceived', onAnswer);
         socket.on('playerJoined', onPlayerJoined);
         socket.on('endQuiz', onEndQuiz);
+
+        // Kick off the first question after listeners are registered, so the
+        // server's 'question' response doesn't race the navigation in. The
+        // lobby (StartQuizPage) does not emit sendQuestion for this reason.
+        socket.emit('sendQuestion', {quizCode: sessionCode, questionNumber: 0});
 
         return () => {
             socket.off('question', onQuestion);
