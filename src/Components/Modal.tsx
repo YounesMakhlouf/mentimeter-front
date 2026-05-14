@@ -1,4 +1,4 @@
-import {ReactNode, useEffect, useRef, MouseEvent as ReactMouseEvent} from 'react';
+import {ReactNode, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import {FaRegCircleXmark} from 'react-icons/fa6';
 import {Stack} from '../design';
@@ -48,6 +48,7 @@ interface ModalProps {
 export default function Modal({open, onClose, children}: ModalProps) {
     const ref = useRef<HTMLDialogElement>(null);
 
+    // Drive the dialog in lockstep with the prop.
     useEffect(() => {
         const dlg = ref.current;
         if (!dlg) return;
@@ -55,26 +56,12 @@ export default function Modal({open, onClose, children}: ModalProps) {
         else if (!open && dlg.open) dlg.close();
     }, [open]);
 
-    // Sync React state when the dialog closes for *any* reason (ESC, backdrop
-    // click handled below, or our own .close() call). Idempotent: calling
-    // onClose when already closed is a no-op for every caller in the app.
-    useEffect(() => {
-        const dlg = ref.current;
-        if (!dlg) return;
-        const handleClose = () => onClose();
-        dlg.addEventListener('close', handleClose);
-        return () => dlg.removeEventListener('close', handleClose);
-    }, [onClose]);
-
-    // Backdrop click: clicking the dialog's ::backdrop pseudo-element bubbles
-    // up to the dialog itself, so `e.target === dlg` distinguishes a backdrop
-    // click from a click on dialog content.
-    const onBackdropClick = (e: ReactMouseEvent<HTMLDialogElement>) => {
-        if (e.target === ref.current) onClose();
-    };
-
     return (
-        <Dialog ref={ref} onClick={onBackdropClick}>
+        <Dialog
+            ref={ref}
+            onClose={onClose}
+            onClick={(e) => { if (e.target === ref.current) onClose(); }}
+        >
             {open && (
                 <Box>
                     {children}
