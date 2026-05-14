@@ -2,11 +2,11 @@
  * Single source of truth for every key the app stores in the browser.
  */
 
-/** localStorage keys — persist across tab close. */
+/** localStorage keys: persist across tab close. */
 export const local = {
     /** JWT, set after a successful login. Read by `getToken`. */
     token: 'token',
-    /** `{email, username, accessToken}` — the login response body. */
+    /** `{email, username, accessToken}` : the login response body. */
     loginInfo: 'loginInfo',
 } as const;
 
@@ -23,8 +23,7 @@ export const session = {
 } as const;
 
 /**
- * Wipe every stored bit of user state — auth, identity, and any quiz-session
- * scratch space. Called on logout, 401 responses, and expired tokens.
+ * Wipe every stored bit of user state. Called on logout, 401 responses, and expired tokens.
  */
 export const wipeStoredState = () => {
     for (const key of Object.values(local)) localStorage.removeItem(key);

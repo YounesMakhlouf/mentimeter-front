@@ -43,7 +43,7 @@ describe('QuizBox', () => {
 
     it('renders the topic chip when topic is set', async () => {
         renderQuiz({topic: 'history'});
-        // formatTopic capitalizes the first letter — adjust if your formatter differs.
+        // formatTopic capitalizes the first letter.
         await screen.findByText(/history/i);
     });
 
