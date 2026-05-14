@@ -8,12 +8,11 @@ import {local, session} from '../storage';
 const QUESTION_TIME = 10; // seconds — matches the existing 10s server fallback timeout
 
 const Page = styled.div`
-    height: 100vh;
+    min-height: 100vh;
     background: var(--paper);
     color: var(--ink);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 `;
 
 const TopBar = styled.header`
