@@ -1,6 +1,6 @@
 import {act, render, screen} from '@testing-library/react';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
-import {ReconnectingBanner} from '../Components/ReconnectingBanner';
+import {ReconnectingBanner} from '../components/ReconnectingBanner';
 
 type Handler = (...args: unknown[]) => void;
 const handlers: Record<string, Handler[]> = {};

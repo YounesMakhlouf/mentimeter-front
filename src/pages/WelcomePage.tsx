@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import styled from "styled-components";
-import EnterQuizCodeForm from "../Components/EnterQuizCodeForm.tsx";
-import Modal from "../Components/Modal.tsx";
+import EnterQuizCodeForm from "../components/EnterQuizCodeForm.tsx";
+import Modal from "../components/Modal.tsx";
 import {socket, QuestionPayload} from "../socket.ts";
 import {Link, useNavigate} from "react-router";
 import {Avatar, Button, Card, Logo, OPT_META, Page, ShapeField, ShapeIcon} from "../design";

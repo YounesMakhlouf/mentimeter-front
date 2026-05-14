@@ -1,7 +1,7 @@
 import {describe, expect, it, vi, beforeEach} from 'vitest';
 import {render, screen} from '@testing-library/react';
 import {createMemoryRouter, RouterProvider} from 'react-router';
-import MainHomeBox from '../Components/MainHomeBox';
+import MainHomeBox from '../components/MainHomeBox';
 
 type Handler = (...args: unknown[]) => void;
 const handlers: Record<string, Handler[]> = {};

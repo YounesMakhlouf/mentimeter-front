@@ -1,7 +1,7 @@
 import {describe, expect, it, beforeEach} from 'vitest';
 import {render, screen} from '@testing-library/react';
 import {MemoryRouter, Route, Routes} from 'react-router';
-import PrivateRoutes from '../Components/PrivateRoutes';
+import PrivateRoutes from '../components/PrivateRoutes';
 import {expiredJwt, futureJwt} from '../test/helpers';
 
 const renderAt = (path: string) =>

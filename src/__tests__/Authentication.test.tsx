@@ -2,7 +2,7 @@ import {describe, expect, it, vi, beforeEach} from 'vitest';
 import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter, Route, Routes} from 'react-router';
-import Authentication from '../Components/Authentication';
+import Authentication from '../pages/Authentication';
 import {futureJwt} from '../test/helpers';
 
 vi.mock('../socket.ts', () => ({

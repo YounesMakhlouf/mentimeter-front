@@ -68,8 +68,8 @@ When changing event payloads, update the typed event maps in `src/socket.ts` fir
 - **TypeScript is strict** (`strict: true`, `noUnusedLocals`, `noUnusedParameters`). The socket layer is typed end-to-end — prefer the `ServerToClientEvents` / `ClientToServerEvents` maps over re-typing payloads inline.
 - **Styling is centralized in `src/design/`**, re-exported from `src/design/index.ts`. The design system exposes `Button` (`$variant`/`$size`), `Card`, `Input`, `Chip`, `ErrorText`, `Stack` (flex column) / `Row` (flex row) (both take `$gap` as a `--gap-N` token number), `Page`, plus the JS-side primitives (`Logo`, `Avatar`, `Sticker`, `ShapeIcon`, `ShapeField`, `GameCode`, `Confetti`). Global tokens (palette, shadows, radii, `--gap-N` scale 1–8, Utopia fluid type scale `--step--2`…`--step-5`) live in `src/index.css`; `src/reset.css` is imported before `index.css` in `src/main.tsx`. New components use styled-components; reserve inline `style={{}}` for genuinely dynamic per-instance values.
 - **Global layout utilities**: `.wrapper` (responsive centered column, parameterizable via `--wrapper-max`) and `.flow` (vertical rhythm via `--flow-space`). Use `.wrapper` for the outermost layer per page; do not nest it.
-- **Modals**: `src/Components/Modal.tsx` is a thin wrapper around the native `<dialog>` with `showModal()`. Browser-managed focus trap, return-focus to the trigger, ESC close, `role="dialog"` / `aria-modal="true"`, and `::backdrop` overlay come for free. The content box extends `Stack` so children get vertical rhythm; the X close button is rendered last in DOM so initial focus lands on body content.
-- **Folder split is imperfect**: `src/Components/` mixes routed views (e.g. `Home`, `BuildQuiz`) with leaf components; `src/pages/` only holds a few routed views. Don't infer role from folder.
+- **Modals**: `src/components/Modal.tsx` is a thin wrapper around the native `<dialog>` with `showModal()`. Browser-managed focus trap, return-focus to the trigger, ESC close, `role="dialog"` / `aria-modal="true"`, and `::backdrop` overlay come for free. The content box extends `Stack` so children get vertical rhythm; the X close button is rendered last in DOM so initial focus lands on body content.
+- **Folder split**: `src/pages/` holds every routed view (the element of a `<Route>`). `src/components/` holds everything else: leaves like `QuizBox`, route infrastructure like `RootLayout`/`PrivateRoutes`/`ErrorBoundary`, and shared widgets like `Modal` and `ReconnectingBanner`.
 
 ## Project layout
 
@@ -84,8 +84,8 @@ src/
   reset.css               modern CSS reset
   design/                 design-system primitives + tokens
   hooks/useAuth.ts        canonical hook for the logged-in user
-  Components/             routed views (Home, BuildQuiz) + leaf components
-  pages/                  remaining routed views (Welcome, StartQuiz, Present, Question, Leaderboard)
+  pages/                  every routed view (Welcome, Home, BuildQuiz, Authentication, Logout, StartQuiz, Present, Question, Leaderboard)
+  components/             leaves + route infrastructure (RootLayout, PrivateRoutes, ErrorBoundary, Modal, …)
   __tests__/              Vitest suites
   test/helpers.ts         small JWT builders for tests
 scripts/seed.mjs          npm run seed

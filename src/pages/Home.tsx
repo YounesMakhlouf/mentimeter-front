@@ -1,6 +1,6 @@
 import {Link} from "react-router";
 import styled from "styled-components";
-import MainHomeBox from "./MainHomeBox.tsx";
+import MainHomeBox from "../components/MainHomeBox.tsx";
 import {Avatar, Button, Logo} from "../design";
 import {useAuth} from "../hooks/useAuth.ts";
 
