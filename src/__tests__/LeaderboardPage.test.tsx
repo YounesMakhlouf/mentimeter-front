@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import {MemoryRouter, Route, Routes} from 'react-router';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import LeaderboardPage from '../pages/LeaderboardPage';
+import {futureJwt} from '../test/helpers';
 
 interface ScoredParticipant {
     playerName?: string;
@@ -114,13 +115,21 @@ describe('LeaderboardPage', () => {
         expect(screen.getByText('welcome route')).toBeInTheDocument();
     });
 
-    it('navigates to /home when Host another is clicked', async () => {
+    it('shows "Host another" only to a signed-in host and routes them to /home', async () => {
+        // Host = signed in (has a valid token); player = no token.
+        localStorage.setItem('token', futureJwt());
         const user = userEvent.setup();
         renderAt({payload: [{playerName: 'Alice', avatar: '🦊', score: 1}]});
 
         await user.click(screen.getByRole('button', {name: /host another/i}));
-
         expect(screen.getByText('home route')).toBeInTheDocument();
+    });
+
+    it('hides "Host another" from players (no token)', () => {
+        renderAt({payload: [{playerName: 'Alice', avatar: '🦊', score: 1}]});
+        expect(screen.queryByRole('button', {name: /host another/i})).not.toBeInTheDocument();
+        // Done is still available to everyone.
+        expect(screen.getByRole('button', {name: /^done$/i})).toBeInTheDocument();
     });
 
     it('shows the formatted score on the podium', () => {

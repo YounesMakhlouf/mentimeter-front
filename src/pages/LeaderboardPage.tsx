@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {Navigate, useLocation, useNavigate} from 'react-router';
 import {Button, Card, Confetti, Logo, Page, ShapeField, Sticker} from '../design';
 import {session} from '../storage';
+import {useAuth} from '../hooks/useAuth.ts';
 
 interface ScoredParticipant {
     id?: string;
@@ -206,6 +207,9 @@ const displayName = (p: ScoredParticipant) => p.playerName || p.name || 'Player'
 const LeaderboardPage = () => {
     const {state} = useLocation();
     const navigate = useNavigate();
+    // Both the host and the players land here on endQuiz. Only the host is
+    // signed in — players have no token. Gate host-only CTAs on that.
+    const {isAuthenticated} = useAuth();
     const participants: ScoredParticipant[] | null = state?.payload ?? readStored();
 
     useEffect(() => {
@@ -241,7 +245,9 @@ const LeaderboardPage = () => {
                 <Logo size={26}/>
                 <HeaderActions>
                     <Button $variant="ghost" onClick={() => navigate('/')}>Done</Button>
-                    <Button $variant="primary" onClick={() => navigate('/home')}>↻ Host another</Button>
+                    {isAuthenticated && (
+                        <Button $variant="primary" onClick={() => navigate('/home')}>↻ Host another</Button>
+                    )}
                 </HeaderActions>
             </Header>
 
