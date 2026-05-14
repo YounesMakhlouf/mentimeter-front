@@ -2,7 +2,7 @@ import {describe, expect, it, vi, beforeEach} from 'vitest';
 import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter, Route, Routes} from 'react-router';
-import BuildQuiz from '../Components/BuildQuiz';
+import BuildQuiz from '../pages/BuildQuiz';
 import * as api from '../api';
 
 const renderAt = (state?: {quizName: string}) =>

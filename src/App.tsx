@@ -1,16 +1,16 @@
 import {createBrowserRouter, RouterProvider} from 'react-router';
-import Home from "./Components/Home.tsx";
-import Authentication from './Components/Authentication.tsx';
-import LogoutComponent from "./Components/LogoutComponent.tsx"
-import PrivateRoutes from "./Components/PrivateRoutes.tsx";
-import BuildQuiz from "./Components/BuildQuiz.tsx";
+import Home from "./pages/Home.tsx";
+import Authentication from './pages/Authentication.tsx';
+import Logout from "./pages/Logout.tsx";
+import BuildQuiz from "./pages/BuildQuiz.tsx";
 import StartQuizPage from "./pages/StartQuizPage.tsx";
 import PresenterPage from "./pages/PresenterPage.tsx";
 import QuestionPage from './pages/QuestionPage.tsx';
 import WelcomePage from "./pages/WelcomePage.tsx";
 import LeaderboardPage from "./pages/LeaderboardPage.tsx";
-import RootLayout from "./Components/RootLayout.tsx";
-import ErrorBoundary from "./Components/ErrorBoundary.tsx";
+import PrivateRoutes from "./components/PrivateRoutes.tsx";
+import RootLayout from "./components/RootLayout.tsx";
+import ErrorBoundary from "./components/ErrorBoundary.tsx";
 import {homeLoader} from "./loaders.ts";
 
 const router = createBrowserRouter([
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
                     {path: '/build', element: <BuildQuiz/>},
                 ],
             },
-            {path: '/logout', element: <LogoutComponent/>},
+            {path: '/logout', element: <Logout/>},
             {path: '/authentication', element: <Authentication/>},
             {path: '/startquiz', element: <StartQuizPage/>},
             {path: '/present', element: <PresenterPage/>},
