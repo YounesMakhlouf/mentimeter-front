@@ -55,9 +55,10 @@ const Subtitle = styled.p`
     margin-top: 0.375rem;
 `;
 
-const PodiumRow = styled.div`
+const PodiumRow = styled.div<{$count: number}>`
     display: grid;
-    grid-template-columns: 1fr 1.2fr 1fr;
+    grid-template-columns: ${({$count}) =>
+        $count === 3 ? '1fr 1.2fr 1fr' : $count === 2 ? '1fr 1fr' : '1fr'};
     gap: var(--gap-4);
     align-items: flex-end;
     margin-bottom: 1.75rem;
@@ -203,6 +204,10 @@ const RestName = styled.span`
 
 const displayName = (p: ScoredParticipant) => p.playerName || p.name || 'Player';
 
+/** Server returns fractional scores (e.g. 23.08 from a per-millisecond
+ *  time bonus). Round for display so the leaderboard reads cleanly. */
+const formatScore = (score: number) => Math.round(score).toLocaleString();
+
 const LeaderboardPage = () => {
     const {state} = useLocation();
     const navigate = useNavigate();
@@ -221,7 +226,12 @@ const LeaderboardPage = () => {
     const rest = sortedParticipants.slice(3);
     const max = Math.max(1, ...sortedParticipants.map((p) => p.score));
 
-    const podiumOrder: Array<0 | 1 | 2> = [1, 0, 2];
+    // Slots to render in left-to-right visual order, by podium rank (0=gold).
+    // 3 players: silver-gold-bronze. 2 players: silver-gold. 1 player: gold only.
+    // Always rendering 3 cells left an empty <div> in the bronze column when
+    // the game had fewer than 3 players.
+    const visibleOrder: Array<0 | 1 | 2> =
+        top3.length === 1 ? [0] : top3.length === 2 ? [1, 0] : [1, 0, 2];
     const heights: Record<number, number> = {0: 220, 1: 170, 2: 130};
     const colors: Record<number, string> = {
         0: 'var(--opt-c)',
@@ -253,16 +263,15 @@ const LeaderboardPage = () => {
                 </TitleBlock>
 
                 {top3.length > 0 && (
-                    <PodiumRow>
-                        {podiumOrder.map((podiumIdx, slot) => {
+                    <PodiumRow $count={visibleOrder.length}>
+                        {visibleOrder.map((podiumIdx, slot) => {
                             const p = top3[podiumIdx];
-                            if (!p) return <div key={slot}/>;
                             const isWinner = podiumIdx === 0;
                             return (
                                 <PodiumCol key={slot} className="pop-in" style={{animationDelay: `${slot * 0.18}s`}}>
                                     <PodiumFace $size={sizes[podiumIdx]}>{p.avatar || '🎲'}</PodiumFace>
                                     <PodiumName $big={isWinner}>{displayName(p)}</PodiumName>
-                                    <PodiumScore $big={isWinner}>{p.score.toLocaleString()}</PodiumScore>
+                                    <PodiumScore $big={isWinner}>{formatScore(p.score)}</PodiumScore>
                                     <PodiumBlock
                                         $height={heights[podiumIdx]}
                                         $bg={colors[podiumIdx]}
@@ -288,7 +297,7 @@ const LeaderboardPage = () => {
                                     <Bar>
                                         <BarFill $pct={p.score / max} $delay={0.05 * i}/>
                                     </Bar>
-                                    <ScoreCol>{p.score.toLocaleString()}</ScoreCol>
+                                    <ScoreCol>{formatScore(p.score)}</ScoreCol>
                                 </RestRow>
                             );
                         })}
