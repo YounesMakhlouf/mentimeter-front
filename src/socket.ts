@@ -51,12 +51,19 @@ export interface AnswerReceivedPayload {
     playerPseudo: string | null;
 }
 
+/** Server emits this to every player in the room when the host disconnects
+ *  (e.g. closes the tab). Lets the player escape an otherwise-frozen game. */
+export interface SessionEndedPayload {
+    reason: string;
+}
+
 export interface ServerToClientEvents {
     playerJoined: (participant: Participant) => void;
     errorMsg: (message: string) => void;
     QuizCreationSuccess: (sessionCode: string) => void;
     question: (payload: QuestionPayload) => void;
     answerReceived: (payload: AnswerReceivedPayload) => void;
+    sessionEnded: (payload: SessionEndedPayload) => void;
     endQuiz: (participants: Participant[]) => void;
 }
 
