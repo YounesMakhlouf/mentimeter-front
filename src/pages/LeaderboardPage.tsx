@@ -53,6 +53,9 @@ const Subtitle = styled.p`
     color: var(--ink-mute);
     font-size: var(--step--1);
     margin-top: 0.375rem;
+    /* reset.css caps <p> at max-width: 65ch, so text-align: center on the
+       parent only centers text *inside* the p. Center the p itself too. */
+    margin-inline: auto;
 `;
 
 const PodiumRow = styled.div<{$count: number}>`
