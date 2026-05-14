@@ -17,9 +17,7 @@ export const isTokenValid = () => {
 };
 
 /**
- * Logout / 401 handler. Wipes every stored bit of user state — auth tokens,
- * the participant's display name, and any in-flight quiz session keys —
- * so a new user landing in the same tab can't resume the previous one.
+ * Logout / 401 handler. Wipes every stored bit of user state so a new user landing in the same tab can't resume the previous one.
  */
 export const clearAuth = wipeStoredState;
 
@@ -47,8 +45,6 @@ export async function authFetch<T = unknown>(path: string, init: RequestInit = {
         const body = await res.text();
         throw new Error(`${res.status} ${res.statusText}: ${body}`);
     }
-    // Some endpoints (e.g. DELETE) reply 200/204 with an empty body — `res.json()`
-    // throws "Unexpected end of JSON input" on that. Read as text and only parse if non-empty.
     const text = await res.text();
     return (text ? JSON.parse(text) : undefined) as T;
 }

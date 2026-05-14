@@ -39,8 +39,6 @@
     --display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
     --body: "Rubik", ui-sans-serif, system-ui, sans-serif;
 
-    /* Fluid type scale (Utopia) — 360px viewport @ 18px base → 1240px+ @ 20px base.
-       https://utopia.fyi/type/calculator */
     --step--2: clamp(0.7813rem, 0.7736rem + 0.0341vw, 0.8rem);   /* caption */
     --step--1: clamp(0.9375rem, 0.9119rem + 0.1136vw, 1rem);     /* small body */
     --step-0:  clamp(1.125rem,  1.0739rem + 0.2273vw, 1.25rem);  /* body */
@@ -87,8 +85,6 @@ a { color: inherit; text-decoration: none; cursor: pointer; }
     margin-inline: auto;
 }
 
-/* Vertical rhythm — fluid spacing between adjacent siblings.
-   Override per-child or per-container with --flow-space. */
 .flow > * + * {
     margin-top: var(--flow-space, clamp(1em, 10%, 3em));
 }

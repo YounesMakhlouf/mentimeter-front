@@ -227,7 +227,7 @@ export default function QuestionPage() {
             navigate('/leaderboard', {state: {payload}});
         };
 
-        // Host disconnected — bail out of the game gracefully. Without this
+        // Host disconnected. bail out of the game gracefully. Without this
         // the player sits forever on the current question (timer keeps
         // ticking, getAnswer emits go to a dead session, no endQuiz arrives).
         const onSessionEnded = () => {
@@ -346,7 +346,7 @@ export default function QuestionPage() {
                         <Spinner/>
                         <h2>Locked in!</h2>
                         <WaitHint>
-                            Hang tight — we'll reveal the answer when everyone's in.
+                            Hang tight. We'll reveal the answer when everyone's in.
                         </WaitHint>
                         {options?.[picked] && (
                             <PickedCard>
