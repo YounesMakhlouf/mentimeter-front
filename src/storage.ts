@@ -10,8 +10,7 @@ export const local = {
     loginInfo: 'loginInfo',
 } as const;
 
-/** sessionStorage keys — wiped on tab close. Crucially, NOT shared between
- *  tabs on the same origin (each tab has its own session storage). */
+/** sessionStorage keys, wiped on tab close. */
 export const session = {
     /** Host's lobby session code, set when navigating to /startquiz. */
     lobbyCode: 'startquiz:sessionCode',
@@ -22,7 +21,7 @@ export const session = {
     /** Participant's chosen display name from the join-quiz flow. Per-tab so
      *  two players on the same machine (testing, classroom shared device)
      *  don't clobber each other. */
-    name: 'name',
+    name: 'qspage:playerName',
 } as const;
 
 /**

@@ -5,7 +5,7 @@ import {socket, QuestionPayload, Participant} from '../socket.ts';
 import {Avatar, Card, Chip, OPT_META, ShapeIcon} from "../design";
 import {session} from '../storage';
 
-const QUESTION_TIME = 10; // seconds — matches the existing 10s server fallback timeout
+const QUESTION_TIME = 10; // seconds
 
 const Page = styled.div`
     min-height: 100vh;
