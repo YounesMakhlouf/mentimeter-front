@@ -15,10 +15,8 @@ npm run dev
 
 The app expects two local backends to be running:
 
-- **REST API** at `http://localhost:3000` — auth + quizzes
-- **Socket.IO** at `http://localhost:3001` — live quiz events
-
-Override the REST base via `VITE_API_URL` in a `.env` file. The Socket.IO URL is set in `src/socket.ts`.
+- **REST API** at `http://localhost:3000` — auth (`/authentication/login`, `/authentication/register`) and quizzes (`POST /quizzes`, `GET /users/:email/quizzes`, `PATCH /quizzes/:id`, `DELETE /quizzes/:id`). Base URL via `VITE_API_URL`; all authed calls go through `authFetch` in `src/api.ts`, which injects the Bearer token and dispatches an `app:unauthorized` event on 401 (handled in `RootLayout` to bounce to `/authentication`).
+- **Socket.IO** at `http://localhost:3001` — live quiz events. URL set in `src/socket.ts`.
 
 To seed a local backend with a demo user and a handful of quizzes:
 
@@ -33,21 +31,45 @@ API_URL=http://localhost:3000 EMAIL=demo@quizup.test PASSWORD=Demo123! npm run s
 | Command              | What it does                                                                |
 | -------------------- | --------------------------------------------------------------------------- |
 | `npm run dev`        | Vite dev server                                                             |
-| `npm run build`      | `tsc && vite build` — type-check then bundle; any type error fails the build |
+| `npm run build`      | `tsc && vite build` — any type error fails the build                        |
 | `npm run preview`    | Preview the production build                                                |
 | `npm run lint`       | ESLint with `--max-warnings 0`; any warning is a failure                    |
 | `npm test`           | Vitest run                                                                  |
 | `npm run test:watch` | Vitest in watch mode                                                        |
 | `npm run seed`       | Populate a local backend with demo data                                     |
 
-## Architecture (short)
+## Architecture
 
-- **Routing**: `src/App.tsx` defines all routes under `createBrowserRouter` + `<RouterProvider>`. `PrivateRoutes.tsx` is the only auth gate (checks JWT `exp` via `jwt-decode`).
-- **Auth**: Token + `loginInfo` live in `localStorage`. Read via the `useAuth` hook in `src/hooks/useAuth.ts`. Authed REST calls go through `authFetch` in `src/api.ts`, which dispatches an `app:unauthorized` event on 401 (handled in `RootLayout`) to bounce to `/authentication`.
-- **Sockets**: A single typed `Socket<ServerToClientEvents, ClientToServerEvents>` instance in `src/socket.ts`. The same socket multiplexes the host flow (`createQuizSession` → `QuizCreationSuccess` → `sendQuestion`) and the participant flow (`joinQuiz` → `playerJoined`/`errorMsg` → `question` → `getAnswer` → `endQuiz`).
-- **Design system**: `src/design/` exports the styled primitives (`Button` with `$variant`/`$size`, `Card`, `Input`, `Chip`, `ErrorText`, `Stack`, `Row`, `Page`) and the JS-side primitives (`Logo`, `Avatar`, `Sticker`, `ShapeIcon`, `ShapeField`, `GameCode`, `Confetti`). Global tokens (palette, shadows, radii, `--gap-N` scale, Utopia fluid type scale `--step--2`…`--step-5`) live in `src/index.css`. Global layout utilities `.wrapper` (centered column, parameterizable via `--wrapper-max`) and `.flow` (vertical rhythm via `--flow-space`) live in the same file.
+### Routing and auth gate
 
-For deeper architecture notes (the per-flow socket choreography, the BuildQuiz state shape, the conventions around new components), see [`CLAUDE.md`](./CLAUDE.md).
+`src/App.tsx` defines all routes under `createBrowserRouter` + `<RouterProvider>`. `src/Components/PrivateRoutes.tsx` is the only auth gate: it checks `isTokenValid()` (JWT `exp` claim via `jwt-decode`) and either renders `<Outlet/>` or clears auth and redirects to `/authentication`.
+
+Only `/home` and `/build` are gated. `/startquiz`, `/present`, `/qspage`, and `/leaderboard` are public — they're reached via `navigate(..., { state })`, so refreshing those pages loses the state they depend on (the pages fall back to `sessionStorage` keys like `startquiz:sessionCode`).
+
+The `useAuth` hook in `src/hooks/useAuth.ts` is the canonical way to read the logged-in user's `email` / `username`. All browser-storage keys are declared in `src/storage.ts` (`local` / `session` maps); `clearAuth` iterates over them, so adding a new key auto-wipes on logout.
+
+### Two user flows share the same socket
+
+`src/socket.ts` exports a single typed `Socket<ServerToClientEvents, ClientToServerEvents>` instance plus a `reauthSocket()` helper that reconnects with the latest JWT.
+
+1. **Quiz owner**: `Home` → `MainHomeBox` loads the user's quizzes → `QuizBox.handleStart` emits `createQuizSession` → server replies `QuizCreationSuccess` with a session code → navigate to `/startquiz` (`StartQuizPage`, the lobby) which listens for `playerJoined`. Clicking Start navigates to `/present` (`PresenterPage`), which emits the first `sendQuestion` after subscribing, and listens for `question` (the host is in the room too), `answerReceived` (host-only stream of player picks — the FE tallies the bar chart from it), and `endQuiz` (→ `/leaderboard`). Clicking Skip / Next emits the next `sendQuestion`.
+2. **Quiz participant**: `WelcomePage` opens `EnterQuizCodeForm` → emits `joinQuiz` → server replies `playerJoined` (success) or `errorMsg` (failure). `WelcomePage` listens for `question` and navigates to `/qspage` when one arrives (seeding the first question via `location.state` since `WelcomePage` consumed it). `QuestionPage` handles the per-question loop (`question` / `getAnswer`), the `endQuiz` event (→ `/leaderboard`), and `sessionEnded` (host disconnected → bail to `/`).
+
+Cross-boundary event names: `joinQuiz`, `playerJoined`, `errorMsg`, `createQuizSession`, `QuizCreationSuccess`, `sendQuestion`, `question`, `getAnswer`, `answerReceived`, `endQuiz`, `sessionEnded`. `answerReceived` is host-only; `sessionEnded` is room-wide.
+
+When changing event payloads, update the typed event maps in `src/socket.ts` first — the typed `Socket<…>` makes the change land on every emitter and listener at once.
+
+### Quiz authoring shape
+
+`BuildQuiz.tsx` keeps editor state as `QuestionDraft[]` (`{text, options: string[], correctIndex: number | null}`) and on submit transforms it into the wire format the backend expects: `{ name, code: null, topic, questions: [{ question, options: [{ label, isCorrect }], correctAnswer }] }`. `correctAnswer` is the option string at `q.correctIndex`; the model assumes exactly one correct answer per question.
+
+## Conventions
+
+- **TypeScript is strict** (`strict: true`, `noUnusedLocals`, `noUnusedParameters`). The socket layer is typed end-to-end — prefer the `ServerToClientEvents` / `ClientToServerEvents` maps over re-typing payloads inline.
+- **Styling is centralized in `src/design/`**, re-exported from `src/design/index.ts`. The design system exposes `Button` (`$variant`/`$size`), `Card`, `Input`, `Chip`, `ErrorText`, `Stack` (flex column) / `Row` (flex row) (both take `$gap` as a `--gap-N` token number), `Page`, plus the JS-side primitives (`Logo`, `Avatar`, `Sticker`, `ShapeIcon`, `ShapeField`, `GameCode`, `Confetti`). Global tokens (palette, shadows, radii, `--gap-N` scale 1–8, Utopia fluid type scale `--step--2`…`--step-5`) live in `src/index.css`; `src/reset.css` is imported before `index.css` in `src/main.tsx`. New components use styled-components; reserve inline `style={{}}` for genuinely dynamic per-instance values.
+- **Global layout utilities**: `.wrapper` (responsive centered column, parameterizable via `--wrapper-max`) and `.flow` (vertical rhythm via `--flow-space`). Use `.wrapper` for the outermost layer per page; do not nest it.
+- **Modals**: `src/Components/Modal.tsx` is a thin wrapper around the native `<dialog>` with `showModal()`. Browser-managed focus trap, return-focus to the trigger, ESC close, `role="dialog"` / `aria-modal="true"`, and `::backdrop` overlay come for free. The content box extends `Stack` so children get vertical rhythm; the X close button is rendered last in DOM so initial focus lands on body content.
+- **Folder split is imperfect**: `src/Components/` mixes routed views (e.g. `Home`, `BuildQuiz`) with leaf components; `src/pages/` only holds a few routed views. Don't infer role from folder.
 
 ## Project layout
 
@@ -56,13 +78,14 @@ src/
   App.tsx                 router definition
   api.ts                  authFetch + token helpers
   socket.ts               typed Socket.IO client + event maps
+  storage.ts              centralized localStorage / sessionStorage keys
   loaders.ts              react-router loaders
-  index.css               tokens, type scale, .wrapper/.flow
+  index.css               tokens, type scale, .wrapper / .flow
   reset.css               modern CSS reset
   design/                 design-system primitives + tokens
   hooks/useAuth.ts        canonical hook for the logged-in user
   Components/             routed views (Home, BuildQuiz) + leaf components
-  pages/                  remaining routed views (WelcomePage, StartQuizPage, QuestionPage, LeaderboardPage)
+  pages/                  remaining routed views (Welcome, StartQuiz, Present, Question, Leaderboard)
   __tests__/              Vitest suites
   test/helpers.ts         small JWT builders for tests
 scripts/seed.mjs          npm run seed
@@ -75,4 +98,4 @@ npm test          # one-off run
 npm run test:watch
 ```
 
-Tests use Vitest + React Testing Library + jsdom. The socket is mocked per-suite with a small handlers map (see `EnterQuizCodeForm.test.tsx` for the pattern). 70 tests cover auth, the API client, route loaders, and every page that participates in the host or participant flow.
+Vitest + React Testing Library + jsdom. The socket is mocked per-suite with a small handlers map — see `EnterQuizCodeForm.test.tsx` for the pattern. The current suite covers auth, the API client, route loaders, the modal, and every page that participates in the host or participant flow.
