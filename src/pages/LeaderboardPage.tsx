@@ -207,8 +207,6 @@ const displayName = (p: ScoredParticipant) => p.playerName || p.name || 'Player'
 const LeaderboardPage = () => {
     const {state} = useLocation();
     const navigate = useNavigate();
-    // Both the host and the players land here on endQuiz. Only the host is
-    // signed in — players have no token. Gate host-only CTAs on that.
     const {isAuthenticated} = useAuth();
     const participants: ScoredParticipant[] | null = state?.payload ?? readStored();
 
