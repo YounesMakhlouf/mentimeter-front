@@ -37,24 +37,3 @@ export function colorFor(name: string): string {
     return AVATAR_COLOR_PALETTE[h % AVATAR_COLOR_PALETTE.length];
 }
 
-// ─── Breakpoints (em-based, scale with user font-size) ──────────────
-export const bp = {
-    xs: '30em',       // ~480px
-    sm: '37.5em',     // ~600px
-    md: '43.75em',    // ~700px
-    lg: '50em',       // ~800px
-    xl: '56.25em',    // ~900px
-    '2xl': '68.75em', // ~1100px
-} as const;
-
-// ─── Fluid type scale (mirrors --step-N CSS variables) ──────────────
-export const text = {
-    caption: 'var(--step--2)',
-    small: 'var(--step--1)',
-    body: 'var(--step-0)',
-    lead: 'var(--step-1)',
-    h4: 'var(--step-2)',
-    h3: 'var(--step-3)',
-    h2: 'var(--step-4)',
-    h1: 'var(--step-5)',
-} as const;
