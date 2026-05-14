@@ -9,6 +9,7 @@ export interface QuestionOption {
 export interface QuestionPayload {
     quizCode: string;
     questionNumber: number;
+    totalQuestions: number;
     question: {
         question: string;
         options: QuestionOption[];

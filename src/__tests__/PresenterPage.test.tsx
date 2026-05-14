@@ -28,9 +28,16 @@ const trigger = (event: string, ...args: unknown[]) => {
     });
 };
 
-const buildQuestion = (n: number, text: string, options: string[], correctIdx: number): QuestionPayload => ({
+const buildQuestion = (
+    n: number,
+    text: string,
+    options: string[],
+    correctIdx: number,
+    totalQuestions = 3,
+): QuestionPayload => ({
     quizCode: '748215',
     questionNumber: n,
+    totalQuestions,
     question: {
         question: text,
         options: options.map((label, i) => ({label, isCorrect: i === correctIdx})),
@@ -86,6 +93,15 @@ describe('PresenterPage', () => {
     it('shows the waiting state until the first question event arrives', () => {
         renderAt({sessionCode: '748215'});
         expect(screen.getByText(/waiting for the first question/i)).toBeInTheDocument();
+    });
+
+    it('renders the "Question NN / MM" label from the payload', () => {
+        renderAt({sessionCode: '748215'});
+
+        trigger('question', buildQuestion(1, 'Q', ['a', 'b', 'c', 'd'], 0, 5));
+
+        // questionNumber is zero-indexed; the label shows 1-based.
+        expect(screen.getByText(/Question 02 \/ 05/i)).toBeInTheDocument();
     });
 
     it('renders the question and option labels when a question event fires', () => {
