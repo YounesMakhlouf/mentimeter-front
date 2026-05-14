@@ -37,6 +37,7 @@ const buildPayload = (
 ): QuestionPayload => ({
     questionNumber,
     quizCode: '123456',
+    totalQuestions: 1,
     question: {
         question: questionText,
         options: options.map((label, i) => ({label, isCorrect: i === correctIdx})),

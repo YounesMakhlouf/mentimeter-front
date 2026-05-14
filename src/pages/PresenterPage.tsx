@@ -352,7 +352,11 @@ export default function PresenterPage() {
             {currentQuestion ? (
                 <Body>
                     <QuestionMeta>
-                        <QLabel>Question {String(currentQuestion.questionNumber + 1).padStart(2, '0')}</QLabel>
+                        <QLabel>
+                            Question {String(currentQuestion.questionNumber + 1).padStart(2, '0')}
+                            {' / '}
+                            {String(currentQuestion.totalQuestions).padStart(2, '0')}
+                        </QLabel>
                         <div style={{flex: 1}}/>
                         <TimerRing>
                             <svg width="96" height="96" viewBox="0 0 100 100">
