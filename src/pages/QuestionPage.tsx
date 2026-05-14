@@ -40,6 +40,10 @@ const Body = styled.div.attrs({className: 'wrapper'})`
 const QuestionCard = styled(Card)`
     padding: 1.375rem;
     position: relative;
+    /* Clip the absolutely-positioned TimeBar to the card's rounded shape
+       instead of trying to match the radius by hand (which was always going
+       to be off by the 2.5px border width). */
+    overflow: hidden;
 `;
 
 const TimeBar = styled.div`
@@ -49,9 +53,6 @@ const TimeBar = styled.div`
     right: 0;
     height: 0.375rem;
     background: rgba(0, 0, 0, .08);
-    border-top-left-radius: 1.375rem;
-    border-top-right-radius: 1.375rem;
-    overflow: hidden;
 `;
 
 const TimeFill = styled.div<{$pct: number; $low: boolean}>`
