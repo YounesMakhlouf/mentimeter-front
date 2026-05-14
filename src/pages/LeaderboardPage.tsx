@@ -53,8 +53,6 @@ const Subtitle = styled.p`
     color: var(--ink-mute);
     font-size: var(--step--1);
     margin-top: 0.375rem;
-    /* reset.css caps <p> at max-width: 65ch, so text-align: center on the
-       parent only centers text *inside* the p. Center the p itself too. */
     margin-inline: auto;
 `;
 
@@ -207,8 +205,6 @@ const RestName = styled.span`
 
 const displayName = (p: ScoredParticipant) => p.playerName || p.name || 'Player';
 
-/** Server returns fractional scores (e.g. 23.08 from a per-millisecond
- *  time bonus). Round for display so the leaderboard reads cleanly. */
 const formatScore = (score: number) => Math.round(score).toLocaleString();
 
 const LeaderboardPage = () => {
