@@ -56,7 +56,7 @@ describe('EnterQuizCodeForm', () => {
             playerName: 'Alice',
             avatar: EMOJI_AVATARS[0],
         });
-        expect(localStorage.getItem('name')).toBe('Alice');
+        expect(sessionStorage.getItem('name')).toBe('Alice');
     });
 
     it('disables Continue while quiz code or pseudo are empty', async () => {

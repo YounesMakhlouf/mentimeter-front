@@ -8,11 +8,10 @@ export const local = {
     token: 'token',
     /** `{email, username, accessToken}` — the login response body. */
     loginInfo: 'loginInfo',
-    /** Participant's chosen display name from the join-quiz flow. */
-    name: 'name',
 } as const;
 
-/** sessionStorage keys — wiped on tab close. */
+/** sessionStorage keys — wiped on tab close. Crucially, NOT shared between
+ *  tabs on the same origin (each tab has its own session storage). */
 export const session = {
     /** Host's lobby session code, set when navigating to /startquiz. */
     lobbyCode: 'startquiz:sessionCode',
@@ -20,6 +19,10 @@ export const session = {
     playerCode: 'qspage:quizCode',
     /** Final leaderboard payload, set when navigating to /leaderboard. */
     leaderboardPayload: 'leaderboard:payload',
+    /** Participant's chosen display name from the join-quiz flow. Per-tab so
+     *  two players on the same machine (testing, classroom shared device)
+     *  don't clobber each other. */
+    name: 'name',
 } as const;
 
 /**

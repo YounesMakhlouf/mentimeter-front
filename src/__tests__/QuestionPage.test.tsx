@@ -61,7 +61,7 @@ describe('QuestionPage', () => {
         vi.mocked(socket.emit).mockClear();
         sessionStorage.clear();
         localStorage.clear();
-        localStorage.setItem('name', 'Alice');
+        sessionStorage.setItem('name', 'Alice');
     });
 
     it('renders the initial question seeded from route state (no extra socket round-trip needed)', () => {
