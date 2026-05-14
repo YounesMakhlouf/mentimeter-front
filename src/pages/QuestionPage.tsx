@@ -3,9 +3,9 @@ import styled from "styled-components";
 import {Navigate, useLocation, useNavigate} from "react-router";
 import {socket, QuestionPayload, Participant} from '../socket.ts';
 import {Avatar, Card, Chip, OPT_META, ShapeIcon} from "../design";
-import {local, session} from '../storage';
+import {session} from '../storage';
 
-const QUESTION_TIME = 10; // seconds — matches the existing 10s server fallback timeout
+const QUESTION_TIME = 10; // seconds
 
 const Page = styled.div`
     min-height: 100vh;
@@ -188,7 +188,7 @@ export default function QuestionPage() {
     const isAnsweringRef = useRef(false);
     const navigate = useNavigate();
     const code: string | null = location.state?.payload?.quizCode ?? sessionStorage.getItem(session.playerCode);
-    const playerName = localStorage.getItem(local.name) || 'Player';
+    const playerName = sessionStorage.getItem(session.name) || 'Player';
 
     useEffect(() => {
         if (code) sessionStorage.setItem(session.playerCode, code);

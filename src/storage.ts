@@ -8,11 +8,9 @@ export const local = {
     token: 'token',
     /** `{email, username, accessToken}` — the login response body. */
     loginInfo: 'loginInfo',
-    /** Participant's chosen display name from the join-quiz flow. */
-    name: 'name',
 } as const;
 
-/** sessionStorage keys — wiped on tab close. */
+/** sessionStorage keys, wiped on tab close. */
 export const session = {
     /** Host's lobby session code, set when navigating to /startquiz. */
     lobbyCode: 'startquiz:sessionCode',
@@ -20,6 +18,8 @@ export const session = {
     playerCode: 'qspage:quizCode',
     /** Final leaderboard payload, set when navigating to /leaderboard. */
     leaderboardPayload: 'leaderboard:payload',
+    /** Participant's chosen display name from the join-quiz flow. */
+    name: 'qspage:playerName',
 } as const;
 
 /**
