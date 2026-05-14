@@ -56,7 +56,8 @@ const Meta = styled.div`
 const Actions = styled.div`
     display: flex;
     gap: var(--gap-2);
-    margin-top: 0.375rem;
+    margin-top: auto;
+    padding-top: 0.375rem;
 `;
 
 const ActionBtn = styled.button`
