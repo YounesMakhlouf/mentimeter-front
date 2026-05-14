@@ -50,6 +50,24 @@ describe('LeaderboardPage', () => {
         expect(screen.getByText(/1 player\b/)).toBeInTheDocument();
     });
 
+    it('with 2 players, the podium has no empty bronze slot', () => {
+        renderAt({
+            payload: [
+                {playerName: 'Winner', avatar: '🦊', score: 50},
+                {playerName: 'Runner-up', avatar: '🐼', score: 20},
+            ],
+        });
+        expect(screen.getByText('🏆')).toBeInTheDocument();
+        expect(screen.getByText('🥈')).toBeInTheDocument();
+        expect(screen.queryByText('🥉')).not.toBeInTheDocument();
+    });
+
+    it('rounds fractional scores to integers on the podium (server returns ms-based time bonus)', () => {
+        renderAt({payload: [{playerName: 'Alice', avatar: '🦊', score: 23.08}]});
+        expect(screen.getByText('23')).toBeInTheDocument();
+        expect(screen.queryByText('23.08')).not.toBeInTheDocument();
+    });
+
     it('renders cleanly with a single participant (regression: duplicate podium keys)', () => {
         // With 1 player, podiumOrder=[1,0,2] produces two empty slots and one
         // PodiumCol. Keying by podiumIdx used to collide with the empty <div
