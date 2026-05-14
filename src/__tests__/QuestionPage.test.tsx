@@ -120,6 +120,15 @@ describe('QuestionPage', () => {
         expect(screen.getByText('leaderboard route')).toBeInTheDocument();
     });
 
+    it('navigates home when sessionEnded fires (host disconnected mid-game)', () => {
+        const payload = buildPayload(0, 'Q?', ['a', 'b', 'c', 'd'], 0);
+        renderAt({payload});
+
+        trigger('sessionEnded', {reason: 'host disconnected'});
+
+        expect(screen.getByText('home route')).toBeInTheDocument();
+    });
+
     it('redirects home when there is no quizCode in state or sessionStorage', () => {
         renderAt({});
         expect(screen.getByText('home route')).toBeInTheDocument();
@@ -131,16 +140,18 @@ describe('QuestionPage', () => {
         expect(sessionStorage.getItem('qspage:quizCode')).toBe('123456');
     });
 
-    it('cleans up question + endQuiz listeners on unmount', () => {
+    it('cleans up question / endQuiz / sessionEnded listeners on unmount', () => {
         const payload = buildPayload(0, 'Q?', ['a', 'b', 'c', 'd'], 0);
         const {unmount} = renderAt({payload});
 
-        expect(handlers.question).toHaveLength(1);
-        expect(handlers.endQuiz).toHaveLength(1);
+        for (const evt of ['question', 'endQuiz', 'sessionEnded']) {
+            expect(handlers[evt]).toHaveLength(1);
+        }
 
         unmount();
 
-        expect(handlers.question).toHaveLength(0);
-        expect(handlers.endQuiz).toHaveLength(0);
+        for (const evt of ['question', 'endQuiz', 'sessionEnded']) {
+            expect(handlers[evt]).toHaveLength(0);
+        }
     });
 });

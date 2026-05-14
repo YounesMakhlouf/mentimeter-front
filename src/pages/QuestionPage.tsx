@@ -230,8 +230,16 @@ export default function QuestionPage() {
             navigate('/leaderboard', {state: {payload}});
         };
 
+        // Host disconnected — bail out of the game gracefully. Without this
+        // the player sits forever on the current question (timer keeps
+        // ticking, getAnswer emits go to a dead session, no endQuiz arrives).
+        const onSessionEnded = () => {
+            navigate('/', {replace: true});
+        };
+
         socket.on('question', onQuestion);
         socket.on('endQuiz', onEndQuiz);
+        socket.on('sessionEnded', onSessionEnded);
 
         // WelcomePage consumed the first 'question' event during navigation,
         // so we seeded it into state above; kick off its auto-submit timer.
@@ -241,6 +249,7 @@ export default function QuestionPage() {
             if (timer) clearTimeout(timer);
             socket.off('question', onQuestion);
             socket.off('endQuiz', onEndQuiz);
+            socket.off('sessionEnded', onSessionEnded);
         };
     }, [code, navigate, playerName, initialQuestion]);
 
