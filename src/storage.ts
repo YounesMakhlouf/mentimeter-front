@@ -18,9 +18,7 @@ export const session = {
     playerCode: 'qspage:quizCode',
     /** Final leaderboard payload, set when navigating to /leaderboard. */
     leaderboardPayload: 'leaderboard:payload',
-    /** Participant's chosen display name from the join-quiz flow. Per-tab so
-     *  two players on the same machine (testing, classroom shared device)
-     *  don't clobber each other. */
+    /** Participant's chosen display name from the join-quiz flow. */
     name: 'qspage:playerName',
 } as const;
 
